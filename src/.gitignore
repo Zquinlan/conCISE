@@ -1,0 +1,9 @@
+__pycache__/
+untitled.R
+test.py
+err/
+../.gitignore.swp
+.order.txt.swp
+test.py
+src/demo_cache.sqlite
+demo_cache.sqlite
