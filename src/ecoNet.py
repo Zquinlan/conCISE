@@ -43,7 +43,7 @@ class getInchiKeys:
                 self.inchikeys.append('NA')
 
         self.inchiFrame = self.inchiSeries.to_frame()
-        self.inchiFrame['inchikey'] = self.inchikeys
+        self.inchiFrame['InChIKey'] = self.inchikeys
 
 
 

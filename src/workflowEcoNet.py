@@ -8,10 +8,12 @@ canopusID = '301eced29b3844e2b43ab6137871e216'
 # Loading in Libraries
 # import argparse
 import requests
+import os
+import csv 
 import json
 import pandas as pd
-from ecoNet import *
-from pyMolNetEnhancer import *
+from ecoNet import*
+from pyMolNetEnhancer import*
 
 # parser = argparse.ArgumentParser()
 # parser.add_argument('task', help='GNPS Job ID')
@@ -36,17 +38,35 @@ gnpsMatches = [libraryMatch, analogMatch] # For testing
 # gnpsMatches = [libraryMatch.df, analogMatch.df] # For real
 
 gnpsNames = ['libraryInchikeys', 'analogInchikeys']
-inchiKeyDict = {}
+inchiDict = {}
 
 for index, dataset in enumerate(gnpsMatches): 
     dataName = gnpsNames[index]
     inchi = dataset['INCHI']
 
     inchiClean = inchi.drop_duplicates().dropna()
-    inchiKeyDict[dataName] = inchiClean
-    # inchikeys = getInchiKeys(inchiClean)
+    inchiDict[dataName] = inchiClean 
+
+inchiAll = pd.concat(inchiDict).drop_duplicates(keep = 'first').dropna()
+inchikeys = getInchiKeys(inchiAll)
+
+inchikeys.inchiFrame.to_csv('inchikeytesting.csv')
+
+inchikeySeries = inchikeys.inchiFrame[['InChIKey']]
+inchikeySeries.to_csv('inchikey.csv')
+
+# get_classification and make_classy_table from pyMolNetEnhancer
+# queries and retrieves classyfire classifcations using InchiKey csv
+get_classifications('inchikey.csv')
+
+with open("all_json.json") as tweetfile:
+    jsondic = json.loads(tweetfile.read())
 
 
-    # inchikeys.inchiFrame.to_csv(str(dataName + 'Convert.csv'))
-print(inchiKeyDict)
-inchiKeyDict.info()
+df = make_classy_table(jsondic)
+
+# Percent of inchikeys which could not be classyfied
+len(set(list(inchikeys.inchiFrame.inchikey)) - set(list(df.inchikey)))/len(set(list(inchikeys.inchiFrame.inchikey)))
+
+
+
