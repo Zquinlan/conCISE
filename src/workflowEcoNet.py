@@ -35,38 +35,41 @@ libraryMatch = pd.read_csv('libraryTest.csv')
 analogMatch = pd.read_csv('analogTest.csv')
 
 gnpsMatches = [libraryMatch, analogMatch] # For testing
+# This will need an in statement for analog math inclusion if ID != NA
 # gnpsMatches = [libraryMatch.df, analogMatch.df] # For real
 
 gnpsNames = ['libraryInchikeys', 'analogInchikeys']
-inchiDict = {}
+smilesDict = {}
 
 for index, dataset in enumerate(gnpsMatches): 
     dataName = gnpsNames[index]
-    inchi = dataset['INCHI']
+    smiles = dataset['Smiles']
 
-    inchiClean = inchi.drop_duplicates().dropna()
-    inchiDict[dataName] = inchiClean 
+    smilesClean = smiles.drop_duplicates().dropna()
+    smilesDict[dataName] = smilesClean 
 
-inchiAll = pd.concat(inchiDict).drop_duplicates(keep = 'first').dropna()
-inchikeys = getInchiKeys(inchiAll)
+# If statement for analog optional
+smilesAll = pd.concat(smilesDict).drop_duplicates(keep = 'first').dropna()
 
-inchikeys.inchiFrame.to_csv('inchikeytesting.csv')
+#Convert Smiles to InchiKeys using PubChem
+inchikeys = getInchiKeys(smilesAll)
+
 
 inchikeySeries = inchikeys.inchiFrame[['InChIKey']]
+inchikeySeries.columns = ['InChIKey']
 inchikeySeries.to_csv('inchikey.csv')
+
 
 # get_classification and make_classy_table from pyMolNetEnhancer
 # queries and retrieves classyfire classifcations using InchiKey csv
-get_classifications('inchikey.csv')
+get_classifier('inchikey.csv')
 
 with open("all_json.json") as tweetfile:
     jsondic = json.loads(tweetfile.read())
 
 
-df = make_classy_table(jsondic)
+gnpsClassyDf = make_classy_table(jsondic)
 
-# Percent of inchikeys which could not be classyfied
-len(set(list(inchikeys.inchiFrame.inchikey)) - set(list(df.inchikey)))/len(set(list(inchikeys.inchiFrame.inchikey)))
-
-
+gnpsClassyDf = gnpsClassyDf.rename(columns = {'class':'CF_class','smiles':'SMILES'})
+gnpsClassyDf.to_csv('gnpsClassyDf.csv')
 

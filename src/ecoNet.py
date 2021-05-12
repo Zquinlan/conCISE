@@ -1,6 +1,8 @@
 import requests
 import json
 import pandas as pd
+import csv
+from pyMolNetEnhancer import *
 
 class getJob:
     def __init__(self, jobID, jobType):
@@ -21,31 +23,49 @@ class getJob:
         self.clean = self.request.text.replace('{ "blockData" : [', '[').replace('] }', ']').strip()
         self.df = pd.read_json(self.clean)
 
-class getInchiKeys:
-    def __init__(self, inchis):
+class getInchiKeys: 
+    def __init__(self, smiles):
         super().__init__()
 
-        self.inchiSeries = inchis
-        # self.inchiSeries = self.inchis['INCHI'].to_list()
-
-        host = "http://www.chemspider.com"
-        getstring = "/InChI.asmx/InChIToInChIKey?inchi="
-
-
+        self.smilesSeries = smiles
         self.inchikeys = []
 
-        for i in self.inchiSeries:
-            r = requests.get('{}{}{}'.format(host, getstring, i))
-            if r.ok:
-                res = str(r.text.replace('<?xml version="1.0" encoding="utf-8"?>\r\n<string xmlns="http://www.chemspider.com/">', '').replace('</string>', '').strip())
-                self.inchikeys.append(res)
-            else:
+        for i in self.smilesSeries:
+            r = requests.get(f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/{i}/property/inchikey/JSON")
+            try:
+                res = r.json()
+                inchikey = res['PropertyTable']['Properties'][0]['InChIKey']
+                self.inchikeys.append(inchikey)
+            except KeyError:
+                self.inchikeys.append('NA')
+            except json.decoder.JSONDecodeError:
                 self.inchikeys.append('NA')
 
-        self.inchiFrame = self.inchiSeries.to_frame()
+        self.inchiFrame = self.smilesSeries.to_frame()
         self.inchiFrame['InChIKey'] = self.inchikeys
 
+#get_classifications from MolNetEnhancer without strip('=')
+def get_classifier(inchifile):
 
+    with open(inchifile) as csvfile:
+        all_inchi_keys = []
+    
+        reader = csv.DictReader(csvfile)
+        row_count = 0
+        for row in reader:
+            row_count += 1
+    
+            if row_count % 1000 == 0:
+                print(row_count)
+    
+            all_inchi_keys.append(row["InChIKey"])
+    
+            continue
+    
+        #all_inchi_keys = all_inchi_keys[-1000:]
+        all_json = run_parallel_job(get_structure_class_entity, all_inchi_keys, parallelism_level = 50)
+    
+        open("all_json.json", "w").write(json.dumps(all_json))
 
 
 
