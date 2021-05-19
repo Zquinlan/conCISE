@@ -1,8 +1,8 @@
 #Job IDs:
 # canopus 301eced29b3844e2b43ab6137871e216
 # library and analog
-libraryID = '83eff73ee6354c2da585ec5116d943aa'
-analogID = '0b7329c9409b4d2381e63599a0f77038'
+libraryID = '89c9d8b0a49d467390b70dd337bc7015'
+analogID = '5c635e079c5a4eccbdcc7602eef88fc8'
 canopusID = '301eced29b3844e2b43ab6137871e216'
 
 # Loading in Libraries
@@ -13,7 +13,7 @@ import csv
 import json
 import pandas as pd
 from ecoNet import*
-from pyMolNetEnhancer import*
+# from pyMolNetEnhancer import*
 
 # parser = argparse.ArgumentParser()
 # parser.add_argument('task', help='GNPS Job ID')
@@ -24,6 +24,7 @@ from pyMolNetEnhancer import*
 # libraryMatch = getJob(libraryID, 'library')
 # analogMatch = getJob(analogID, 'analog') 
 # canopusMatch = getJob(canopusID, 'canopus')
+# networkInfo = getJob(libraryID, network)
 
 #Writing df for testing
 # libraryMatch.df.to_csv('libraryTest.csv')
@@ -33,43 +34,23 @@ from pyMolNetEnhancer import*
 # For testing without having to request files
 libraryMatch = pd.read_csv('libraryTest.csv')
 analogMatch = pd.read_csv('analogTest.csv')
-
-gnpsMatches = [libraryMatch, analogMatch] # For testing
-# This will need an in statement for analog math inclusion if ID != NA
-# gnpsMatches = [libraryMatch.df, analogMatch.df] # For real
-
-gnpsNames = ['libraryInchikeys', 'analogInchikeys']
-smilesDict = {}
-
-for index, dataset in enumerate(gnpsMatches): 
-    dataName = gnpsNames[index]
-    smiles = dataset['Smiles']
-
-    smilesClean = smiles.drop_duplicates().dropna()
-    smilesDict[dataName] = smilesClean 
-
-# If statement for analog optional
-smilesAll = pd.concat(smilesDict).drop_duplicates(keep = 'first').dropna()
-
-#Convert Smiles to InchiKeys using PubChem
-inchikeys = getInchiKeys(smilesAll)
+canopusMatch = pd.read_csv('canopusTest.csv') 
+networkInfo = pd.read_csv('~/Downloads/pn_lib_cytoFile/clusterinfo_summary/524715591bc84b83b440eb32406c2610.tsv', sep='\t')
 
 
-inchikeySeries = inchikeys.inchiFrame[['InChIKey']]
-inchikeySeries.columns = ['InChIKey']
-inchikeySeries.to_csv('inchikey.csv')
+librarySubset = libraryMatch[['#Scan#', 'superclass', 'class', 'subclass']].add_suffix('_library').rename(columns={'#Scan#_library': 'scan'})
+analogSubset = analogMatch[['#Scan#', 'superclass', 'class', 'subclass']].add_suffix('_analog').rename(columns={'#Scan#_analog': 'scan'})
+canopusSubset = canopusMatch[['scan', 'superclass', 'class', 'subclass']].add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
+networkSubset = networkInfo[['cluster index', 'componentindex']].rename(columns={'cluster index': 'scan', 'componentindex': 'network'})
+
+# Merge library, analogs and 
+mereged = mergeAnnotations(librarySubset, canopusSubset, networkSubset, analog = analogSubset)
+
+weighted = weightNodes(merged.library, merged.insilico, libraryWeight = True, analogWeight = True)
 
 
-# get_classification and make_classy_table from pyMolNetEnhancer
-# queries and retrieves classyfire classifcations using InchiKey csv
-get_classifier('inchikey.csv')
+# group by network
+# if library ID ontology use that
+# if no library ontology count analogs and canopus the same
 
-with open("all_json.json") as tweetfile:
-    jsondic = json.loads(tweetfile.read())
-
-
-gnpsClassyDf = make_classy_table(jsondic)
-
-gnpsClassyDf = gnpsClassyDf.rename(columns = {'class':'CF_class','smiles':'SMILES'})
-gnpsClassyDf.to_csv('gnpsClassyDf.csv')
-
+#

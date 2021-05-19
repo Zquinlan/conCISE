@@ -7,6 +7,12 @@ from pyMolNetEnhancer import *
 class getJob:
     def __init__(self, jobID, jobType):
         super().__init__()
+        """
+        jobID: This is the task number of your GNPS job which can be found in the url of your GNPS job
+        jobType: The type of job options are 'canopus', 'library', 'analog', 'network'
+        
+        All of these jos are needed to run the rest of the pipeline. Analogs are optional and do not to be downloaded.
+        """
 
         # Requesting tsv output from GNPS API
         self.id = jobID
@@ -14,8 +20,10 @@ class getJob:
         if jobType == 'canopus':
             url = str('https://gnps.ucsd.edu/ProteoSAFe/result_json.jsp?task=' + self.id + '&view=canopus_summary') 
         if jobType == 'library':
-            url = str('https://gnps.ucsd.edu/ProteoSAFe/result_json.jsp?task=' + self.id + '&view=view_all_clusters_withID')
+            url = str('https://gnps.ucsd.edu/ProteoSAFe/result_json.jsp?task=' + self.id + '&view=view_all_annotations_DB')
         if jobType == 'analog':
+            url = str('https://gnps.ucsd.edu/ProteoSAFe/result_json.jsp?task=' + self.id + '&view=view_all_analog_annotations_DB')
+        if jobType == 'network':
             url = str('https://gnps.ucsd.edu/ProteoSAFe/result_json.jsp?task=' + self.id + '&view=view_all_analog_annotations_DB')
 
         # request JSON files from GNPS, clean and load into pandas
@@ -23,49 +31,57 @@ class getJob:
         self.clean = self.request.text.replace('{ "blockData" : [', '[').replace('] }', ']').strip()
         self.df = pd.read_json(self.clean)
 
-class getInchiKeys: 
-    def __init__(self, smiles):
+class mergeAnnotations:
+    def __init__(self, library, canopus, network, analog = None):
+        """
+        library: The library match file downloaded from GNPS
+        canopus: The Canopus file which can be downloaded from the SIRIUS workflow
+        network: The Network file which is found in the clusterInfoSummary directory downloaded from GNPS
+        analog: (Optional) The Analog file which can be downloaded from GNPS.
+
+        All inputs need to be pd.DataFrames and not modified from how GNPS exports them.
+        The dataframes can be directly downloaded using getJob() with the correct jobType specified.
+
+        This function will return self.library and self.insilico which will have the library and insilico merged files for use in weighting and annotation propogation.
+        """
         super().__init__()
 
-        self.smilesSeries = smiles
-        self.inchikeys = []
+        self.library = network.merge(library, on = 'scan', how = 'right')
 
-        for i in self.smilesSeries:
-            r = requests.get(f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/{i}/property/inchikey/JSON")
-            try:
-                res = r.json()
-                inchikey = res['PropertyTable']['Properties'][0]['InChIKey']
-                self.inchikeys.append(inchikey)
-            except KeyError:
-                self.inchikeys.append('NA')
-            except json.decoder.JSONDecodeError:
-                self.inchikeys.append('NA')
+        #Joining supplied dataframes
+        if isinstance(analog, pd.DataFrame):
+            self.matches = network.merge(analog, on = 'scan', how = 'outer')
+            self.matches = self.matches.merge(canopus, on = 'scan', how = 'outer')   
+            self.grouped = self.matches.groupby('network').apply(lambda x: x.dropna(subset = ['superclass_analog', 'superclass_canopus'], how = 'all'))
 
-        self.inchiFrame = self.smilesSeries.to_frame()
-        self.inchiFrame['InChIKey'] = self.inchikeys
+        if not isinstance(analog, pd.DataFrame):
+            self.matches = network.merge(canopus, on = 'scan', how = 'outer')
+            self.grouped = self.matches.groupby('network').apply(lambda x: x.dropna(ubset = ['superclass_canopus']))
 
-#get_classifications from MolNetEnhancer without strip('=')
-def get_classifier(inchifile):
+        # Make a list of networks which have at least one Library Match and remove them from the analog/canopus annotaitons
+        self.libraryNetworks = self.library['network'].drop_duplicates().tolist()
+        self.insilico = self.grouped[self.grouped['network'].apply(lambda x: x not in self.libraryNetworks)]
 
-    with open(inchifile) as csvfile:
-        all_inchi_keys = []
-    
-        reader = csv.DictReader(csvfile)
-        row_count = 0
-        for row in reader:
-            row_count += 1
-    
-            if row_count % 1000 == 0:
-                print(row_count)
-    
-            all_inchi_keys.append(row["InChIKey"])
-    
-            continue
-    
-        #all_inchi_keys = all_inchi_keys[-1000:]
-        all_json = run_parallel_job(get_structure_class_entity, all_inchi_keys, parallelism_level = 50)
-    
-        open("all_json.json", "w").write(json.dumps(all_json))
+        # self.insilico.reset_index(drop = True).to_csv('testView.csv')
+
+class weightNodes:
+    def __init__(self, library, insilico, libraryWeight = True, analogWeight = True):
+        """
+        library: The library file merged with network information exported from mergeAnnotations.library
+        insilico: The canopus and analog classyfire information merged with network information exported from mergeAnnotations.insilico.
+
+        All inputs need to be the direct output of mergeAnnotations()
+
+        This function will return...
+        """
+        super().__init__()
+
+        if libraryWeight == True:
+            if analogWeight == True:
+                
+            if analogWeight != True:
+
+        if libraryWeight != True:
 
 
 

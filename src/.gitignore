@@ -1,3 +1,6 @@
 __pycache__/
 untitled.R
 test.py
+err/
+../.gitignore.swp
+.order.txt.swp

@@ -2,11 +2,32 @@ import json
 import pandas as pd
 from pyMolNetEnhancer import *
 from ecoNet import *
-libraryID = '83eff73ee6354c2da585ec5116d943aa'
-analogID = '0b7329c9409b4d2381e63599a0f77038'
 
-analogMatch = getJob(analogID, 'analog') 
-libraryMatch = getJob(libraryID, 'library')
+libraryMatch = pd.read_csv('libraryTest.csv')
+analogMatch = pd.read_csv('analogTest.csv')
 
-analogMatch.df.to_csv('analogTest.csv')
-libraryMatch.df.to_csv('libraryTest.csv')
+gnpsMatches = [libraryMatch, analogMatch] # For testing
+# gnpsMatches = [libraryMatch.df, analogMatch.df] # For real
+
+gnpsNames = ['libraryInchikeys', 'analogInchikeys']
+smilesDict = {}
+
+for index, dataset in enumerate(gnpsMatches): 
+    dataName = gnpsNames[index]
+    smiles = dataset['Smiles']
+
+    smilesClean = smiles.drop_duplicates().dropna()
+    smilesDict[dataName] = smilesClean 
+
+# If statement for analog optional
+smilesAll = pd.concat(smilesDict).drop_duplicates(keep = 'first').dropna()
+
+#Convert Smiles to InchiKeys using PubChem
+inchikeys = getInchiKeys(smilesAll)
+
+
+inchikeySeries = inchikeys.inchiFrame[['InChIKey']]
+inchikeySeries.columns = ['InChIKey']
+inchikeySeries.to_csv('inchikeyTest.csv')
+
+print(inchikeys)
