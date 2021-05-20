@@ -44,9 +44,10 @@ canopusSubset = canopusMatch[['scan', 'superclass', 'class', 'subclass']].add_su
 networkSubset = networkInfo[['cluster index', 'componentindex']].rename(columns={'cluster index': 'scan', 'componentindex': 'network'})
 
 # Merge library, analogs and 
-mereged = mergeAnnotations(librarySubset, canopusSubset, networkSubset, analog = analogSubset)
+merged = mergeAnnotations(librarySubset, canopusSubset, networkSubset, analog = analogSubset)
 
-weighted = weightNodes(merged.library, merged.insilico, libraryWeight = True, analogWeight = True)
+# Propogate annotations
+annotations = selectAnnotation(merged.library, merged.insilico, analogWeight = True)
 
 
 # group by network

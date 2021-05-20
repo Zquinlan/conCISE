@@ -4,3 +4,4 @@ test.py
 err/
 ../.gitignore.swp
 .order.txt.swp
+test.py
