@@ -48,10 +48,3 @@ merged = mergeAnnotations(librarySubset, canopusSubset, networkSubset, analog = 
 
 # Propogate annotations
 annotations = selectAnnotation(merged.library, merged.insilico, analogWeight = True)
-
-
-# group by network
-# if library ID ontology use that
-# if no library ontology count analogs and canopus the same
-
-#

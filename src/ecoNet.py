@@ -112,23 +112,19 @@ class selectAnnotation:
                 if returnType == 'score':
                     return df[superclassCol]
 
-        def combineInsilico(insilico, analogWeight):
-            if analogWeight == True:
-                for col in ['superclass', 'class', 'subclass']:
-                    analogCol = str(col + '_analog')
-                    canopusCol = str(col + '_canopus')
-                    newCol = str(col + '_insilico')
+        def selectInsilico(insilico, taxLevel, analogWeight):
+            canopusCol = str(taxLevel + '_canopus')
+            analogCol = str(taxLevel + '_analog')
 
-                    insilico[(insilico['superclass_analog'] == '') & (insilico['superclass_canopus'] != ''), newCol] = insilico[canopusCol]
-                    insilico[(insilico['superclass_analog'] != '') & (insilico['superclass_canopus'] == ''), newCol] = insilico[analogCol]
-                    insilico[(insilico['superclass_analog'] != '') & (insilico['superclass_canopus'] != ''), newCol] = insilico[analogCol]
+            if analogWeight == True:
+                    if (pd.isnull(insilico['superclass_analog']) == True) & (pd.isnull(insilico['superclass_canopus']) == False):
+                        return insilico[canopusCol]
+                    elif (pd.isnull(insilico['superclass_analog']) == False) & (pd.isnull(insilico['superclass_canopus']) == True):
+                        return  insilico[analogCol]
+                    elif (pd.isnull(insilico['superclass_analog']) == False) & (pd.isnull(insilico['superclass_canopus']) == False):
+                        return  insilico[analogCol]
 
             # if asnalogWeight == False:
-
-
-            insilicoCombined = insilico[['scan', 'network', 'superclass_insilico', 'class_insilico', 'subclass_insilico']] 
-
-            return insilicoCombined
 
 
         def filterClassy(groupedData, matchType, absoluteMinimum, classMinimum):
@@ -143,11 +139,13 @@ class selectAnnotation:
                 superclassStr = 'superclass_library'
                 classStr = 'class_library'
                 subclassStr = 'subclass_library'
+                mergeOn = 'featNets'
 
             if matchType == 'insilico':
                 superclassStr = 'superclass_insilico'
                 classStr = 'class_insilico'
                 subclassStr = 'subclass_insilico'
+                mergeOn = 'network'
 
             superclassTop = groupedData[superclassStr].apply(lambda x: x.value_counts(normalize = True)).reset_index()
             superclassFiltered = superclassTop[superclassTop[superclassStr] > absoluteMinimum].rename(columns={'level_1': 'superclass_annotation'})
@@ -159,7 +157,7 @@ class selectAnnotation:
             subclassFiltered = subclassDf[subclassDf[subclassStr] > classMinimum].rename(columns={'level_1': 'subclass_annotation'})
 
             # Merge ontologies and drop NA's
-            merged = superclassFiltered.merge(classFiltered, on = 'featNets', how = 'outer').merge(subclassFiltered, on = 'featNets', how = 'outer')
+            merged = superclassFiltered.merge(classFiltered, on = mergeOn, how = 'outer').merge(subclassFiltered, on = mergeOn, how = 'outer')
             mergedFiltered = merged.dropna(subset = ['superclass_annotation', 'class_annotation', 'subclass_annotation'], how = 'all')
             mergedFiltered['ecoNetConsensus'] = mergedFiltered.apply(lambda x: selectClassy(x, 'annotation'), axis = 1)
             mergedFiltered['ecoNetConsensusScore'] = mergedFiltered.apply(lambda x: selectClassy(x, 'score'), axis = 1)
@@ -177,8 +175,14 @@ class selectAnnotation:
         self.libraryFiltered = filterClassy(self.library, 'library', absoluteMinimum, classMinimum) #absoluteMinimum and classMinimum are defined in the main function
         self.libraryFiltered.to_csv('err/LibraryClassifcationPropogation.csv')
 
-        combinedInsilico = combineInsilico(insilico, analogWeight)    
-        self.insilicoFiltered = filterClassy(combinedInsilico, 'insilico', absoluteMinimum, classMinimum) #absoluteMinimum and classMinimum are defined in the main function
+        for col in ['superclass', 'class', 'subclass']:
+            newCol = str(col + '_insilico')
+            insilico[newCol] = insilico.apply(lambda x: selectInsilico(x, col, analogWeight), axis = 1)
+
+        insilicoCombined = insilico[['scan', 'network', 'superclass_insilico', 'class_insilico', 'subclass_insilico']].reset_index(drop = True) 
+        insilicoCombinedGrouped = insilicoCombined.groupby('network')
+
+        self.insilicoFiltered = filterClassy(insilicoCombinedGrouped, 'insilico', absoluteMinimum, classMinimum) #absoluteMinimum and classMinimum are defined in the main function
         self.insilicoFiltered.to_csv('err/InsilicoClassificationPropogation.csv')
 
         # if libraryWeight != True:
