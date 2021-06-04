@@ -175,6 +175,29 @@ sums%>%
         panel.grid.major.x = element_line(size = 0.2, linetype = 'solid',colour = "gray"))
 
 
+# VIZUALIZATIONS -- EcoNet network size -----------------------------------
+# compare number of features annotated by # features annotated
+totalFeatures <- combined_csv%>%
+  select(experiment)%>%
+  group_by(experiment)%>%
+  mutate(totalFeatures = 1)%>%
+  summarize_if(is.numeric, sum)
+
+
+netSizeCompare <- combined_csv%>%
+  filter(experiment %in% c('dorcierr', 'dorcierrSmallNets'))%>%
+  select(experiment, ecoNetConsensus)%>%
+  group_by(experiment)%>%
+  mutate(ecoNetConsensus = sum(!is.na(ecoNetConsensus)))%>%
+  unique()%>%
+  ungroup()%>%
+  left_join(totalFeatures, by = 'experiment')%>%
+  mutate(percent = ecoNetConsensus/totalFeatures)
+
+annotationsLost <- 1-netSizeCompare[2,4]/netSizeCompare[1,4]
+annotationsLost 
+
+
 
 
 

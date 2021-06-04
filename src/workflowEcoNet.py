@@ -1,10 +1,10 @@
 #Job IDs:
 # Moorea  
-# libraryID = '16616afa8edd490ea7e50cc316a20222'
+libraryID = '16616afa8edd490ea7e50cc316a20222'
 analogID = '752f22be3e0746e1b0c4987acbc24d53'
 
 # Moorea small nets
-libraryID = '5cbf1176ed26426fa9f8138681a883f7'
+# libraryID = '5cbf1176ed26426fa9f8138681a883f7'
 
 # Pseudo-nitzchia
 # libraryID = '89c9d8b0a49d467390b70dd337bc7015'
@@ -28,8 +28,9 @@ edgeInfo = getJob(libraryID, 'edges')
 
 # Morea CANOPUS job and Network
 canopusMatch = pd.read_csv('~/Documents/GitHub/DORCIERR/data/raw/metabolomics/sirius4_06012021/canopus_summary.csv') 
-# network = pd.read_csv('~/Documents/GitHub/DORCIERR/data/raw/metabolomics/Node_info.tsv', sep = '\t').rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})
-network = pd.read_csv('~/Documents/GitHub/ecoNet/verification/dorcierrSmalNets/Node_info.tsv', sep = '\t').rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})
+network = pd.read_csv('~/Documents/GitHub/DORCIERR/data/raw/metabolomics/Node_info.tsv', sep = '\t').rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})
+# network = pd.read_csv('~/Documents/GitHub/ecoNet/verification/dorcierrSmalNets/Node_info.tsv', sep = '\t').rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})
+
 # PN network
 # network = pd.read_csv('~/Downloads/pn_lib_cytoFile/clusterinfo_summary/524715591bc84b83b440eb32406c2610.tsv', sep = '\t').rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})[['scan', 'network']]
 
