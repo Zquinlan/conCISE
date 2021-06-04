@@ -28,6 +28,8 @@ class getJob:
             url = str('https://gnps.ucsd.edu/ProteoSAFe/result_json.jsp?task=' + self.id + '&view=compound_identifications_summary')
         if jobType == 'edges':
             url = str('https://gnps.ucsd.edu/ProteoSAFe/result_json.jsp?task=' + self.id + '&view=network_pairs_specnets_allcomponents')
+        # if jobType == 'network':
+            # url = str('https://gnps.ucsd.edu/ProteoSAFe/result_json.jsp?task=' + self.id + 'view=download_cytoscape_data')
 
         # request JSON files from GNPS, clean and load into pandas
         self.request = requests.get(url) # Download JSON from GNPS
