@@ -52,7 +52,10 @@ class mergeAnnotations:
         super().__init__()
 
         self.library = network.merge(library, on = 'scan', how = 'right').dropna(subset = ['superclass_library'])
-        self.library.loc[self.library['network'].isna() == True, 'network'] = '-1'
+        # self.library.loc[self.library['network'].isna() == True, 'network'] = '-1'
+
+        # For verification
+        self.library.loc[self.library['scan'].astype(str) == '0', 'network'] = 0
 
         #Joining supplied dataframes
         if isinstance(analog, pd.DataFrame):
@@ -94,7 +97,7 @@ class makeNet:
         self.networks = pd.concat(clusters).drop_duplicates()
 
 class selectAnnotation:
-    def __init__(self, library, insilico, network, edgeWeights, analogWeight = True, absoluteMinimum = 0.5, classMinimum = 0.7): # Add absoluteMinimum , etc as argument
+    def __init__(self, library, insilico, network, edgeWeights, analogWeight = False, absoluteMinimum = 0.5, classMinimum = 0.7): # Add absoluteMinimum , etc as argument
         """
         library: The library file merged with network information exported from mergeAnnotations.library
         insilico: The canopus and analog classyfire information merged with network information exported from mergeAnnotations.insilico.
@@ -139,7 +142,7 @@ class selectAnnotation:
                 if returnType == 'level':
                     return 'class'
 
-            elif (df[superclassCol] > 0.5):
+            elif (df[superclassCol] > 0.5) & (df['superclass_annotation'] is not 'None') & (df['superclass_annotation'] is not 'N/A'):
                 if returnType == 'annotation':
                     return df['superclass_annotation']
                 if returnType == 'score':
@@ -248,7 +251,6 @@ class selectAnnotation:
 
             # Merge ontologies and drop NA's
             mergedFiltered = merged.dropna(subset = ['superclass_annotation', 'class_annotation', 'subclass_annotation'], how = 'all')  
-            
 
             mergedFiltered['ecoNetConsensus'] = mergedFiltered.apply(lambda x: selectClassy(x, 'annotation'), axis = 1)
             mergedFiltered['ecoNetConsensusScore'] = mergedFiltered.apply(lambda x: selectClassy(x, 'score'), axis = 1)
@@ -269,23 +271,24 @@ class selectAnnotation:
             library = library.merge(edgeWeights, on = 'scan', how = 'left')
             library.loc[library['network'].astype(str).str.contains('-1', regex = False) == True, 'relativeCosine'] = 0
 
-
+        library.to_csv('src/err/beforeFilteredVerification.csv')
         # Making library Filtered ClassyStrings result
         libraryFiltered = filterClassy(library, 'library', edgesUsed, absoluteMinimum, classMinimum) #absoluteMinimum and classMinimum are defined in the main function
         
         # Merging classyfire annotation with repective singleNode or network lists
-        libraryNoSingle = libraryFiltered[libraryFiltered['featNets'] > 0].rename(columns = {'featNets': 'network'})
+        # >= to 0 allows for verifcation of 0 scan
+        libraryNoSingle = libraryFiltered[libraryFiltered['featNets'] >= 0].rename(columns = {'featNets': 'network'})
         librarySingleNodes = singleNodes.merge(libraryFiltered, on = 'featNets', how = 'left')[['scan', 'network', 'ecoNetConsensus', 'ecoNetConsensusScore']]
 
         # Selecting annotation from either analog or canopus for insilico usage
         # Need an if statement for finding whether it is just canopus or whether analog is included
-        insilicoNulled = insilico.replace(r'^\s*$', 'null', regex=True)
+        insilicoNulled = insilico.replace(r'^\s*$', 'null', regex=True).replace('N/A', 'None')
 
         for col in ['superclass', 'class', 'subclass']:
             newCol = str(col + '_insilico')
-            if isinstance(insilicoNulled['class_analog'], pd.Series):
+            if analogWeight == True:
                 insilicoNulled[newCol] = insilicoNulled.apply(lambda x: selectInsilico(x, col, analogWeight = True), axis = 1)
-            if not isinstance(insilicoNulled['class_analog'], pd.Series):
+            if analogWeight == False:
                 insilicoNulled[newCol] = insilicoNulled.apply(lambda x: selectInsilico(x, col, analogWeight = False), axis = 1)
 
         insilicoCombined = insilicoNulled[['scan', 'network', 'superclass_insilico', 'class_insilico', 'subclass_insilico']].reset_index(drop = True).fillna('None')
