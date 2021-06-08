@@ -2,10 +2,26 @@
 # Load Libraries
 library(tidyverse)
 library(DescTools)
+library(wesanderson)
+library(grDevices)
 
 select <- dplyr::select
 
-# Reading in all data which could be gathered from respecrtive datasets
+gen_theme <-  function(x){
+  theme(plot.margin = unit(c(1,1,1.5,1.2), 'cm'),
+        axis.title = element_text(size = 20),
+        axis.text.x = element_text(angle = 60, hjust = 1, size = 15),
+        axis.text.y = element_text(size = 20),
+        plot.title = element_text(size = 15, face = "bold"),
+        panel.background = element_rect(fill = "transparent"), # bg of the panel
+        plot.background = element_rect(fill = "transparent", color = NA), # bg of the plot
+        panel.grid.major.y = element_line(size = 0.2, linetype = 'solid',colour = "gray"), # get rid of major grid
+        panel.grid.major.x = element_line(size = 0.2, linetype = 'solid',colour = "gray"))
+  }
+
+
+
+# Reading in all data which could be gathered from respecrtive dat --------
 # set all locations:
 path1 <- 'dorcierr_unmodified'
 path2 <- 'dorcierr_NAP'
@@ -199,28 +215,32 @@ sums%>%
          annotationSource = fct_rev(annotationSource))%>%
   ggplot(aes(annotationSource, percent)) +
   geom_bar(stat = 'summary', fun.y = 'mean') +
-  geom_bar(aes(annotationSource, truePositives, fill = '#006658'), stat = 'summary', fun.y = 'mean', na.rm = TRUE) +
+  geom_bar(aes(annotationSource, truePositives, fill = 'Real'), stat = 'summary', fun.y = 'mean', na.rm = TRUE) +
   geom_errorbar(aes(ymax = percent + std, ymin = percent - std)) +
   geom_text(aes(y = percent + 10, label = paste(round(percent, 2), '%')), size = 6) +
   coord_flip() +
   scale_fill_manual(values = '#006658') +
   facet_wrap(~experiment) + 
-  labs(x = 'Annotation Source', y = 'Percent of networks annotated') +
-  theme(legend.position = 'none',
-        plot.margin = unit(c(1,1,1.5,1.2), 'cm'),
-        axis.title = element_text(size = 20),
-        axis.text.x = element_text(angle = 60, hjust = 1, size = 15),
-        axis.text.y = element_text(size = 20),
-        plot.title = element_text(size = 15, face = "bold"),
-        panel.background = element_rect(fill = "transparent"), # bg of the panel
-        plot.background = element_rect(fill = "transparent", color = NA), # bg of the plot
-        panel.grid.major.y = element_line(size = 0.2, linetype = 'solid',colour = "gray"), # get rid of major grid
-        panel.grid.major.x = element_line(size = 0.2, linetype = 'solid',colour = "gray"))
+  labs(x = 'Annotation Source', y = 'Percent of networks annotated', fill = 'True Positives') +
+  gen_theme() +
+  theme(legend.position = 'None')
 dev.off()
 
 sums%>%
-  filter(version %in% c('unmodified', 'FalsePositives'),
-         annotationSource %in% c('ecoNetConsensus', ''))%>%
+  mutate(fpCompare = case_when(version == 'FalsePositives' & annotationSource == 'ecoNetConsensus' ~ 'ecoNet Insilico Consensus',
+                               version == 'unmodified' & annotationSource == 'ecoNetConsensus' ~ 'ecoNet Library Consensus',
+                               version == 'NAP' ~ paste(annotationSource, 'NAP'),
+                               TRUE ~ version))%>%
+  filter(version %in% c('unmodified', 'FalsePositives', 'NAP'),
+         annotationSource %in% c('ecoNetConsensus', 'Molnet superclass', 'Molnet class', 'Molnet subclass'),
+         !fpCompare %in% c('ecoNetConsensus NAP', 'FalsePositives', 'unmodified'))%>%
+  ggplot(aes(fpCompare, truePositives, fill = experiment)) +
+  geom_bar(aes(y = percent, fill = 'Total Annotations'), stat = 'identity', position = position_dodge2()) +
+  geom_bar(stat = 'identity', position = position_dodge2()) +
+  scale_fill_manual(values = c(wes_palette('Darjeeling1', n = 5, type = 'discrete')[2:3], 'grey')) +
+  labs(x = 'Annotation Source', y = bquote(atop('Percent of networks', 'properly annotated')), fill = 'Experiment') +
+  gen_theme()
+  
 
 # VIZUALIZATIONS -- EcoNet network size -----------------------------------
 # compare number of features annotated by # features annotated

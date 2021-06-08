@@ -84,12 +84,14 @@ numInsilico = len(annotations.export[annotations.export['matchSource'] == 'Insil
 totalInsicilo = len(merged.insilico[merged.insilico['superclass_canopus'].notna() == True][['network']].drop_duplicates())
 
 
-libraryConsensus = numLibrary/totalLibrary
-insilicoConsensus = numInsilico/totalInsicilo
+libraryConsensus = round(numLibrary/totalLibrary, 4)
+insilicoConsensus = round(numInsilico/totalInsicilo, 4)
+totalConsensus = round(((numLibrary + numInsilico) / (totalInsicilo + totalLibrary)), 4)
 # Reporting success rate for consensus sequences
 print(' ')
-print(str(str(numLibrary) + " out of " + str(totalLibrary) + " (" + str(round(libraryConsensus, 4)*100) + "%)" + " networks with Library ID's found a consensus annotation"))
-print(str(str(numInsilico) + " out of "  + str(totalInsicilo) + " (" + str(round(insilicoConsensus, 4)*100) + "%)" +  " networks with Insilico annotations found a consensus annotation"))
+print(str(str(numLibrary) + " out of " + str(totalLibrary) + " (" + str(libraryConsensus*100) + "%)" + " networks with Library ID's found a consensus annotation"))
+print(str(str(numInsilico) + " out of "  + str(totalInsicilo) + " (" + str(insilicoConsensus*100) + "%)" +  " networks with Insilico annotations found a consensus annotation"))
+print(str(str(totalConsensus*100) + "%" + " of all networks with an annotation recieved a consensus annotation"))
 
 
 
