@@ -12,6 +12,7 @@ analogID = '752f22be3e0746e1b0c4987acbc24d53'
 
 # Moorea small nets
 # libraryID = '5cbf1176ed26426fa9f8138681a883f7'
+# analogID = '50cd02513cc0452589479d99ccc9333f'
 
 # Pseudo-nitzchia
 # libraryID = '89c9d8b0a49d467390b70dd337bc7015'

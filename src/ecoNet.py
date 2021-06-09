@@ -302,7 +302,7 @@ class selectAnnotation:
 
         # Combine the library and insilico classyfiltered datafrmes and merge with network        
         libraryNoSingle['matchSource'] = 'Library'
-        insilicoFiltered['matchSource'] = 'Insilico'
+        insilicoFiltered['matchSource'] = 'In silico'
         librarySingleNodes['matchSource'] = 'Library'
 
         finalConsensus = [libraryNoSingle, insilicoFiltered]

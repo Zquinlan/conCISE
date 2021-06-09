@@ -9,10 +9,12 @@ select <- dplyr::select
 
 gen_theme <-  function(x){
   theme(plot.margin = unit(c(1,1,1.5,1.2), 'cm'),
-        axis.title = element_text(size = 20),
-        axis.text.x = element_text(angle = 60, hjust = 1, size = 15),
-        axis.text.y = element_text(size = 20),
-        plot.title = element_text(size = 15, face = "bold"),
+        axis.title = element_text(size = 25),
+        axis.text.x = element_text(angle = 60, hjust = 1, size = 25),
+        axis.text.y = element_text(size = 25),
+        plot.title = element_text(size = 25, face = "bold"),
+        legend.text = element_text(size = 25),
+        legend.title = element_text(size = 25),
         panel.background = element_rect(fill = "transparent"), # bg of the panel
         plot.background = element_rect(fill = "transparent", color = NA), # bg of the plot
         panel.grid.major.y = element_line(size = 0.2, linetype = 'solid',colour = "gray"), # get rid of major grid
@@ -23,12 +25,12 @@ gen_theme <-  function(x){
 
 # Reading in all data which could be gathered from respecrtive dat --------
 # set all locations:
-path1 <- 'dorcierr_unmodified'
-path2 <- 'dorcierr_NAP'
-path3 <- 'dorcierr_SmallNets'
-path4 <- 'psuedonitzchia_unmodified'
-path5 <- 'dorcierr_FalsePositives'
-path6 <- 'psuedonitzchia_FalsePositives'
+path1 <- 'dataset1_unmodified'
+path2 <- 'dataset1_NAP'
+path3 <- 'dataset1_SmallNets'
+path4 <- 'dataset2_unmodified'
+path5 <- 'dataset1_FalsePositives'
+path6 <- 'dataset2_FalsePositives'
 paths <- c(path1, path2, path3, path4, path5, path6)
 
 # Combine all verification datasets
@@ -226,11 +228,13 @@ sums%>%
   theme(legend.position = 'None')
 dev.off()
 
-sums%>%
+fpRates <- sums%>%
   mutate(fpCompare = case_when(version == 'FalsePositives' & annotationSource == 'ecoNetConsensus' ~ 'ecoNet Insilico Consensus',
                                version == 'unmodified' & annotationSource == 'ecoNetConsensus' ~ 'ecoNet Library Consensus',
                                version == 'NAP' ~ paste(annotationSource, 'NAP'),
-                               TRUE ~ version))%>%
+                               TRUE ~ version))
+pdf('~/Documents/GitHub/ecoNet/verification/plots/TruePositives.pdf', width = 20, height = 10)  
+fpRates%>%
   filter(version %in% c('unmodified', 'FalsePositives', 'NAP'),
          annotationSource %in% c('ecoNetConsensus', 'Molnet superclass', 'Molnet class', 'Molnet subclass'),
          !fpCompare %in% c('ecoNetConsensus NAP', 'FalsePositives', 'unmodified'))%>%
@@ -240,7 +244,20 @@ sums%>%
   scale_fill_manual(values = c(wes_palette('Darjeeling1', n = 5, type = 'discrete')[2:3], 'grey')) +
   labs(x = 'Annotation Source', y = bquote(atop('Percent of networks', 'properly annotated')), fill = 'Experiment') +
   gen_theme()
-  
+dev.off()
+
+pdf('~/Documents/GitHub/ecoNet/verification/plots/TruePositiveRate.pdf', width = 20, height = 10)  
+fpRates%>%
+  filter(version %in% c('unmodified', 'FalsePositives', 'NAP'),
+         annotationSource %in% c('ecoNetConsensus', 'Molnet superclass', 'Molnet class', 'Molnet subclass'),
+         !fpCompare %in% c('ecoNetConsensus NAP', 'FalsePositives', 'unmodified'))%>%
+  ggplot(aes(fpCompare, truePositiveRate*100, fill = experiment)) +
+  # geom_bar(aes(y = percent, fill = 'Total Annotations'), stat = 'identity', position = position_dodge2()) +
+  geom_bar(stat = 'identity', position = position_dodge2()) +
+  scale_fill_manual(values = c(wes_palette('Darjeeling1', n = 5, type = 'discrete')[2:3], 'grey')) +
+  labs(x = 'Annotation Source', y = 'True Positive Rate', fill = 'Experiment') +
+  gen_theme()
+dev.off()
 
 # VIZUALIZATIONS -- EcoNet network size -----------------------------------
 # compare number of features annotated by # features annotated
