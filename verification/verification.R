@@ -31,7 +31,8 @@ path3 <- 'dataset1_SmallNets'
 path4 <- 'dataset2_unmodified'
 path5 <- 'dataset1_FalsePositives'
 path6 <- 'dataset2_FalsePositives'
-paths <- c(path1, path2, path3, path4, path5, path6)
+path7 <- 'dataset1_smallNetsFP'
+paths <- c(path1, path2, path3, path4, path5, path6, path7)
 
 # Combine all verification datasets
 for (name in paths){
@@ -57,19 +58,19 @@ for (name in paths){
            analog_subclass = subclass)%>%
     select(feature_number, analog_superclass, analog_class, analog_subclass)
   
-  csiFingerClassy <- read_csv(paste0(path, '/csiFinger_classyfire.csv'))%>%
-    rename(smiles = SMILES)
-  
-  CSIFingerID <- read_tsv(paste0(path, "/summary_csi_fingerid.tsv"))%>%
-    left_join(csiFingerClassy, by = 'smiles')%>%
-    rename(feature_number = experimentName,
-           csiFinger_superclass = superclass, 
-           csiFinger_class = CF_class, 
-           csiFinger_subclass = subclass)%>%
-    select(feature_number, csiFinger_superclass, csiFinger_class, csiFinger_subclass)%>%
-    filter(!is.na(csiFinger_superclass))%>%
-    unique()
-  
+  # csiFingerClassy <- read_csv(paste0(path, '/csiFinger_classyfire.csv'))%>%
+  #   rename(smiles = SMILES)
+  # 
+  # CSIFingerID <- read_tsv(paste0(path, "/summary_csi_fingerid.tsv"))%>%
+  #   left_join(csiFingerClassy, by = 'smiles')%>%
+  #   rename(feature_number = experimentName,
+  #          csiFinger_superclass = superclass, 
+  #          csiFinger_class = CF_class, 
+  #          csiFinger_subclass = subclass)%>%
+  #   select(feature_number, csiFinger_superclass, csiFinger_class, csiFinger_subclass)%>%
+  #   filter(!is.na(csiFinger_superclass))%>%
+  #   unique()
+  # 
   # metfragClassy <- read_csv(paste0(path, 'MetFragSMILES.csv'))%>%
   #   rename(MetFragSMILES = SMILES,
   #          metfrag_superclass = superclass,
@@ -118,7 +119,7 @@ for (name in paths){
   combined <- network%>%
     left_join(libraryMatches, by = 'feature_number')%>%
     left_join(analogMatches, by = 'feature_number')%>%
-    left_join(CSIFingerID, by = 'feature_number')%>%
+    # left_join(CSIFingerID, by = 'feature_number')%>%
     # left_join(napDf, by = 'feature_number')%>%
     left_join(canopus, by = 'feature_number')%>%
     left_join(molnetClassy, by = 'feature_number')%>%
@@ -166,8 +167,8 @@ falsePositive <- baseDf%>%
                                       TRUE ~ annotationSource))
 
 # VIZUALIZATIONS -- Comparing percent annotation --------------------------
-order <- c('Library Matches', 'Analog Matches', 'CSI Finger ID', 'canopus', 'Molnet superclass', 'Molnet class', 'Molnet subclass', 'ecoNetConsensus')
-sources <- c('library_superclass', 'analog_superclass', 'csiFinger_superclass', 'canopus_superclass', 'MolNet_superclass', 'MolNet_class', 'MolNet_subclass', 'ecoNetConsensus')
+order <- c('Library Matches', 'Analog Matches', 'canopus', 'Molnet superclass', 'Molnet class', 'Molnet subclass', 'ecoNetConsensus')
+sources <- c('library_superclass', 'analog_superclass', 'canopus_superclass', 'MolNet_superclass', 'MolNet_class', 'MolNet_subclass', 'ecoNetConsensus')
 
 totals <- combined_csv%>%
   select(experiment, network)%>%
@@ -182,7 +183,7 @@ sums <- baseDf%>%
   select(experiment, version, network, all_of(sources))%>%
   rename('Library Matches' = 'library_superclass',
          'Analog Matches' = 'analog_superclass',
-         'CSI Finger ID' = 'csiFinger_superclass',
+         # 'CSI Finger ID' = 'csiFinger_superclass',
          'canopus' = 'canopus_superclass',
          'Molnet superclass' = 'MolNet_superclass',
          'Molnet class' = 'MolNet_class',

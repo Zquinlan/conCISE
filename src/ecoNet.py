@@ -271,7 +271,6 @@ class selectAnnotation:
             library = library.merge(edgeWeights, on = 'scan', how = 'left')
             library.loc[library['network'].astype(str).str.contains('-1', regex = False) == True, 'relativeCosine'] = 0
 
-        library.to_csv('src/err/beforeFilteredVerification.csv')
         # Making library Filtered ClassyStrings result
         libraryFiltered = filterClassy(library, 'library', edgesUsed, absoluteMinimum, classMinimum) #absoluteMinimum and classMinimum are defined in the main function
         
