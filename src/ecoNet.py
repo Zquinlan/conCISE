@@ -128,7 +128,7 @@ class selectAnnotation:
 
             if (df[subclassCol] >= 0.7) & (df[classCol] >= 0.7) & (df[superclassCol] > 0.5) & (df['subclass_annotation'] is not 'None') & (df['subclass_annotation'] is not 'N/A'):
                 if returnType == 'annotation':
-                    return df['subclass_annotation']
+                    return str(df['superclass_annotation'] + ';' + df['class_annotation'] + ';' + df['subclass_annotation'])
                 if returnType == 'score':
                     return df[subclassCol]
                 if returnType == 'level':
@@ -136,7 +136,7 @@ class selectAnnotation:
  
             elif (df[classCol] >= 0.7) & (df[superclassCol] > 0.5) & (df['class_annotation'] is not 'None') & (df['class_annotation'] is not 'N/A'):
                 if returnType == 'annotation':
-                    return df['class_annotation']
+                    return str(df['superclass_annotation'] + ';' + df['class_annotation'])
                 if returnType == 'score':
                     return df[classCol]
                 if returnType == 'level':
