@@ -22,6 +22,9 @@ from ecoNet import*
 # Aron
 libraryID = 'a94feb20e4214375bf89dfbe2b28fbd4'
 
+# diel prelim
+# libraryID = '4d63e1adb2534d4c9901f2e64d3cbec2'
+
 # Coral 3D
 # libraryID = ''
 # analogID = ''
@@ -53,6 +56,10 @@ edgeInfo = getJob(libraryID, 'edges')
 # aron
 canopusMatch = pd.read_csv('~/Documents/SDSU_Scripps/aron/canopus_aron.csv')
 network = pd.read_csv('~/Documents/SDSU_Scripps/aron/network_aron.tsv', sep = '\t').rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})[['scan', 'network']]
+
+# diel prelim
+# canopusMatch = pd.read_csv('~/Documents/SDSU_Scripps/Diel_prelim2019/canopus_summary.csv')
+# network = pd.read_csv('~/Documents/SDSU_Scripps/Diel_prelim2019/node_info.tsv', sep = '\t').rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})[['scan', 'network']]
 
 # Subset dataframes. Removed .df after libraryMatch if using verification data. 
 librarySubset = libraryMatch.df[['#Scan#', 'superclass', 'class', 'subclass']]

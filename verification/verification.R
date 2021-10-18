@@ -282,4 +282,3 @@ netSizeCompare <- combined_csv%>%
 annotationsLost <- 1-netSizeCompare[2,4]/netSizeCompare[1,4]
 annotationsLost 
 
-
