@@ -32,7 +32,9 @@ path4 <- 'dataset2_unmodified'
 path5 <- 'dataset1_FalsePositives'
 path6 <- 'dataset2_FalsePositives'
 path7 <- 'dataset1_smallNetsFP'
-paths <- c(path1, path2, path3, path4, path5, path6, path7)
+path8 <- 'dataset4_unmodified'
+path9 <- 'dataset4_FalsePositives'
+paths <- c(path1, path2, path3, path4, path5, path6, path7, path8, path9)
 
 # Combine all verification datasets
 for (name in paths){
@@ -46,17 +48,18 @@ for (name in paths){
   
   libraryMatches <- read_csv(paste0(path, "/libraryMatch.csv"))%>%
     rename("feature_number" = '#Scan#',
+           libraryID = Compound_Name,
            library_superclass = superclass, 
            library_class = class, 
            library_subclass = subclass)%>%
-    select(feature_number, library_superclass, library_class, library_subclass)
+    select(feature_number, libraryID, library_superclass, library_class, library_subclass)
   
-  analogMatches <- read_csv(paste0(path, "/analogMatch.csv"))%>%
-    rename("feature_number" = '#Scan#',
-           analog_superclass = superclass, 
-           analog_class = class, 
-           analog_subclass = subclass)%>%
-    select(feature_number, analog_superclass, analog_class, analog_subclass)
+  # analogMatches <- read_csv(paste0(path, "/analogMatch.csv"))%>%
+  #   rename("feature_number" = '#Scan#',
+  #          analog_superclass = superclass, 
+  #          analog_class = class, 
+  #          analog_subclass = subclass)%>%
+  #   select(feature_number, analog_superclass, analog_class, analog_subclass)
   
   # csiFingerClassy <- read_csv(paste0(path, '/csiFinger_classyfire.csv'))%>%
   #   rename(smiles = SMILES)
@@ -102,13 +105,13 @@ for (name in paths){
     select(feature_number, canopus_superclass, canopus_class, canopus_subclass)%>%
     unique()
   
-  molnetClassy <- read_csv(paste0(path, "/molNetEnhancer.csv"))%>%
-    select(`cluster index`, componentindex, CF_superclass, CF_class, CF_subclass)%>%
-    rename(feature_number = "cluster index",
-           MolNet_superclass = CF_superclass,
-           MolNet_class = CF_class,
-           MolNet_subclass = CF_subclass)%>%
-    unique()
+  # molnetClassy <- read_csv(paste0(path, "/molNetEnhancer.csv"))%>%
+  #   select(`cluster index`, componentindex, CF_superclass, CF_class, CF_subclass)%>%
+  #   rename(feature_number = "cluster index",
+  #          MolNet_superclass = CF_superclass,
+  #          MolNet_class = CF_class,
+  #          MolNet_subclass = CF_subclass)%>%
+  #   unique()
   
   ecoNet <- read_csv(paste0(path, '/ecoNetConsensus.csv'))%>%
     select(-c(1))%>%
@@ -118,11 +121,11 @@ for (name in paths){
   
   combined <- network%>%
     left_join(libraryMatches, by = 'feature_number')%>%
-    left_join(analogMatches, by = 'feature_number')%>%
+    # left_join(analogMatches, by = 'feature_number')%>%
     # left_join(CSIFingerID, by = 'feature_number')%>%
     # left_join(napDf, by = 'feature_number')%>%
     left_join(canopus, by = 'feature_number')%>%
-    left_join(molnetClassy, by = 'feature_number')%>%
+    # left_join(molnetClassy, by = 'feature_number')%>%
     left_join(ecoNet, by = c('network', 'feature_number'))%>%
     mutate(experiment = name)%>%
     select(experiment, everything())
@@ -143,6 +146,19 @@ combined_csv[combined_csv == 'nan'] <- NA_real_
 
 baseDf <- combined_csv%>%
   separate(experiment, c('experiment', 'version'), sep = '_')
+
+
+# ANALYSIS -- annotation comparison ---------------------------------------
+verificationCompare <- baseDf%>%
+  filter(version != 'FalsePositives',
+         !is.na(library_superclass) & !is.na(ecoNetConsensus) & matchSource == 'Library')%>%
+  select(experiment, feature_number, network, libraryID, ecoNetConsensus:matchSource)%>%
+  mutate(GnpsJobID = case_when(experiment == 'dataset1' ~ '16616afa8edd490ea7e50cc316a20222',
+                               experiment == 'dataset2' ~ '89c9d8b0a49d467390b70dd337bc7015',
+                               experiment == 'dataset4' ~ 'a94feb20e4214375bf89dfbe2b28fbd4'))
+
+write_csv(verificationCompare, 'compareIdEconet.csv')
+
 
 # VIZUALIZATIONS -- False Positives ---------------------------------------
 falsePositive <- baseDf%>%
