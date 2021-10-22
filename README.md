@@ -1,5 +1,7 @@
-# ecoNet
-## ecoNet utlizes the annotations provided by [SIRIUS4](https://bio.informatik.uni-jena.de/software/)* and CANOPUS** combined with networking tools from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) such as feature based molecular networking***.
+# ecoNet 
+### subnetworked putative annotations
+ <\br>
+#### ecoNet utlizes the annotations provided by [SIRIUS4](https://bio.informatik.uni-jena.de/software/)* and CANOPUS** combined with networking tools from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) such as feature based molecular networking***.
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/ecoNet/HEAD?labpath=src%2FecoNetRun.ipynb)
 
