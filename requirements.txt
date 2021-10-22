@@ -1,4 +1,2 @@
-pandas 
-os
-numpy 
-argparse
+pandas==0.25.3
+numpy==1.17.4
