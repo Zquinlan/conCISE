@@ -1,7 +1,4 @@
-requests
-json
 pandas 
-requests
 os
 numpy 
 argparse
