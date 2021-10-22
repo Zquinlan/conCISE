@@ -3,7 +3,7 @@
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/ecoNet/HEAD?labpath=src%2FecoNetRun.ipynb)
 
-ecoNet is in active development and not yet published. If utilized before publishing date please cite this repo.
+ecoNet is in active development and not yet published. If utilized before publishing date please cite this repo. You can use the above binder link to run it on a virtual machine or fork the repo and run the command line tool locally. 
 
 ecoNet works by finding consensus annotations of putative annotations using the ClassyFire ontologies which are supplied by GNPS for library spectral matches and CANOPUS putative annotations. 
 
