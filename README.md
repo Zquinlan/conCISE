@@ -1,11 +1,13 @@
 # ecoNet 
-### subnetworked putative annotations
- <\br>
+### putative annotations using molecular subnetworks
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/ecoNet/HEAD?labpath=src%2FecoNetRun.ipynb)
+<br>
+<br>
 #### ecoNet utlizes the annotations provided by [SIRIUS4](https://bio.informatik.uni-jena.de/software/)* and CANOPUS** combined with networking tools from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) such as feature based molecular networking***.
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/ecoNet/HEAD?labpath=src%2FecoNetRun.ipynb)
 
-ecoNet is in active development and not yet published. If utilized before publishing date please cite this repo. You can use the above binder link to run it on a virtual machine or fork the repo and run the command line tool locally. 
+
+ecoNet is in active development and not yet academically published. If utilized before publishing date please cite this repo. You can use the above binder link to run it on a virtual machine or fork the repo and run the command line tool locally. 
 
 ecoNet works by finding consensus annotations of putative annotations using the ClassyFire ontologies which are supplied by GNPS for library spectral matches and CANOPUS putative annotations. 
 
