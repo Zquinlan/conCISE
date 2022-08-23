@@ -1,10 +1,10 @@
-import sys, os
+import sys, os, subprocess
 import qdarkstyle
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
-from workflowConcise import *
+# from workflowConcise import *
 
 #File search widget
 class fileSearch(QWidget):
@@ -142,10 +142,34 @@ class mainWindow(QMainWindow):
         configArgs = {'taskId' : task, 'canopusFile' : canopusFile, 'network' : networkFile}
         mkErr = "None!"
 
+        ##Errors out if no files are selected
+        #Task ID Erorr
+        if not task == None:
+            mkErr = 'no task ID'
+            message = QMessageBox.question(self, "Error", "No GNPS task ID provided", QMessageBox.Cancel, QMessageBox.Cancel)
+
+        #Canopus file error
+        if not os.path.isfile(canopusFile):
+
+            mkErr = "no canopus selected"
+            message = QMessageBox.question(self, "Error", "No canopus file selected", QMessageBox.Cancel, QMessageBox.Cancel)
+
+        #network file error
+        if not os.path.isfile(networkFile):
+
+            mkErr = "no network selected"
+            message = QMessageBox.question(self, "Error", "No network file selected", QMessageBox.Cancel, QMessageBox.Cancel)
+
+
 
         if mkErr == 'None!':
+            subprocess.run(['python3', 'workflowConcise.py', task, canopusFile, networkFile])
+            # output = sys.stdout 
             message = QMessageBox.question(self, "Success!", "Consensuses found!!", QMessageBox.Ok, QMessageBox.Ok)
-            print(configArgs)
+            
+
+        self.statusBar().clearMessage()
+        self.statusBar().showMessage('Ready')
 
 
 

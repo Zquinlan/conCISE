@@ -10,7 +10,7 @@ class getJob:
         jobID: This is the task number of your GNPS job which can be found in the url of your GNPS job
         jobType: The type of job options are 'canopus', 'library', 'analog', 'csiFingerID', 'edges'
         
-        canopus, library and edges are all files which are needed to run the EcoNet pipeline
+        canopus, library and edges are all files which are needed to run the ConCISE pipeline
         """
 
         # Requesting tsv output from GNPS API
@@ -252,9 +252,9 @@ class selectAnnotation:
             # Merge ontologies and drop NA's
             mergedFiltered = merged.dropna(subset = ['superclass_annotation', 'class_annotation', 'subclass_annotation'], how = 'all')  
 
-            mergedFiltered['ecoNetConsensus'] = mergedFiltered.apply(lambda x: selectClassy(x, 'annotation'), axis = 1)
-            mergedFiltered['ecoNetConsensusScore'] = mergedFiltered.apply(lambda x: selectClassy(x, 'score'), axis = 1)
-            mergedFiltered['ecoNetConsensusLevel'] = mergedFiltered.apply(lambda x: selectClassy(x, 'level'), axis = 1)
+            mergedFiltered['conciseConsensus'] = mergedFiltered.apply(lambda x: selectClassy(x, 'annotation'), axis = 1)
+            mergedFiltered['conciseConsensusScore'] = mergedFiltered.apply(lambda x: selectClassy(x, 'score'), axis = 1)
+            mergedFiltered['conciseConsensusLevel'] = mergedFiltered.apply(lambda x: selectClassy(x, 'level'), axis = 1)
 
             return mergedFiltered
 
@@ -277,7 +277,7 @@ class selectAnnotation:
         # Merging classyfire annotation with repective singleNode or network lists
         # >= to 0 allows for verifcation of 0 scan
         libraryNoSingle = libraryFiltered[libraryFiltered['featNets'] >= 0].rename(columns = {'featNets': 'network'})
-        librarySingleNodes = singleNodes.merge(libraryFiltered, on = 'featNets', how = 'left')[['scan', 'network', 'ecoNetConsensus', 'ecoNetConsensusScore']]
+        librarySingleNodes = singleNodes.merge(libraryFiltered, on = 'featNets', how = 'left')[['scan', 'network', 'conciseConsensus', 'conciseConsensusScore']]
 
         # Selecting annotation from either analog or canopus for insilico usage
         # Need an if statement for finding whether it is just canopus or whether analog is included
@@ -306,7 +306,7 @@ class selectAnnotation:
 
         finalConsensus = [libraryNoSingle, insilicoFiltered]
         combinedNetworks = pd.concat(finalConsensus, sort = False)
-        networksMerged = network.merge(combinedNetworks, on = 'network', how = 'left')[['scan', 'network', 'ecoNetConsensus', 'ecoNetConsensusScore', 'ecoNetConsensusLevel', 'numberOfNodes', 'matchSource']]
+        networksMerged = network.merge(combinedNetworks, on = 'network', how = 'left')[['scan', 'network', 'conciseConsensus', 'conciseConsensusScore', 'conciseConsensusLevel', 'numberOfNodes', 'matchSource']]
 
         finalConcat = [networksMerged, librarySingleNodes]
         self.export =  pd.concat(finalConcat, sort = False)
