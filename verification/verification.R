@@ -34,7 +34,7 @@ path6 <- 'dataset2_FalsePositives'
 path7 <- 'dataset1_smallNetsFP'
 path8 <- 'dataset4_unmodified'
 path9 <- 'dataset4_FalsePositives'
-paths <- c(path1, path2, path3, path4, path5, path6, path7, path8, path9)
+paths <- c(path1, path4, path8)
 
 # Combine all verification datasets
 for (name in paths){
@@ -54,48 +54,6 @@ for (name in paths){
            library_subclass = subclass)%>%
     select(feature_number, libraryID, library_superclass, library_class, library_subclass)
   
-  # analogMatches <- read_csv(paste0(path, "/analogMatch.csv"))%>%
-  #   rename("feature_number" = '#Scan#',
-  #          analog_superclass = superclass, 
-  #          analog_class = class, 
-  #          analog_subclass = subclass)%>%
-  #   select(feature_number, analog_superclass, analog_class, analog_subclass)
-  
-  # csiFingerClassy <- read_csv(paste0(path, '/csiFinger_classyfire.csv'))%>%
-  #   rename(smiles = SMILES)
-  # 
-  # CSIFingerID <- read_tsv(paste0(path, "/summary_csi_fingerid.tsv"))%>%
-  #   left_join(csiFingerClassy, by = 'smiles')%>%
-  #   rename(feature_number = experimentName,
-  #          csiFinger_superclass = superclass, 
-  #          csiFinger_class = CF_class, 
-  #          csiFinger_subclass = subclass)%>%
-  #   select(feature_number, csiFinger_superclass, csiFinger_class, csiFinger_subclass)%>%
-  #   filter(!is.na(csiFinger_superclass))%>%
-  #   unique()
-  # 
-  # metfragClassy <- read_csv(paste0(path, 'MetFragSMILES.csv'))%>%
-  #   rename(MetFragSMILES = SMILES,
-  #          metfrag_superclass = superclass,
-  #          metfrag_class = CF_class,
-  #          metfrag_subclass = subclass)%>%
-  #   select(MetFragSMILES, metfrag_superclass, metfrag_class, metfrag_subclass)
-  #
-  # napClassy <- read_csv(paste0(path, 'NAPSMILES.csv'))%>%
-  #   rename(ConsensusSMILES = SMILES,
-  #          NAP_superclass = superclass,
-  #          NAP_class = CF_class,
-  #          NAP_subclass = subclass)%>%
-  #   select(ConsensusSMILES, NAP_superclass, NAP_class, NAP_subclass)%>%
-  #   unique()
-  #
-  # napDf <- read_tsv(paste0(path, "moorea2017_NAP.tsv"))%>%
-  #   rename("feature_number" = "cluster.index")%>%
-  #   select(feature_number, MetFragSMILES, ConsensusSMILES)%>%
-  #   left_join(metfragClassy, by = 'MetFragSMILES')%>%
-  #   left_join(napClassy, by = 'ConsensusSMILES')%>%
-  #   select(-c(MetFragSMILES, ConsensusSMILES))
-  # unique()
 
   canopus <- read_csv(paste0(path, '/canopus_summary.csv'))%>%
     rename(feature_number = scan,
@@ -105,14 +63,7 @@ for (name in paths){
     select(feature_number, canopus_superclass, canopus_class, canopus_subclass)%>%
     unique()
   
-  # molnetClassy <- read_csv(paste0(path, "/molNetEnhancer.csv"))%>%
-  #   select(`cluster index`, componentindex, CF_superclass, CF_class, CF_subclass)%>%
-  #   rename(feature_number = "cluster index",
-  #          MolNet_superclass = CF_superclass,
-  #          MolNet_class = CF_class,
-  #          MolNet_subclass = CF_subclass)%>%
-  #   unique()
-  
+
   ecoNet <- read_csv(paste0(path, '/ecoNetConsensus.csv'))%>%
     select(-c(1))%>%
     rename(feature_number = scan)%>%
@@ -148,6 +99,26 @@ baseDf <- combined_csv%>%
   separate(experiment, c('experiment', 'version'), sep = '_')
 
 
+# ANALYSIS -- Annotation Rate ---------------------------------------------
+annotationRate <- baseDf%>%
+  filter(version == 'unmodified',
+         network != -1)%>%
+  select(-feature_number)%>%
+  unique()%>%
+  group_by(experiment)%>%
+  mutate(libraryMatched = case_when(!is.na(libraryID) ~ 1,
+                                    TRUE ~ 0),
+         EcoNetMatched = case_when(!is.na(ecoNetConsensus) ~ 1,
+                                   TRUE ~ 0),
+         totalFeatures = 1,
+         totalFeatures = sum(totalFeatures),
+         libraryMatchedPercent = sum(libraryMatched)/totalFeatures,
+         EcoNetMatchedPercent = sum(EcoNetMatched)/totalFeatures,
+         percentIncrease = (EcoNetMatchedPercent-libraryMatchedPercent)/libraryMatchedPercent*100)%>%
+  select(experiment, totalFeatures, libraryMatchedPercent, EcoNetMatchedPercent, percentIncrease)%>%
+  unique()
+
+
 # ANALYSIS -- annotation comparison ---------------------------------------
 verificationCompare <- baseDf%>%
   filter(version != 'FalsePositives',
@@ -156,6 +127,14 @@ verificationCompare <- baseDf%>%
   mutate(GnpsJobID = case_when(experiment == 'dataset1' ~ '16616afa8edd490ea7e50cc316a20222',
                                experiment == 'dataset2' ~ '89c9d8b0a49d467390b70dd337bc7015',
                                experiment == 'dataset4' ~ 'a94feb20e4214375bf89dfbe2b28fbd4'))
+  full_join(baseDf%>%
+              filter(version == 'FalsePositives',
+                     !is.na(library_superclass) & !is.na(ecoNetConsensus) & matchSource != 'Library')%>%
+              rename(ecoNetConsensusCanopus = ecoNetConsensus,
+                     ecoNetConsensusLevelCanopus = ecoNetConsensusLevel,
+                     numberOfNodesCanopus = numberOfNodes)%>%
+              select(experiment, feature_number, network, ecoNetConsensusCanopus:numberOfNodesCanopus), 
+            by = c('experiment', 'feature_number', 'network'))
 
 write_csv(verificationCompare, 'compareIdEconet.csv')
 
@@ -184,7 +163,7 @@ falsePositive <- baseDf%>%
 
 # VIZUALIZATIONS -- Comparing percent annotation --------------------------
 order <- c('Library Matches', 'Analog Matches', 'canopus', 'Molnet superclass', 'Molnet class', 'Molnet subclass', 'ecoNetConsensus')
-sources <- c('library_superclass', 'analog_superclass', 'canopus_superclass', 'MolNet_superclass', 'MolNet_class', 'MolNet_subclass', 'ecoNetConsensus')
+sources <- c('library_superclass', 'ecoNetConsensus')
 
 totals <- combined_csv%>%
   select(experiment, network)%>%
@@ -198,12 +177,12 @@ totals <- combined_csv%>%
 sums <- baseDf%>%
   select(experiment, version, network, all_of(sources))%>%
   rename('Library Matches' = 'library_superclass',
-         'Analog Matches' = 'analog_superclass',
+         # 'Analog Matches' = 'analog_superclass',
          # 'CSI Finger ID' = 'csiFinger_superclass',
-         'canopus' = 'canopus_superclass',
-         'Molnet superclass' = 'MolNet_superclass',
-         'Molnet class' = 'MolNet_class',
-         'Molnet subclass' = 'MolNet_subclass')%>%
+         'ecoNet' = 'ecoNetConsensus')%>%
+         # 'Molnet superclass' = 'MolNet_superclass',
+         # 'Molnet class' = 'MolNet_class',
+         # 'Molnet subclass' = 'MolNet_subclass')%>%
   gather(annotationSource, annotation, 4:ncol(.))%>%
   group_by(experiment, version, network,  annotationSource)%>%
   mutate(annotation = case_when(sum(!is.na(annotation)) > 0 ~ 1,
@@ -213,18 +192,25 @@ sums <- baseDf%>%
   group_by(experiment, version, annotationSource)%>%
   summarize_if(is.numeric, sum)%>%
   left_join(totals, by = c('experiment', 'version'))%>%
-  mutate(percent = annotation/totalFeatures*100)%>%
-  left_join(falsePositive, by = c('experiment', 'version', 'annotationSource'))%>%
-  mutate(truePositives = percent*truePositiveRate,
-         falsePositives = percent*(1-truePositiveRate))
+  mutate(percent = annotation/totalFeatures*100)
+  # left_join(falsePositive, by = c('experiment', 'version', 'annotationSource'))
+  # mutate(truePositives = percent*truePositiveRate,
+  #        falsePositives = percent*(1-truePositiveRate))
 
 # Plotting annotation rates with true positive rates
+sums%>%
+  ungroup()%>%
+  filter(version != 'unmodified')%>%
+  group_by(annotationSource)%>%
+  mutate(std = sd(percent, na.rm = TRUE))%>%
+  summarize_if(is.numeric, mean, na.rm = TRUE)
+
 pdf('~/Documents/GitHub/ecoNet/verification/plots/percentConsensus.pdf', width = 20, height = 10)  
 sums%>%
   ungroup()%>%
-  filter(version != 'SmallNets')%>%
-  mutate(experiment = case_when(version == 'NAP' ~ paste0(experiment, "_", version),
-                                TRUE ~ experiment))%>%
+  filter(version != 'unmodified')%>%
+  # mutate(experiment = case_when(version == 'NAP' ~ paste0(experiment, "_", version),
+  #                               TRUE ~ experiment))%>%
   group_by(experiment, annotationSource)%>%
   mutate(std = sd(percent))%>%
   summarize_if(is.numeric, mean)%>%
@@ -234,7 +220,7 @@ sums%>%
          annotationSource = fct_rev(annotationSource))%>%
   ggplot(aes(annotationSource, percent)) +
   geom_bar(stat = 'summary', fun.y = 'mean') +
-  geom_bar(aes(annotationSource, truePositives, fill = 'Real'), stat = 'summary', fun.y = 'mean', na.rm = TRUE) +
+  # geom_bar(aes(annotationSource, truePositives, fill = 'Real'), stat = 'summary', fun.y = 'mean', na.rm = TRUE) +
   geom_errorbar(aes(ymax = percent + std, ymin = percent - std)) +
   geom_text(aes(y = percent + 10, label = paste(round(percent, 2), '%')), size = 6) +
   coord_flip() +

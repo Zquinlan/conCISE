@@ -58,7 +58,7 @@ merged = mergeAnnotations(librarySubset, canopusSubset, networkSubset, analog = 
 print(' ')
 print('Weighting nodes by relative cosine score...')
 weights = None
-weights = weightEdges(edgeInfo) # Not all edges are in this dataframe.
+# weights = weightEdges(edgeInfo) # Not all edges are in this dataframe.
 
 # Printing to CL for user
 print(' ')
