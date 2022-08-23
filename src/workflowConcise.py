@@ -4,7 +4,7 @@ import os
 import pandas as pd
 import numpy as np
 import argparse
-from ecoNet import*
+from conCISE import*
 
 # Arg parser setup
 parser = argparse.ArgumentParser()
