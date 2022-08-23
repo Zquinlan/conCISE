@@ -1,15 +1,15 @@
-# ecoNet 
-### putative annotations using molecular subnetworks
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/ecoNet/HEAD?labpath=src%2FecoNetRun.ipynb)
+# ConCISE 
+### Concensus Classification from In Silico Elucidations
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/conCISE/HEAD?labpath=src%2FconCISE.ipynb)
 <br>
 <br>
-#### ecoNet utlizes the annotations provided by [SIRIUS4](https://bio.informatik.uni-jena.de/software/)* and CANOPUS** combined with networking tools from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) such as feature based molecular networking***.
+#### ConCISE utlizes the annotations provided by [SIRIUS4](https://bio.informatik.uni-jena.de/software/)* and CANOPUS** combined with networking tools from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) such as feature based molecular networking***.
 
 
 
-ecoNet is in active development and not yet academically published. If utilized before publishing date please cite this repo. You can use the above binder link to run it on a virtual machine or fork the repo and run the command line tool locally. 
+ConCISE is in active development and not yet academically published. If utilized before publishing date please cite this repo. You can use the above binder link to run it on a virtual machine or fork the repo and run the command line tool locally. 
 
-ecoNet works by finding consensus annotations of putative annotations using the ClassyFire ontologies which are supplied by GNPS for library spectral matches and CANOPUS putative annotations. 
+ConCISE works by finding consensus annotations of putative annotations using the ClassyFire ontologies which are supplied by GNPS for library spectral matches and CANOPUS putative annotations. 
 
 If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com)
 
