@@ -5,6 +5,7 @@ block_cipher = None
 
 a = Analysis(['conCISEGui.py'],
              binaries=[],
+             datas=[('workflowConcise.py', '.')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -13,6 +14,7 @@ a = Analysis(['conCISEGui.py'],
              win_private_assemblies=False,
              cipher=block_cipher,
              noarchive=False)
+a.binaries = TOC([x for x in a.binaries])
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,
@@ -22,7 +24,6 @@ exe = EXE(pyz,
           a.datas,
           [],
           name='conCISEGui',
-          icon='Acio_design_v0.01.ico',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,

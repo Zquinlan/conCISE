@@ -175,7 +175,7 @@ class mainWindow(QMainWindow):
 
 
         if mkErr == 'None!':
-            subprocess.run(['python3', 'workflowConcise.py', task, canopus, network])
+            subprocess.run(['python3', 'workflowConcise.py', task, canopusFile, networkFile])
 
             # output = sys.stdout 
             # message = QMessageBox.question(self, "Success!", "Consensuses found!!", QMessageBox.Ok, QMessageBox.Ok)
