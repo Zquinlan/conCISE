@@ -3,6 +3,7 @@ import qdarkstyle
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+from queue import Queue
 
 # from workflowConcise import *
 
@@ -38,6 +39,10 @@ class fileSearch(QWidget):
         if os.path.isfile(fname):
             self.searchDirectory.setText(fname)
 
+
+
+
+## This is the meain gui
 class mainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -80,7 +85,17 @@ class mainWindow(QMainWindow):
         layout.setAlignment(Qt.AlignTop)
 
         # Adding Widgets
+        self.toplabel = QLabel(self)
+        self.toplabel.setText("ConCISE: Consensus Classifications of In Silico Elucidations")
+        layout.addWidget(self.toplabel)
+
+
         # Task ID Title:
+        self.taskIdlabel = QLabel(self)
+        self.taskIdlabel.setText("GNPS Task ID:")
+        layout.addWidget(self.taskIdlabel)
+
+        #Task ID line Edit
         self.taskId = QLineEdit(self)
         self.taskId.setPlaceholderText("Enter your GNPS task ID")
         self.taskId.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
@@ -122,29 +137,27 @@ class mainWindow(QMainWindow):
         scroll.setWidgetResizable(True)
         self.setCentralWidget(scroll)
 
+        self.textedit = QTextEdit()
+        layout.addWidget(self.textedit)
+
+
+    
 
     @pyqtSlot()
     def quit(self):
         sys.exit()
 
     def makeClick(self):
-        
         task = self.taskId.text()
         canopusFile = self.canopus.searchDirectory.text()
         networkFile = self.network.searchDirectory.text()
-
-
-        self.statusBar().clearMessage()
-        self.statusBar().showMessage('Fetching data from GNPS')
-       
-
 
         configArgs = {'taskId' : task, 'canopusFile' : canopusFile, 'network' : networkFile}
         mkErr = "None!"
 
         ##Errors out if no files are selected
         #Task ID Erorr
-        if not task == None:
+        if task == None:
             mkErr = 'no task ID'
             message = QMessageBox.question(self, "Error", "No GNPS task ID provided", QMessageBox.Cancel, QMessageBox.Cancel)
 
@@ -161,11 +174,11 @@ class mainWindow(QMainWindow):
             message = QMessageBox.question(self, "Error", "No network file selected", QMessageBox.Cancel, QMessageBox.Cancel)
 
 
-
         if mkErr == 'None!':
-            subprocess.run(['python3', 'workflowConcise.py', task, canopusFile, networkFile])
+            subprocess.run(['python3', 'workflowConcise.py', task, canopus, network])
+
             # output = sys.stdout 
-            message = QMessageBox.question(self, "Success!", "Consensuses found!!", QMessageBox.Ok, QMessageBox.Ok)
+            # message = QMessageBox.question(self, "Success!", "Consensuses found!!", QMessageBox.Ok, QMessageBox.Ok)
             
 
         self.statusBar().clearMessage()
@@ -177,8 +190,15 @@ class mainWindow(QMainWindow):
 
 
 if __name__ == '__main__':
+    # queue = Queue()
+    # sys.stdout = WriteStream(queue)
+
     app = QApplication(sys.argv)
     app.setStyleSheet(qdarkstyle.load_stylesheet())
     win = mainWindow()
     win.show()
+
     sys.exit(app.exec_())
+
+
+

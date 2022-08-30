@@ -70,12 +70,12 @@ if not weights == None:
 if weights == None:
     annotations = selectAnnotation(merged.library, merged.insilico, networkSubset, analogWeight = weightAnalogs, edgeWeights = None)
 
-annotations.export.to_csv('ecoNetConsensus.csv')
+annotations.export.to_csv('conciseConsensus.csv')
 
 # Caluculating %consensus
-numLibrary = len(annotations.export[annotations.export['matchSource'] == 'Library'].dropna(subset = ['ecoNetConsensus'])[['network']].drop_duplicates())
+numLibrary = len(annotations.export[annotations.export['matchSource'] == 'Library'].dropna(subset = ['conciseConsensus'])[['network']].drop_duplicates())
 totalLibrary = len(merged.library[merged.library['superclass_library'].notna() == True][['network']].drop_duplicates())
-numInsilico = len(annotations.export[annotations.export['matchSource'] == 'In silico'].dropna(subset = ['ecoNetConsensus'])[['network']].drop_duplicates())
+numInsilico = len(annotations.export[annotations.export['matchSource'] == 'In silico'].dropna(subset = ['conciseConsensus'])[['network']].drop_duplicates())
 totalInsicilo = len(merged.insilico[merged.insilico['superclass_canopus'].notna() == True][['network']].drop_duplicates())
 
 

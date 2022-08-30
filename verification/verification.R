@@ -34,7 +34,7 @@ path6 <- 'dataset2_FalsePositives'
 path7 <- 'dataset1_smallNetsFP'
 path8 <- 'dataset4_unmodified'
 path9 <- 'dataset4_FalsePositives'
-paths <- c(path1, path4, path8)
+paths <- c(path1, path2, path4, path8)
 
 # Combine all verification datasets
 for (name in paths){
@@ -84,9 +84,9 @@ for (name in paths){
   write_csv(combined, paste0('~/Documents/GitHub/ecoNet/verification/analysis/combined_', name,'.csv'))
 }
 
-setwd('~/Documents/GitHub/ecoNet/verification/analysis/')
+setwd('~/Documents/GitHub/conCISE//verification/analysis/')
 
-combined_csv <- dir(path = "~/Documents/GitHub/ecoNet/verification/analysis/", pattern = "*.csv")%>%
+combined_csv <- dir(path = "~/Documents/GitHub/conCISE/verification/analysis/", pattern = "*.csv")%>%
   map(read_csv)%>%
   reduce(bind_rows)
   
@@ -236,14 +236,16 @@ fpRates <- sums%>%
                                version == 'unmodified' & annotationSource == 'ecoNetConsensus' ~ 'ecoNet Library Consensus',
                                version == 'NAP' ~ paste(annotationSource, 'NAP'),
                                TRUE ~ version))
+
+
 pdf('~/Documents/GitHub/ecoNet/verification/plots/TruePositives.pdf', width = 20, height = 10)  
 fpRates%>%
   filter(version %in% c('unmodified', 'FalsePositives', 'NAP'),
          annotationSource %in% c('ecoNetConsensus', 'Molnet superclass', 'Molnet class', 'Molnet subclass'),
          !fpCompare %in% c('ecoNetConsensus NAP', 'FalsePositives', 'unmodified'))%>%
-  ggplot(aes(fpCompare, truePositives, fill = experiment)) +
-  geom_bar(aes(y = percent, fill = 'Total Annotations'), stat = 'identity', position = position_dodge2()) +
+  ggplot(aes(fpCompare, percent, fill = experiment)) +
   geom_bar(stat = 'identity', position = position_dodge2()) +
+  # geom_bar(stat = 'identity', position = position_dodge2()) +
   scale_fill_manual(values = c(wes_palette('Darjeeling1', n = 5, type = 'discrete')[2:3], 'grey')) +
   labs(x = 'Annotation Source', y = bquote(atop('Percent of networks', 'properly annotated')), fill = 'Experiment') +
   gen_theme()
