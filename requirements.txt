@@ -3,3 +3,5 @@ pandas==0.25.3
 PyQt5==5.15.7
 QDarkStyle==2.8.1
 requests==2.25.1
+pyinstaller
+dulwich
