@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['conciseGui.py'],
-             pathex=['src/GUI/'],
+             pathex=[],
              binaries=[],
              datas=[],
              hiddenimports=[],
