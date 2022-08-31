@@ -1,8 +1,8 @@
-numpy==1.17.4
-pandas==0.25.3
-PyQt5==5.15.7
-QDarkStyle==2.8.1
-requests==2.25.1
+numpy
+pandas
+PyQt5
+QDarkStyle
+requests
 qtawesome
 pyinstaller
 dulwich
