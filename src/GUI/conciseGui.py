@@ -1,5 +1,6 @@
 import sys, os, subprocess
 import qdarkstyle
+import qtawesome as qta
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -16,7 +17,8 @@ class fileSearch(QWidget):
         self.searchDirectory.setFixedWidth(300)
         self.searchDirectory.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
 
-        self.findButton = QPushButton("Select File", self)
+        icon = qta.icon('fa.file-o')
+        self.findButton = QPushButton(icon, "Select File", self)
         self.findButton.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.findButton.clicked.connect(self.dirClick)
 
@@ -48,7 +50,8 @@ class dirSearch(QWidget):
         self.searchDirectory.setFixedWidth(300)
         self.searchDirectory.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
 
-        self.findButton = QPushButton("Select Directory", self)
+        icon = qta.icon('fa.folder-open-o')
+        self.findButton = QPushButton(icon, "Select Directory", self)
         self.findButton.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.findButton.clicked.connect(self.dirClick)
 
@@ -69,6 +72,31 @@ class dirSearch(QWidget):
 
         if os.path.isdir(fname):
             self.searchDirectory.setText(fname)
+
+# Icon label for each search menu with help tooltip option
+class iconLabel(QWidget):
+    def __init__(self):
+        super().__init__()
+        questionIcon = qta.icon('fa.question-circle-o', color = 'white').pixmap(QSize(16,16))
+
+        labelLayout = QHBoxLayout(self)
+        labelLayout.setAlignment(Qt.AlignLeft)
+        labelLayout.setContentsMargins(0,0,0,0)
+
+        self.label = QLabel(self)
+        self.label.setFont(QFont('Arial', 15))
+        self.label.setAlignment(Qt.AlignLeft)
+
+        self.help = QLabel()
+        self.help.setPixmap(questionIcon)
+        self.help.setAlignment(Qt.AlignLeft)
+
+        self.setStyleSheet("QToolTip{font: 15pt}")
+        
+
+        labelLayout.addWidget(self.label)
+        labelLayout.addWidget(self.help)
+
 
 
 ## This is the meain gui
@@ -104,7 +132,7 @@ class mainWindow(QMainWindow):
 
         # Setting Window Geometry
         self.setWindowTitle(self.title)
-        self.setGeometry(0, 0, 600, 500)
+        self.setGeometry(0, 0, 650, 500)
         self.statusBar().showMessage('Ready')
 
         #Defining scroll area
@@ -115,53 +143,55 @@ class mainWindow(QMainWindow):
 
         # Adding Widgets
         self.toplabel = QLabel(self)
-        self.toplabel.setFont(QFont('Arial', 20))
+        self.toplabel.setFont(QFont('Arial', 22))
         self.toplabel.setText("ConCISE: Consensus Classifications of In Silico Elucidations")
+        self.toplabel.setContentsMargins(0,0,0,15)
         layout.addWidget(self.toplabel)
 
-
+        
         # Task ID Title:
-        self.taskIdlabel = QLabel(self)
-        self.taskIdlabel.setFont(QFont('Arial', 15))
-        self.taskIdlabel.setText("GNPS Task ID:")
-        layout.addWidget(self.taskIdlabel)
+        labelWidget = iconLabel()
+        labelWidget.label.setText("GNPS Task ID")
+        labelWidget.help.setToolTip('GNPS Task ID which can be found in the url for your job following "task="')
+        layout.addWidget(labelWidget)
 
         #Task ID line Edit
         self.taskId = QLineEdit(self)
         self.taskId.setPlaceholderText("Enter your GNPS task ID")
         self.taskId.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.taskId.setContentsMargins(0,0,0,10)
         layout.addWidget(self.taskId)
 
         #Adding file selectors
         #Label for canopus
-        self.canopusLabel = QLabel(self)
-        self.canopusLabel.setFont(QFont('Arial', 15))
-        self.canopusLabel.setText("CANOPUS summary file")
-        self.canopusLabel.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.canopusLabel = iconLabel()
+        self.canopusLabel.label.setText("CANOPUS summary file")
+        self.canopusLabel.help.setToolTip("Called canopus_summary.tsv in SIRIUS 4 or canopus_compound_summary.tsv in SIRIUS 5")
 
         #Canopus file line edit
         self.canopus = fileSearch()
         self.canopus.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.canopus.setContentsMargins(0,0,0,10)
 
         #Network info label
-        self.networkLabel = QLabel(self)
-        self.networkLabel.setFont(QFont('Arial', 15))
-        self.networkLabel.setText("Network info tsv")
-        self.networkLabel.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.networkLabel = iconLabel()
+        self.networkLabel.label.setText("Network info file")
+        self.networkLabel.help.setToolTip("Network info tsv exported from the clusterinfo_summary subdirectory downloaded from GNPS")
 
         #Network file line edit
         self.network = fileSearch()
         self.network.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.network.setContentsMargins(0,0,0,10)
 
         #Export label
-        self.exportLabel = QLabel(self)
-        self.exportLabel.setFont(QFont('Arial', 15))
-        self.exportLabel.setText("Export directory")
-        self.exportLabel.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.exportLabel = iconLabel()
+        self.exportLabel.label.setText("Export directory")
+        self.exportLabel.help.setToolTip("Where do you want to save the ConCISE summary file?")
 
         #Export line edit
         self.export = dirSearch()
         self.export.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.export.setContentsMargins(0,0,0,10)
         
         #Adding all the widgets
         layout.addWidget(self.canopusLabel)
@@ -182,8 +212,6 @@ class mainWindow(QMainWindow):
         scroll.setWidgetResizable(True)
         self.setCentralWidget(scroll)
 
-        self.textedit = QTextEdit()
-        layout.addWidget(self.textedit)
 
 
     

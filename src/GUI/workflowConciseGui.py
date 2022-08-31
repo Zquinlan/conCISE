@@ -40,6 +40,7 @@ class workflowRun():
         if analogMatch == None:
             weightAnalogs = False
             analogSubset = False
+            
         try:
             canopusSubset = canopusMatch[['scan', 'superclass', 'class', 'subclass']].add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
         except:
