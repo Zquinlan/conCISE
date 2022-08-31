@@ -15,7 +15,7 @@ If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com)
 
 
 # Download links:
-Documentation -- Coming soon
+### Documentation -- Coming soon
 
 ### Graphical user interface
 - [Windows](https://github.com/Zquinlan/conCISE/releases/download/v0.01-beta/conciseGui.exe)
@@ -23,7 +23,7 @@ Documentation -- Coming soon
 
 #### All Versions are available [here](https://github.com/zquinlan/concise/dist)
 
-### [Command line interface](https://github.com/Zquinlan/conCISE/tree/master/src/CommandLineTool)
+### [Command line interface](https://github.com/Zquinlan/conCISE/tree/master/src/CommnadLineTool)
 
 
 
