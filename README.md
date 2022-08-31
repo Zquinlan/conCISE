@@ -3,11 +3,11 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/conCISE/HEAD?labpath=src%2FCommnadLineTool%2FconCISE.ipynb)
 <br>
 <br>
-#### ConCISE utlizes the annotations provided by [SIRIUS4](https://bio.informatik.uni-jena.de/software/)* and CANOPUS** combined with networking tools from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) such as feature based molecular networking***.
+#### ConCISE utlizes the annotations provided by [SIRIUS](https://bio.informatik.uni-jena.de/software/)* and CANOPUS** combined with networking tools from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) such as feature based molecular networking***.
 
 
 
-ConCISE is in active development and not yet academically published. If utilized before publishing date please cite this repo. You can use the above binder link to run it on a virtual machine or fork the repo and run the command line tool locally. 
+ConCISE is in active development and not yet academically published. If utilized before publishing date please cite this repo. You can run this tool locally using the [GUI](https://github.com/zquinlan/concise/dist) and [command line tool](https://github.com/zquinlan/concise/src/CommandLineTool), or on a virtual machine using the above binder link.
 
 ConCISE works by finding consensus annotations of putative annotations using the ClassyFire ontologies which are supplied by GNPS for library spectral matches and CANOPUS putative annotations. 
 
