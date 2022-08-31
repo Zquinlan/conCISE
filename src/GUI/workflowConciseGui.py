@@ -40,7 +40,7 @@ class workflowRun():
         if analogMatch == None:
             weightAnalogs = False
             analogSubset = False
-            
+
         try:
             canopusSubset = canopusMatch[['scan', 'superclass', 'class', 'subclass']].add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
         except:
@@ -87,7 +87,7 @@ class workflowRun():
         print(str(str(numLibrary) + " out of " + str(totalLibrary) + " (" + str(libraryConsensus*100) + "%)" + " networks with Library ID's found a consensus annotation"))
         print(str(str(numInsilico) + " out of "  + str(totalInsicilo) + " (" + str(insilicoConsensus*100) + "%)" +  " networks with Insilico annotations found a consensus annotation"))
         print(str(str(totalConsensus*100) + "%" + " of all networks with an annotation recieved a consensus annotation"))
-        print(str('conciseConsensus csv summary exported to:', exportDirectory))
+        print(str('conciseConsensus csv summary exported to:' + exportDirectory))
 
 
 
