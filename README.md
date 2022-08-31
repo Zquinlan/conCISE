@@ -1,6 +1,6 @@
 # ConCISE 
 ### Concensus Classification from In Silico Elucidations
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/conCISE/HEAD?labpath=src%2FconCISE.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/conCISE/HEAD?labpath=src%2FCommnadLineTool%2FconCISE.ipynb)
 <br>
 <br>
 #### ConCISE utlizes the annotations provided by [SIRIUS4](https://bio.informatik.uni-jena.de/software/)* and CANOPUS** combined with networking tools from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) such as feature based molecular networking***.
