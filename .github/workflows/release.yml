@@ -36,7 +36,7 @@ jobs:
 
     - name: build with pyinstaller
       run: |
-        pyinstaller --onefile src/build.spec
+        pyinstaller --onefile src/GUI/build.spec
 
     - uses: actions/upload-artifact@v2
       with:
