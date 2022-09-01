@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from queue import Queue
-from workflowConciseGui import *
+from workflow import *
 
 #File search widget
 class fileSearch(QWidget):
