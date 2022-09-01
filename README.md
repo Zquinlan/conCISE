@@ -22,7 +22,7 @@ If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com)
 
 #### All Versions are available [here](https://github.com/zquinlan/concise/dist)
 
-### [Command line interface](https://github.com/Zquinlan/conCISE/tree/master/src/CommnadLineTool)
+### [Command line interface](https://github.com/Zquinlan/conCISE/tree/master/src/conciseCLI)
 
 
 
