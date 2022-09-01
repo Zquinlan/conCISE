@@ -1,7 +1,7 @@
 # Loading in Libraries
 import os
 import argparse
-from workflow import *
+from workflowMain import *
 
 # Arg parser setup
 parser = argparse.ArgumentParser()
