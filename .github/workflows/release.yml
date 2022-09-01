@@ -36,7 +36,7 @@ jobs:
 
     - name: build with pyinstaller
       run: |
-        pyinstaller src/build.spec
+        pyinstaller src/conciseGui.spec
 
     - uses: actions/upload-artifact@v3
       with:
