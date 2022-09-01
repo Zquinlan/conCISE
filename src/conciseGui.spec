@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['src/conciseGui.py'],
+a = Analysis(['conciseGui.py'],
              pathex=[],
              binaries=[],
              datas=[],
