@@ -21,10 +21,9 @@ class mainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.title = 'ConCISE'
-
         sys.stdout = emittingStream(textWritten=self.normalOutputWritten)
 
-        self.TEST = True
+        self.TEST = True # This is only for Testing the code
 
         if sys.platform == "linux" or sys.platform == "linux2":
             self.system = "linux"
@@ -45,18 +44,18 @@ class mainWindow(QMainWindow):
         self.initUI()
 
         self.runner = wfRunner()
-        # self.runner.terminalStr.connect(self.outputReceiver)
-
+        
+    # Starting the thread which will capture all exports from the workflow
     def start_task(self, task, canopus, network, export):
         var = self.output.toPlainText()
         self.thread = threading.Thread(target=self.runner.runWorkFlow, args=(task, canopus, network, export))
         self.thread.start()
-        # self.ui.pushButton_text.setEnabled(False)
 
     def __del__(self):  # test
         # Restore sys.stdout
         sys.stdout = sys.__stdout__
 
+    # Printing everything written to the terminal into the text edit box
     def normalOutputWritten(self, text):  # test
         """Append text to the QTextEdit."""
         cursor = self.output.textCursor()
@@ -173,6 +172,8 @@ class mainWindow(QMainWindow):
         exportDir = self.export.searchDirectory.text()
 
         mkErr = "None!"
+
+        #This test section is only for testing the gui without inputting everything manually
         if self.TEST:
                 task = '16616afa8edd490ea7e50cc316a20222'
                 canopusFile = '/Users/zacharyquinlan/Documents/GitHub/conCISE/src/notebookTestFiles/canopus_summary.tsv'
@@ -199,13 +200,7 @@ class mainWindow(QMainWindow):
 
 
         if mkErr == 'None!':
-            # workflowRun(task, canopusFile, networkFile, exportDir)
             startThread = self.start_task(task, canopusFile, networkFile, exportDir)
-            # self.runner.runWorkFlow(task, canopusFile, networkFile, exportDir)
-
-            # output = sys.stdout 
-            # message = QMessageBox.question(self, "Success!", "Consensuses found!!", QMessageBox.Ok, QMessageBox.Ok)
-            
 
         self.statusBar().clearMessage()
         self.statusBar().showMessage('Ready')
@@ -216,9 +211,6 @@ class mainWindow(QMainWindow):
 
 
 if __name__ == '__main__':
-    # queue = Queue()
-    # sys.stdout = WriteStream(queue)
-
     app = QApplication(sys.argv)
     app.setStyleSheet(qdarkstyle.load_stylesheet())
     win = mainWindow()
