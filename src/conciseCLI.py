@@ -1,7 +1,6 @@
 # Loading in Libraries
 import os
 import argparse
-from wfRunner import wfRunner
 from workflowMain import *
 
 # Arg parser setup
