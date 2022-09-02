@@ -17,10 +17,10 @@ If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com)
 ### Documentation -- Coming soon
 
 ### Graphical user interface
-- [Windows](https://github.com/Zquinlan/conCISE/releases/download/v0.02-beta/conciseGui.exe)
-- [Mac](https://github.com/Zquinlan/conCISE/releases/download/v0.02-beta/conciseGui)
+- [Windows](https://github.com/Zquinlan/conCISE/releases/download/v1.00/conciseGui.exe)
+- [Mac](https://github.com/Zquinlan/conCISE/releases/download/v1.00/conCISEGui)
 
-#### All Versions are available [here](https://github.com/zquinlan/concise/dist)
+#### Previous versions are available [here](https://github.com/zquinlan/concise/releases)
 
 ### [Command line interface](https://github.com/Zquinlan/conCISE/tree/master/src/conciseCLI)
 
