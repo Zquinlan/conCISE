@@ -4,6 +4,5 @@ PyQt5
 QDarkStyle
 requests
 qtawesome
-python_qt_binding
 pyinstaller
 dulwich
