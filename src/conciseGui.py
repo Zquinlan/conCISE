@@ -23,7 +23,7 @@ class mainWindow(QMainWindow):
         self.title = 'ConCISE'
         sys.stdout = emittingStream(textWritten=self.normalOutputWritten)
 
-        # self.TEST = True # This is only for Testing the code
+        #self.TEST = True # This is only for Testing the code
 
         if sys.platform == "linux" or sys.platform == "linux2":
             self.system = "linux"
@@ -174,11 +174,11 @@ class mainWindow(QMainWindow):
         mkErr = "None!"
 
         #This test section is only for testing the gui without inputting everything manually
-        if self.TEST:
-                task = '16616afa8edd490ea7e50cc316a20222'
-                canopusFile = '/Users/zacharyquinlan/Documents/GitHub/conCISE/src/notebookTestFiles/canopus_summary.tsv'
-                networkFile = '/Users/zacharyquinlan/Documents/GitHub/conCISE/src/notebookTestFiles/Node_info.tsv'
-                exportDir = '/Users/zacharyquinlan/Documents/temp.nosync'
+        #if self.TEST:
+                #task = '16616afa8edd490ea7e50cc316a20222'
+                #canopusFile = '/Users/zacharyquinlan/Documents/GitHub/conCISE/src/notebookTestFiles/canopus_summary.tsv'
+                #networkFile = '/Users/zacharyquinlan/Documents/GitHub/conCISE/src/notebookTestFiles/Node_info.tsv'
+                #exportDir = '/Users/zacharyquinlan/Documents/temp.nosync'
 
         ##Errors out if no files are selected
         #Task ID Erorr
