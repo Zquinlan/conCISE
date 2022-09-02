@@ -1,109 +1,30 @@
-import sys, os, subprocess
+import sys, os
 import qdarkstyle
 import qtawesome as qta
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-from queue import Queue
+import threading
+
+#Loading widgets and workflow
 from workflowMain import *
+from guiWidgets import *
 
-#File search widget
-class fileSearch(QWidget):
-    def __init__(self):
-        super().__init__()
-        layout = QHBoxLayout(self)
-        layout.setContentsMargins(0,0,0,0)
-        self.searchDirectory = QLineEdit(self)
-        self.searchDirectory.setFixedWidth(300)
-        self.searchDirectory.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+class emittingStream(QObject): 
+    textWritten = pyqtSignal(str)
 
-        icon = qta.icon('fa.file-o')
-        self.findButton = QPushButton(icon, "Select File", self)
-        self.findButton.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self.findButton.clicked.connect(self.dirClick)
-
-        layout.addWidget(self.searchDirectory, 0)
-        layout.addWidget(self.findButton, 2)
-        layout.setAlignment(Qt.AlignLeft)
-
-    @pyqtSlot()
-    def dirClick(self):
-        # currentDirectory = self.searchDirectory.text()
-        fname = QFileDialog.getOpenFileName(self, 'Select a File', '','All files (*.*)')[0] # Needs to select a file and not a folder
-
-        if fname:
-            # Returns pathName with the '/' separators converted to separators that are appropriate for the underlying operating system.
-            # On Windows, toNativeSeparators("c:/winnt/system32") returns
-            # "c:\winnt\system32".
-            fname = QDir.toNativeSeparators(fname)
-
-        if os.path.isfile(fname):
-            self.searchDirectory.setText(fname)
-
-#Directory search widget
-class dirSearch(QWidget):
-    def __init__(self):
-        super().__init__()
-        layout = QHBoxLayout(self)
-        layout.setContentsMargins(0,0,0,0)
-        self.searchDirectory = QLineEdit(self)
-        self.searchDirectory.setFixedWidth(300)
-        self.searchDirectory.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-
-        icon = qta.icon('fa.folder-open-o')
-        self.findButton = QPushButton(icon, "Select Directory", self)
-        self.findButton.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self.findButton.clicked.connect(self.dirClick)
-
-        layout.addWidget(self.searchDirectory, 0)
-        layout.addWidget(self.findButton, 2)
-        layout.setAlignment(Qt.AlignLeft)
-
-    @pyqtSlot()
-    def dirClick(self):
-        currentDirectory = self.searchDirectory.text()
-        fname = QFileDialog.getExistingDirectory(self, 'Select a Directory', currentDirectory)
-
-        if fname:
-            # Returns pathName with the '/' separators converted to separators that are appropriate for the underlying operating system.
-            # On Windows, toNativeSeparators("c:/winnt/system32") returns
-            # "c:\winnt\system32".
-            fname = QDir.toNativeSeparators(fname)
-
-        if os.path.isdir(fname):
-            self.searchDirectory.setText(fname)
-
-# Icon label for each search menu with help tooltip option
-class iconLabel(QWidget):
-    def __init__(self):
-        super().__init__()
-        questionIcon = qta.icon('fa.question-circle-o', color = 'white').pixmap(QSize(16,16))
-
-        labelLayout = QHBoxLayout(self)
-        labelLayout.setAlignment(Qt.AlignLeft)
-        labelLayout.setContentsMargins(0,0,0,0)
-
-        self.label = QLabel(self)
-        self.label.setFont(QFont('Arial', 15))
-        self.label.setAlignment(Qt.AlignLeft)
-
-        self.help = QLabel()
-        self.help.setPixmap(questionIcon)
-        self.help.setAlignment(Qt.AlignLeft)
-
-        self.setStyleSheet("QToolTip{font: 15pt}")
-        
-
-        labelLayout.addWidget(self.label)
-        labelLayout.addWidget(self.help)
-
-
+    def write(self, text):
+        self.textWritten.emit(str(text))
 
 ## This is the meain gui
 class mainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.title = 'ConCISE'
+
+        sys.stdout = emittingStream(textWritten=self.normalOutputWritten)
+
+        self.TEST = True
 
         if sys.platform == "linux" or sys.platform == "linux2":
             self.system = "linux"
@@ -123,6 +44,26 @@ class mainWindow(QMainWindow):
         # self.createMenuBar()
         self.initUI()
 
+        self.runner = wfRunner()
+        # self.runner.terminalStr.connect(self.outputReceiver)
+
+    def start_task(self, task, canopus, network, export):
+        var = self.output.toPlainText()
+        self.thread = threading.Thread(target=self.runner.runWorkFlow, args=(task, canopus, network, export))
+        self.thread.start()
+        # self.ui.pushButton_text.setEnabled(False)
+
+    def __del__(self):  # test
+        # Restore sys.stdout
+        sys.stdout = sys.__stdout__
+
+    def normalOutputWritten(self, text):  # test
+        """Append text to the QTextEdit."""
+        cursor = self.output.textCursor()
+        cursor.movePosition(QTextCursor.End)
+        cursor.insertText(text)
+        self.output.setTextCursor(cursor)
+        self.output.ensureCursorVisible()
 
     def initUI(self):
         def resource_path(relative_path):
@@ -132,7 +73,7 @@ class mainWindow(QMainWindow):
 
         # Setting Window Geometry
         self.setWindowTitle(self.title)
-        self.setGeometry(0, 0, 650, 500)
+        self.setGeometry(0, 0, 700, 700)
         self.statusBar().showMessage('Ready')
 
         #Defining scroll area
@@ -207,6 +148,11 @@ class mainWindow(QMainWindow):
         self.mkConsensus.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         layout.addWidget(self.mkConsensus)
 
+        # Making text edit
+        self.output = QTextEdit(self)
+        self.output.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        layout.addWidget(self.output)
+
         #Setting scroll area as central widget
         scroll.setWidget(widget)
         scroll.setWidgetResizable(True)
@@ -227,6 +173,11 @@ class mainWindow(QMainWindow):
         exportDir = self.export.searchDirectory.text()
 
         mkErr = "None!"
+        if self.TEST:
+                task = '16616afa8edd490ea7e50cc316a20222'
+                canopusFile = '/Users/zacharyquinlan/Documents/GitHub/conCISE/src/notebookTestFiles/canopus_summary.tsv'
+                networkFile = '/Users/zacharyquinlan/Documents/GitHub/conCISE/src/notebookTestFiles/Node_info.tsv'
+                exportDir = '/Users/zacharyquinlan/Documents/temp.nosync'
 
         ##Errors out if no files are selected
         #Task ID Erorr
@@ -248,7 +199,9 @@ class mainWindow(QMainWindow):
 
 
         if mkErr == 'None!':
-            workflowRun(task, canopusFile, networkFile, exportDir)
+            # workflowRun(task, canopusFile, networkFile, exportDir)
+            startThread = self.start_task(task, canopusFile, networkFile, exportDir)
+            # self.runner.runWorkFlow(task, canopusFile, networkFile, exportDir)
 
             # output = sys.stdout 
             # message = QMessageBox.question(self, "Success!", "Consensuses found!!", QMessageBox.Ok, QMessageBox.Ok)

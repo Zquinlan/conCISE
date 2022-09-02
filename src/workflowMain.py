@@ -4,15 +4,20 @@ import os
 import pandas as pd
 import numpy as np
 import argparse
+from math import ceil
+from PyQt5.QtCore import QObject
 from conCISE import*
 
 
-class workflowRun():
-    def __init__(self, libraryID, canopusLocation, networkFile, exportDirectory):
+class wfRunner(QObject):
+
+    def __init__(self):
+        super().__init__()
+        temp = 0
+
+    def runWorkFlow(self, libraryID, canopusLocation, networkFile, exportDirectory):
         ## Command line integration
         # libraryID = libraryID
-
-
         canopusMatch = pd.read_csv(canopusLocation, sep = '\t')
         canopusMatch['scan'] = canopusMatch['name'].str.split('_').str[-1].astype(int)
 
@@ -22,6 +27,7 @@ class workflowRun():
         # Get jobs
         # N/A was added to the superclass. Filter for that
         print('Getting GNPS jobs...')
+
         libraryMatch = getJob(libraryID, 'library')
         analogMatch = None
         # analogMatch = getJob(analogID, 'analog')  #change to if analog supplied
@@ -79,17 +85,22 @@ class workflowRun():
         totalInsicilo = len(merged.insilico[merged.insilico['superclass_canopus'].notna() == True][['network']].drop_duplicates())
 
 
-        libraryConsensus = round(numLibrary/totalLibrary, 4)
-        insilicoConsensus = round(numInsilico/totalInsicilo, 4)
-        totalConsensus = round(((numLibrary + numInsilico) / (totalInsicilo + totalLibrary)), 4)
+        libraryConsensus = ceil(numLibrary/totalLibrary *100**2)/100**2
+        insilicoConsensus = ceil(numInsilico/totalInsicilo*100**2)/100**2
+        totalConsensus = ceil(((numLibrary + numInsilico) / (totalInsicilo + totalLibrary))*100**2)/100**2
         # Reporting success rate for consensus sequences
         print(' ')
         print(str(str(numLibrary) + " out of " + str(totalLibrary) + " (" + str(libraryConsensus*100) + "%)" + " networks with Library ID's found a consensus annotation"))
         print(str(str(numInsilico) + " out of "  + str(totalInsicilo) + " (" + str(insilicoConsensus*100) + "%)" +  " networks with Insilico annotations found a consensus annotation"))
         print(str(str(totalConsensus*100) + "%" + " of all networks with an annotation recieved a consensus annotation"))
-        print(str('conciseConsensus csv summary exported to:' + exportDirectory))
+        print(' ')
+        print(str('conciseConsensus csv summary exported to: ' + exportDirectory))
 
-
+        #Sending to Gui
+        # terminalStr(str(str(numLibrary) + " out of " + str(totalLibrary) + " (" + str(libraryConsensus*100) + "%)" + " networks with Library ID's found a consensus annotation"))
+        # terminalStr(str(str(numInsilico) + " out of "  + str(totalInsicilo) + " (" + str(insilicoConsensus*100) + "%)" +  " networks with Insilico annotations found a consensus annotation"))
+        # terminalStr(str(str(totalConsensus*100) + "%" + " of all networks with an annotation recieved a consensus annotation"))
+        # terminalStr(str('conciseConsensus csv summary exported to:' + exportDirectory))
 
 
 
