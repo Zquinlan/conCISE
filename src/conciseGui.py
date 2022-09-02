@@ -23,7 +23,7 @@ class mainWindow(QMainWindow):
         self.title = 'ConCISE'
         sys.stdout = emittingStream(textWritten=self.normalOutputWritten)
 
-        self.TEST = True # This is only for Testing the code
+        # self.TEST = True # This is only for Testing the code
 
         if sys.platform == "linux" or sys.platform == "linux2":
             self.system = "linux"
