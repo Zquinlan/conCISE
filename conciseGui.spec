@@ -15,7 +15,7 @@ a = Analysis(['src/conciseGui.py'],
              win_private_assemblies=False,
              cipher=block_cipher,
              noarchive=False)
-
+a.datas += [('ConciseArmadillo.png', 'src/ConciseArmadillo.png')]
 excluded_binaries = ['dist/v0.01/conciseGui', 'dist/v0.01/conciseGui.exe']
 a.binaries = TOC([x for x in a.binaries if x[0] not in excluded_binaries])
 
@@ -35,4 +35,5 @@ exe = EXE(pyz,
           upx_exclude=[],
           runtime_tmpdir=None,
           console=True , 
+          icon = 'src/ConciseArmadillo.png',
           manifest='')

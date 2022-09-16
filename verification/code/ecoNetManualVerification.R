@@ -57,7 +57,7 @@ genTheme <- function(x) {
 
 
 # Loading -- raw manual verification ---------------------------------------
-rawEcoNet <- read_csv('ConCiseVerification.csv')%>%
+rawEcoNet <- read_csv('conCISEVerification.csv')%>%
   rename(checkCanopus = `manual check - CANOPUS`,
          checkLibrary = `manual check - Library`)%>%
   mutate(checkLibrary = case_when(checkLibrary == 'correct - sesquiterpene' ~ 'correct',
@@ -85,18 +85,19 @@ libraryCount <- rawEcoNet%>%
          !is.na(checkLibrary),
          !is.na(ecoNetConsensusLevelLibrary))%>%
   # filter(ecoNetConsensusScoreCanopus >= 0.7)%>%
-  select(experiment, checkCanopus, ecoNetConsensusLevelLibrary)%>%
-  group_by(experiment, checkCanopus, ecoNetConsensusLevelLibrary)%>%
+  select(experiment, checkLibrary, ecoNetConsensusLevelLibrary)%>%
+  group_by(experiment, checkLibrary, ecoNetConsensusLevelLibrary)%>%
   mutate(count = 1)%>%
   summarize_if(is.numeric, sum)%>%
   ungroup()%>%
   group_by(experiment, ecoNetConsensusLevelLibrary)%>%
   mutate(percent = count/sum(count)*100)%>%
-  group_by(checkCanopus, ecoNetConsensusLevelLibrary)%>%
+  group_by(checkLibrary, ecoNetConsensusLevelLibrary)%>%
   mutate(std = sd(percent))%>%
   summarize_if(is.numeric, mean, na.rm = TRUE)%>%
   ungroup()%>%
-  rename(ecoNetConsensusLevel = ecoNetConsensusLevelLibrary)%>%
+  rename(ecoNetConsensusLevel = ecoNetConsensusLevelLibrary,
+         check = checkLibrary)%>%
   mutate(source = 'Spectral library match')
 
 canopusCount <- rawEcoNet%>%
@@ -115,33 +116,22 @@ canopusCount <- rawEcoNet%>%
   mutate(std = sd(percent))%>%
   summarize_if(is.numeric, mean, na.rm = TRUE)%>%
   ungroup()%>%
-  rename(ecoNetConsensusLevel = ecoNetConsensusLevelCanopus)%>%
+  rename(ecoNetConsensusLevel = ecoNetConsensusLevelCanopus,
+         check = checkCanopus)%>%
   mutate(source = 'CANOPUS')
 
 countEverything <- libraryCount%>%
   bind_rows(canopusCount)%>%
-  mutate(vjust = case_when(ecoNetConsensusLevel == 'class' & source == 'Spectral library match' ~ -5.4,
-                           ecoNetConsensusLevel == 'superclass' & source == 'Spectral library match' ~ -2.4,
+  mutate(vjust = case_when(ecoNetConsensusLevel == 'superclass' & source == 'Spectral library match' ~ -2.4,
                            TRUE ~ -2.2),
          hjust = case_when(ecoNetConsensusLevel == 'class' ~ 0.6,
                            ecoNetConsensusLevel == 'subclass' ~ 0.7,
                              TRUE ~ 0.5))
 
-# canopusTPR <- canopusCount%>%
-#   group_by(checkCanopus, ecoNetConsensusLevelCanopus)%>%
-#   mutate(std = sd(percent))%>%
-#   summarize_if(is.numeric, mean, na.rm = TRUE)%>%
-#   ungroup()%>%
-#   filter(checkCanopus == 'correct')
-
-
-# 
-# libraryCount%>%
-#   ggplot(aes(checkLibrary, percent)) +
-#   geom_bar(stat = 'identity') +
-#   geom_text(aes(label = paste(round(percent*100, 2), '%')), vjust = -0.5, size = 6) +
-#   genTheme() +
-#   labs(y = 'Percent of annotations', x = 'Library annotation accuracy')
+countEverything%>% 
+  filter(check == 'correct')%>%
+  group_by(source)
+  
 
 pdf('~/Documents/GitHub/ecoNet/verification/plots/ConCISECanopusVerification.pdf', width = 10, height = 10)
 countEverything%>%
@@ -149,7 +139,7 @@ countEverything%>%
          ecoNetConsensusLevel = fct_relevel(ecoNetConsensusLevel, 'superclass'),
          source = as.factor(source),
          source = fct_relevel(source, 'Spectral library match'))%>%
-  filter(checkCanopus == 'correct')%>%
+  filter(check == 'correct')%>%
   ggplot(aes(source, percent, fill = ecoNetConsensusLevel)) +
   geom_errorbar(aes(ymax = percent + std, ymin = percent - std), position = 'dodge') +
   geom_bar(stat = 'identity', position = 'dodge') +
