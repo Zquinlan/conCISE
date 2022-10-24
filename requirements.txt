@@ -6,3 +6,4 @@ requests
 qtawesome
 pyinstaller
 dulwich
+pillow

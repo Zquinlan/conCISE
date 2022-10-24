@@ -10,7 +10,7 @@ ConCISE is in active development and not yet academically published. If utilized
 
 ConCISE works by finding consensus annotations of putative annotations using the ClassyFire ontologies which are supplied by GNPS for library spectral matches and CANOPUS putative annotations. 
 
-If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com)
+If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com) or if there are issues please post them in the issues section.
 
 
 # Download links:
