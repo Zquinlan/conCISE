@@ -17,8 +17,8 @@ If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com) or i
 ### Documentation -- Coming soon
 
 ### Graphical user interface
-- [Windows](https://github.com/Zquinlan/conCISE/releases/download/v1.00/conciseGui.exe)
-- [Mac](https://github.com/Zquinlan/conCISE/releases/download/v1.00/conCISEGui)
+- [Windows](https://github.com/Zquinlan/conCISE/releases/download/v1.02/conciseGui.exe)
+- [Mac](https://github.com/Zquinlan/conCISE/releases/download/v1.02/conCISEGui)
 
 #### Previous versions are available [here](https://github.com/zquinlan/concise/releases)
 
