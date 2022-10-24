@@ -19,7 +19,10 @@ class wfRunner(QObject):
         ## Command line integration
         # libraryID = libraryID
         canopusMatch = pd.read_csv(canopusLocation, sep = '\t')
-        canopusMatch['scan'] = canopusMatch['name'].str.split('_').str[-1].astype(int)
+        try:
+            canopusMatch['scan'] = canopusMatch['name'].str.split('_').str[-1].astype(int)
+        except:
+            canopusMatch['scan'] = canopusMatch['id'].str.split('_').str[-1].astype(int)
 
         network = pd.read_csv(networkFile, sep = '\t').rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})
 
@@ -50,7 +53,7 @@ class wfRunner(QObject):
         try:
             canopusSubset = canopusMatch[['scan', 'superclass', 'class', 'subclass']].add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
         except:
-            canopusSubset = canopusMatch[['id', 'ClassyFire#superclass', 'ClassyFire#class', 'ClassyFire#subclass']].rename(columns = {'ClassyFire#superclass': 'superclass', 'ClassyFire#class': 'class', 'ClassyFire#subclass': 'subclass'}).add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
+            canopusSubset = canopusMatch[['scan', 'ClassyFire#superclass', 'ClassyFire#class', 'ClassyFire#subclass']].rename(columns = {'ClassyFire#superclass': 'superclass', 'ClassyFire#class': 'class', 'ClassyFire#subclass': 'subclass'}).add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
 
         networkSubset = network[['scan', 'network']]
 

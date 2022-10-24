@@ -130,7 +130,8 @@ countEverything <- libraryCount%>%
 
 countEverything%>% 
   filter(check == 'correct')%>%
-  group_by(source)
+  group_by(source)%>%
+  summarize_if(is.numeric, mean)
   
 
 pdf('~/Documents/GitHub/ecoNet/verification/plots/ConCISECanopusVerification.pdf', width = 10, height = 10)
