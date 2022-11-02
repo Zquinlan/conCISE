@@ -2,11 +2,11 @@
 ### Concensus Classification from In Silico Elucidations 
 [![DOI](https://zenodo.org/badge/366236409.svg)](https://zenodo.org/badge/latestdoi/366236409) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/conCISE/HEAD?labpath=src%2FconciseBinder.ipynb) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Zquinlan/conCISE/blob/master/LICENSE.txt) 
 <br>
-#### ConCISE utlizes the annotations provided by [SIRIUS](https://bio.informatik.uni-jena.de/software/)* and CANOPUS** combined with networking tools from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) such as feature based molecular networking***.
+#### ConCISE utlizes the ClassyFire structural annotations provided by in silico tools such as [SIRIUS](https://bio.informatik.uni-jena.de/software/)* and CANOPUS** combined with networking tools from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) such as feature based molecular networking***.
 
 
 
-ConCISE is in active development and not yet academically published. If utilized before publishing date please cite this repo. You can run this tool locally using the GUI and command line interface, or on a virtual machine using the above binder link.
+ConCISE is in active development and not yet academically published. If utilized before publishing date please cite this repo. You can run this tool locally using the graphical user interface and command line interface, or on a virtual machine using the above binder link.
 
 ConCISE works by finding consensus annotations of putative annotations using the ClassyFire ontologies which are supplied by GNPS for library spectral matches and CANOPUS putative annotations. 
 
