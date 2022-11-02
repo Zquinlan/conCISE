@@ -165,5 +165,10 @@ dataTwoRaw <- read_csv('combined_dataset2_unmodified.csv')%>%
   filter(!is.na(ecoNetConsensusScore))%>%
   select(ecoNetConsensusScore)%>%
   summarize_if(is.numeric, mean)
+
+dataThreeRaw <- read_csv('combined_dataset4_unmodified.csv')%>%
+  filter(!is.na(ecoNetConsensusScore))%>%
+  select(ecoNetConsensusScore)%>%
+  summarize_if(is.numeric, mean)
   
 
