@@ -152,3 +152,18 @@ countEverything%>%
 dev.off()
 
 
+
+
+
+# Dataset 1 -- consensus rate ---------------------------------------------
+dataOneRaw <- read_csv('combined_dataset1_unmodified.csv')%>%
+  filter(!is.na(ecoNetConsensusScore))%>%
+  select(ecoNetConsensusScore)%>%
+  summarize_if(is.numeric, mean)
+
+dataTwoRaw <- read_csv('combined_dataset2_unmodified.csv')%>%
+  filter(!is.na(ecoNetConsensusScore))%>%
+  select(ecoNetConsensusScore)%>%
+  summarize_if(is.numeric, mean)
+  
+

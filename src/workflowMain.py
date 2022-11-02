@@ -18,7 +18,13 @@ class wfRunner(QObject):
     def runWorkFlow(self, libraryID, canopusLocation, networkFile, exportDirectory):
         ## Command line integration
         # libraryID = libraryID
-        canopusMatch = pd.read_csv(canopusLocation, sep = '\t')
+        try:
+            canopusMatch = pd.read_csv(canopusLocation, sep = '\t')
+        except: 
+            canopusMatch = pd.read_csv(canopusLocation)
+
+        try:
+            canopusMatch.rename(columns={'scan': 'featureNumber'})
         try:
             canopusMatch['scan'] = canopusMatch['name'].str.split('_').str[-1].astype(int)
         except:
