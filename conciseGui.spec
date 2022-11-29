@@ -6,7 +6,7 @@ block_cipher = None
 a = Analysis(['src/conciseGui.py'],
              binaries=[],
              pathex=['src/'],
-             datas=[],
+             datas=[('ConciseArmadillo.png', 'src/ConciseArmadillo.png', 'DATA')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -15,7 +15,6 @@ a = Analysis(['src/conciseGui.py'],
              win_private_assemblies=False,
              cipher=block_cipher,
              noarchive=False)
-a.datas += [('ConciseArmadillo.png', 'src/ConciseArmadillo.png', 'DATA')]
 excluded_binaries = ['dist/v0.01/conciseGui', 'dist/v0.01/conciseGui.exe']
 a.binaries = TOC([x for x in a.binaries if x[0] not in excluded_binaries])
 
