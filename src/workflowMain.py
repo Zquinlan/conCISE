@@ -15,16 +15,24 @@ class wfRunner(QObject):
         super().__init__()
         temp = 0
 
-    def runWorkFlow(self, libraryID, canopusLocation, networkFile, exportDirectory):
+    def runWorkFlow(self, libraryID, canopusLocation, networkFile, exportDirectory, superclassConsensus, classConsensus, subclassConsensus):
         ## Command line integration
         # libraryID = libraryID
+        if float(superclassConsensus) > 1:
+            superclassConsensus = float(superclassConsensus)/100
+        if float(classConsensus) > 1:
+            classConsensus = float(classConsensus)/100
+        if float(subclassConsensus) > 1:
+            subclassConsensus = float(subclassConsensus)/100
+        
+
         try:
             canopusMatch = pd.read_csv(canopusLocation, sep = '\t')
         except: 
             canopusMatch = pd.read_csv(canopusLocation)
 
-        try:
-            canopusMatch.rename(columns={'scan': 'featureNumber'})
+        # try:
+        #     canopusMatch.rename(columns={'scan': 'featureNumber'})
         try:
             canopusMatch['scan'] = canopusMatch['name'].str.split('_').str[-1].astype(int)
         except:
@@ -77,12 +85,13 @@ class wfRunner(QObject):
         # Printing to CL for user
         print(' ')
         print('finding consensus annotations...')
+
         # Propogate annotations
         if not weights == None:
-            annotations = selectAnnotation(merged.library, merged.insilico, networkSubset, weights.edgeWeightings, analogWeight = weightAnalogs)
+            annotations = selectAnnotation(merged.library, merged.insilico, networkSubset, weights.edgeWeightings, analogWeight = weightAnalogs, superclassMinimum = float(superclassConsensus), classMinimum = float(classConsensus), subclassMinimum = float(subclassConsensus))
 
         if weights == None:
-            annotations = selectAnnotation(merged.library, merged.insilico, networkSubset, analogWeight = weightAnalogs, edgeWeights = None)
+            annotations = selectAnnotation(merged.library, merged.insilico, networkSubset, analogWeight = weightAnalogs, edgeWeights = None, superclassMinimum = float(superclassConsensus), classMinimum = float(classConsensus), subclassMinimum = float(subclassConsensus))
 
         exportDir = str(exportDirectory + '/conciseConsensus.csv')
         annotations.export.to_csv(exportDir)

@@ -97,13 +97,14 @@ class makeNet:
         self.networks = pd.concat(clusters).drop_duplicates()
 
 class selectAnnotation:
-    def __init__(self, library, insilico, network, edgeWeights, analogWeight = False, absoluteMinimum = 0.5, classMinimum = 0.7): # Add absoluteMinimum , etc as argument
+    def __init__(self, library, insilico, network, edgeWeights, analogWeight = False, superclassMinimum = 0.5, classMinimum = 0.7, subclassMinimum = 0.7): 
         """
         library: The library file merged with network information exported from mergeAnnotations.library
         insilico: The canopus and analog classyfire information merged with network information exported from mergeAnnotations.insilico.
         network: Full network and nodes for adding annotations
-        absoluteMinimum: Minimum consensus score for superclass consensus (Defaults to >50%)
-        classMinimum: Minimum consensus score for class and subclass (Defaults to >= 70%) 
+        superclassMinimum: Minimum consensus score for superclass consensus (Defaults to >50%)
+        classMinimum: Minimum consensus score for class (Defaults to >= 70%)
+        subclassMinimum: Minimum consensus score for subclass (Defaults to >= 70%) 
 
         library and insilico inputs need to be the direct output of mergeAnnotations()
 
@@ -111,7 +112,9 @@ class selectAnnotation:
         """
         super().__init__()
 
-        def selectClassy(df, returnType):
+
+
+        def selectClassy(df, returnType, superclassMinimum, classMinimum, subclassMinimum):
             subclassCol = df.index.values[(df.index.str.startswith('subclass') == True) & (df.index.str.endswith('ion') == False)]
             classCol = df.index[(df.index.str.startswith('class') == True) & (df.index.str.endswith('ion') == False)]
             superclassCol = df.index[(df.index.str.startswith('superclass') == True) & (df.index.str.endswith('ion') == False)]
@@ -126,7 +129,7 @@ class selectAnnotation:
             superclassCol = str(superclassCol).split("']")[0]
 
 
-            if (df[subclassCol] >= 0.7) & (df[classCol] >= 0.7) & (df[superclassCol] > 0.5) & (df['subclass_annotation'] != 'None') & (df['subclass_annotation'] != 'N/A'):
+            if (df[subclassCol] >= subclassMinimum) & (df[classCol] >= classMinimum) & (df[superclassCol] > superclassMinimum) & (df['subclass_annotation'] != 'None') & (df['subclass_annotation'] != 'N/A'):
                 if returnType == 'annotation':
                     return str(df['superclass_annotation'] + ';' + df['class_annotation'] + ';' + df['subclass_annotation'])
                 if returnType == 'score':
@@ -134,7 +137,7 @@ class selectAnnotation:
                 if returnType == 'level':
                     return 'subclass'
  
-            elif (df[classCol] >= 0.7) & (df[superclassCol] > 0.5) & (df['class_annotation'] != 'None') & (df['class_annotation'] != 'N/A'):
+            elif (df[classCol] >= classMinimum) & (df[superclassCol] > superclassMinimum) & (df['class_annotation'] != 'None') & (df['class_annotation'] != 'N/A'):
                 if returnType == 'annotation':
                     return str(df['superclass_annotation'] + ';' + df['class_annotation'])
                 if returnType == 'score':
@@ -142,7 +145,7 @@ class selectAnnotation:
                 if returnType == 'level':
                     return 'class'
 
-            elif (df[superclassCol] > 0.5) & (df['superclass_annotation'] != 'None') & (df['superclass_annotation'] != 'N/A'):
+            elif (df[superclassCol] > superclassMinimum) & (df['superclass_annotation'] != 'None') & (df['superclass_annotation'] != 'N/A'):
                 if returnType == 'annotation':
                     return df['superclass_annotation']
                 if returnType == 'score':
@@ -166,12 +169,13 @@ class selectAnnotation:
                     return insilico[canopusCol]
 
 
-        def filterClassy(data, matchType, weightEdges, absoluteMinimum, classMinimum):
+        def filterClassy(data, matchType, weightEdges, superclassMinimum, classMinimum, subclassMinimum):
             """
             data: data grouped by network (or featNets)
             matchType: Either library or insilico Matches
-            absoluteMinimum: Minimum consensus score for superclass consensus (Defaults to >50%)
-            classMinimum: Minimum consensus score for class and subclass (Defaults to >= 70%) 
+            superclassMinimum: Minimum consensus score for superclass consensus (Defaults to >50%)
+            classMinimum: Minimum consensus score for class (Defaults to >= 70%) 
+            subclassMinimum: Minimum consensus score for subclass (Defaults to >= 70%) 
 
             """
             if matchType == 'library':
@@ -196,9 +200,9 @@ class selectAnnotation:
             subclassTop = groupedData[subclassStr].apply(lambda x: x.value_counts(normalize = True)).reset_index().rename(columns={'level_1': 'subclass_annotation'})
 
             if not weightEdges:
-                superclassFiltered = superclassTop[superclassTop[superclassStr] > absoluteMinimum]
+                superclassFiltered = superclassTop[superclassTop[superclassStr] > superclassMinimum]
                 classFiltered = classTop[classTop[classStr] > classMinimum]
-                subclassFiltered = subclassTop[subclassTop[subclassStr] > classMinimum]
+                subclassFiltered = subclassTop[subclassTop[subclassStr] > subclassMinimum]
                 merged = superclassFiltered.merge(classFiltered, on = mergeOn, how = 'outer').merge(subclassFiltered, on = mergeOn, how = 'outer').merge(groupCount, on = mergeOn, how = 'left')
 
             if weightEdges:
@@ -240,7 +244,7 @@ class selectAnnotation:
 
 
                         if x == 0:
-                            weightingsFiltered = mergedWeightings[mergedWeightings[rawCheck] > absoluteMinimum]
+                            weightingsFiltered = mergedWeightings[mergedWeightings[rawCheck] > superclassMinimum]
                             merged = weightingsFiltered
                         if not x == 0:
                             weightingsFiltered = mergedWeightings[mergedWeightings[rawCheck] > classMinimum]
@@ -248,13 +252,12 @@ class selectAnnotation:
                         if x == 2:
                             merged = merged.merge(groupCount, on = mergeOn, how = 'left')
 
-
             # Merge ontologies and drop NA's
             mergedFiltered = merged.dropna(subset = ['superclass_annotation', 'class_annotation', 'subclass_annotation'], how = 'all')  
 
-            mergedFiltered['conciseConsensus'] = mergedFiltered.apply(lambda x: selectClassy(x, 'annotation'), axis = 1)
-            mergedFiltered['conciseConsensusScore'] = mergedFiltered.apply(lambda x: selectClassy(x, 'score'), axis = 1)
-            mergedFiltered['conciseConsensusLevel'] = mergedFiltered.apply(lambda x: selectClassy(x, 'level'), axis = 1)
+            mergedFiltered['conciseConsensus'] = mergedFiltered.apply(lambda x: selectClassy(x, 'annotation', superclassMinimum, classMinimum, subclassMinimum), axis = 1)
+            mergedFiltered['conciseConsensusScore'] = mergedFiltered.apply(lambda x: selectClassy(x, 'score', superclassMinimum, classMinimum, subclassMinimum), axis = 1)
+            mergedFiltered['conciseConsensusLevel'] = mergedFiltered.apply(lambda x: selectClassy(x, 'level', superclassMinimum, classMinimum, subclassMinimum), axis = 1)
 
             return mergedFiltered
 
@@ -272,7 +275,7 @@ class selectAnnotation:
             library.loc[library['network'].astype(str).str.contains('-1', regex = False) == True, 'relativeCosine'] = 0
 
         # Making library Filtered ClassyStrings result
-        libraryFiltered = filterClassy(library, 'library', edgesUsed, absoluteMinimum, classMinimum) #absoluteMinimum and classMinimum are defined in the main function
+        libraryFiltered = filterClassy(library, 'library', edgesUsed, superclassMinimum, classMinimum, subclassMinimum) #absoluteMinimum and classMinimum are defined in the main function
         
         # Merging classyfire annotation with repective singleNode or network lists
         # >= to 0 allows for verifcation of 0 scan
@@ -297,7 +300,7 @@ class selectAnnotation:
             insilicoCombined = insilicoCombined.merge(edgeWeights, on = 'scan', how = 'left')
             
     
-        insilicoFiltered = filterClassy(insilicoCombined, 'insilico', edgesUsed, absoluteMinimum, classMinimum) #absoluteMinimum and classMinimum are defined in the main function
+        insilicoFiltered = filterClassy(insilicoCombined, 'insilico', edgesUsed, superclassMinimum, classMinimum, subclassMinimum) #absoluteMinimum and classMinimum are defined in the main function
 
         # Combine the library and insilico classyfiltered datafrmes and merge with network        
         libraryNoSingle['matchSource'] = 'Library'

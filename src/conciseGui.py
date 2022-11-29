@@ -23,7 +23,7 @@ class mainWindow(QMainWindow):
         self.title = 'ConCISE'
         sys.stdout = emittingStream(textWritten=self.normalOutputWritten)
 
-        #self.TEST = True # This is only for Testing the code
+        self.TEST = True # This is only for Testing the code
 
         if sys.platform == "linux" or sys.platform == "linux2":
             self.system = "linux"
@@ -46,9 +46,9 @@ class mainWindow(QMainWindow):
         self.runner = wfRunner()
         
     # Starting the thread which will capture all exports from the workflow
-    def start_task(self, task, canopus, network, export):
+    def start_task(self, task, canopus, network, export, superclassConsensus, classConsensus, subclassConsensus):
         var = self.output.toPlainText()
-        self.thread = threading.Thread(target=self.runner.runWorkFlow, args=(task, canopus, network, export))
+        self.thread = threading.Thread(target=self.runner.runWorkFlow, args=(task, canopus, network, export, superclassConsensus, classConsensus, subclassConsensus))
         self.thread.start()
 
     def __del__(self):  # test
@@ -132,6 +132,33 @@ class mainWindow(QMainWindow):
         self.export = dirSearch()
         self.export.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.export.setContentsMargins(0,0,0,10)
+
+        #Consensus label
+        self.percentageLabel = iconLabel()
+        self.percentageLabel.label.setText("Consensus levels")
+        self.percentageLabel.help.setToolTip("Percent consensuses for superclass, class, and subclass (defaults to 50, 70, 70)")
+
+        #Consensus Levels
+        self.percentageLayoutWidget = QWidget(self)
+        self.percentageLayout = QHBoxLayout(self.percentageLayoutWidget)
+
+        self.percentageSuperclass = QLineEdit(self)
+        self.percentageSuperclass.setPlaceholderText("Superclass default: 50")
+        self.percentageSuperclass.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.percentageLayout.addWidget(self.percentageSuperclass)
+
+        self.percentageClass = QLineEdit(self)
+        self.percentageClass.setPlaceholderText("Class default: 70")
+        self.percentageClass.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.percentageLayout.addWidget(self.percentageClass)
+
+        self.percentageSubclass = QLineEdit(self)
+        self.percentageSubclass.setPlaceholderText("Subclass default: 70")
+        self.percentageSubclass.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.percentageLayout.addWidget(self.percentageSubclass)
+
+        
+
         
         #Adding all the widgets
         layout.addWidget(self.canopusLabel)
@@ -140,6 +167,8 @@ class mainWindow(QMainWindow):
         layout.addWidget(self.network)
         layout.addWidget(self.exportLabel)
         layout.addWidget(self.export)
+        layout.addWidget(self.percentageLabel)
+        layout.addWidget(self.percentageLayoutWidget)
 
         # Make website button
         self.mkConsensus = QPushButton("Build Consensus", self)
@@ -171,14 +200,29 @@ class mainWindow(QMainWindow):
         networkFile = self.network.searchDirectory.text()
         exportDir = self.export.searchDirectory.text()
 
+        if not self.percentageSuperclass.text():
+            superclassConsensus = 70 
+        else:
+            superclassConsensus = self.percentageSuperclass.text()
+
+        if not self.percentageClass.text():
+            classConsensus = 70 
+        else:
+            classConsensus = self.percentageClass.text()
+
+        if not self.percentageSubclass.text():
+            subclassConsensus = 70 
+        else:
+            subclassConsensus = self.percentageSubclass.text()
+
         mkErr = "None!"
 
         #This test section is only for testing the gui without inputting everything manually
-        #if self.TEST:
-                #task = '16616afa8edd490ea7e50cc316a20222'
-                #canopusFile = '/Users/zacharyquinlan/Documents/GitHub/conCISE/src/notebookTestFiles/canopus_summary.tsv'
-                #networkFile = '/Users/zacharyquinlan/Documents/GitHub/conCISE/src/notebookTestFiles/Node_info.tsv'
-                #exportDir = '/Users/zacharyquinlan/Documents/temp.nosync'
+        if self.TEST:
+                task = '16616afa8edd490ea7e50cc316a20222'
+                canopusFile = '/Users/zacharyquinlan/Documents/GitHub/conCISE/src/notebookTestFiles/canopus_summary.tsv'
+                networkFile = '/Users/zacharyquinlan/Documents/GitHub/conCISE/src/notebookTestFiles/Node_info.tsv'
+                exportDir = '/Users/zacharyquinlan/Documents/temp.nosync'
 
         ##Errors out if no files are selected
         #Task ID Erorr
@@ -200,7 +244,7 @@ class mainWindow(QMainWindow):
 
 
         if mkErr == 'None!':
-            startThread = self.start_task(task, canopusFile, networkFile, exportDir)
+            startThread = self.start_task(task, canopusFile, networkFile, exportDir, superclassConsensus, classConsensus, subclassConsensus)
 
         self.statusBar().clearMessage()
         self.statusBar().showMessage('Ready')
