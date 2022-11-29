@@ -17,8 +17,8 @@ If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com) or i
 ### Documentation -- Coming soon
 
 ### Graphical user interface
-- [Windows](https://github.com/Zquinlan/conCISE/releases/download/v1.02/conciseGui.exe)
-- [Mac](https://github.com/Zquinlan/conCISE/releases/download/v1.02/conCISEGui)
+- [Windows](https://github.com/Zquinlan/conCISE/releases/download/v1.1.0/conciseGui.exe)
+- [Mac](https://github.com/Zquinlan/conCISE/releases/download/v1.1.0/conCISEGui)
 
 ### Command line interface
 To use the CLI you will need to [download](https://github.com/zquinlan/concise/releases) the source code. The CLI code will run the workflow runner in the main workflow python file.
