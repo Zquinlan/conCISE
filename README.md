@@ -20,8 +20,6 @@ If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com) or i
 - [Windows](https://github.com/Zquinlan/conCISE/releases/download/v1.02/conciseGui.exe)
 - [Mac](https://github.com/Zquinlan/conCISE/releases/download/v1.02/conCISEGui)
 
-#### Previous versions are available [here](https://github.com/zquinlan/concise/releases)
-
 ### Command line interface
 To use the CLI you will need to download download the repository. The CLI code will run the workflow runner in the main workflow python file.
 
@@ -43,6 +41,8 @@ myBinder offers a free virtual machine to run the jupyter notebook.
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/conCISE/HEAD?labpath=src%2FconciseBinder.ipynb)
 
+
+#### [Version History](https://github.com/zquinlan/concise/releases)
 
 
 # Citations:
