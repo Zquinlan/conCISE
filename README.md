@@ -8,9 +8,9 @@
 
 ConCISE is in active development and not yet academically published. If utilized before publishing date please cite this repo. You can run this tool locally using the graphical user interface and command line interface, or on a virtual machine using the above binder link.
 
-ConCISE works by finding consensus annotations of putative annotations using the ClassyFire ontologies which are supplied by GNPS for library spectral matches and CANOPUS putative annotations. 
+ConCISE works by finding consensus annotations of putative annotations using the ClassyFire ontologies which are supplied by GNPS for library spectral matches and in silico putative annotations. 
 
-If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com) or if there are issues please post them in the issues section.
+If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com).
 
 
 # Download links:
@@ -44,6 +44,11 @@ myBinder offers a free virtual machine to run the jupyter notebook.
 
 ### [Version History](https://github.com/zquinlan/concise/releases)
 
+# Issues:
+#### Help us improve ConCISE
+
+- For bug reports or feature requests please open an "issue" on [this github repository](https://github.com/Zquinlan/conCISE/issues) 
+- If you would like to contribute to the development of ConCISE for other applications fork this repository and make a pull request with your changes. Or reach out directly to us to see if these changes are already being implemented in beta updates.
 
 # Citations:
 
