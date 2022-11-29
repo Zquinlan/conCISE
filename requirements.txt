@@ -1,0 +1,9 @@
+numpy
+pandas
+PyQt5
+QDarkStyle
+requests
+qtawesome
+pyinstaller
+dulwich
+pillow

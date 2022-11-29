@@ -1,0 +1,12 @@
+__pycache__/
+untitled.R
+test.py
+err/
+../.gitignore.swp
+.order.txt.swp
+test.py
+<<<<<<< HEAD
+src/demo_cache.sqlite
+demo_cache.sqlite
+=======
+>>>>>>> f7d700461e1a5edd1ec5d8bfaa9229c570c9ad5c

@@ -1,0 +1,45 @@
+name: Build GUI with Pyinstaller
+
+#on:
+#  release:
+#    types: [created]
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'build'
+
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+        - os: macos-latest
+        - os: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+
+    - name: Install Python dependencies
+      uses: py-actions/py-dependency-install@v3
+      with:
+        path: "requirements.txt"
+
+    - name: build with pyinstaller
+      run: |
+        pyinstaller conciseGui.spec
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: conCISE
+        path: dist/
+        retention-days: 60
