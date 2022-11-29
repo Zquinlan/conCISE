@@ -22,7 +22,26 @@ If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com) or i
 
 #### Previous versions are available [here](https://github.com/zquinlan/concise/releases)
 
-### [Command line interface](https://github.com/Zquinlan/conCISE/tree/master/src/conciseCLI)
+### Command line interface
+To use the CLI you will need to download download the repository. The CLI code will run the workflow runner in the main workflow python file.
+
+#### Arguments:
+- GNPS task ID
+- Canopus_summary file
+- Networking info file
+- Superclass percent consensus (optional; default = 50)
+- Class percent consensus (optional; default = 70)
+- Subclass percent consensus (optional; default = 70)
+- export directory for consensus file (optional; default = current working directory)
+
+```Python
+python3 src/conciseCLI.py 16616afa8edd490ea7e50cc316a20222 exampleFiles/canopus_summary.tsv exampleFiles/Node_info.tsv
+```
+
+### Virtual machine run through myBinder
+myBinder offers a free virtual machine to run the jupyter notebook.
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/conCISE/HEAD?labpath=src%2FconciseBinder.ipynb)
 
 
 
