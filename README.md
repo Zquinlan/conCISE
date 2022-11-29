@@ -21,7 +21,7 @@ If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com) or i
 - [Mac](https://github.com/Zquinlan/conCISE/releases/download/v1.02/conCISEGui)
 
 ### Command line interface
-To use the CLI you will need to download download the repository. The CLI code will run the workflow runner in the main workflow python file.
+To use the CLI you will need to [download](https://github.com/zquinlan/concise/releases) the source code. The CLI code will run the workflow runner in the main workflow python file.
 
 #### Arguments:
 - GNPS task ID
@@ -42,7 +42,7 @@ myBinder offers a free virtual machine to run the jupyter notebook.
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/conCISE/HEAD?labpath=src%2FconciseBinder.ipynb)
 
 
-#### [Version History](https://github.com/zquinlan/concise/releases)
+### [Version History](https://github.com/zquinlan/concise/releases)
 
 
 # Citations:
