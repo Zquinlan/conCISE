@@ -50,8 +50,6 @@ If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com).
 
 
 # Download links:
-### Documentation -- Coming soon
-
 ### Graphical user interface
 - [Windows](https://github.com/Zquinlan/conCISE/releases/download/v1.1.0/conciseGui.exe)
 - [Mac](https://github.com/Zquinlan/conCISE/releases/download/v1.1.0/conCISEGui)
@@ -79,6 +77,9 @@ myBinder offers a free virtual machine to run the jupyter notebook.
 
 
 ### [Version History](https://github.com/zquinlan/concise/releases)
+
+# Documentation:
+Documentation is currently available [here](https://github.com/Zquinlan/conCISE/tree/gh-pages/docs). A more permanent github pages website is coming soon.
 
 # Issues:
 #### Help us improve ConCISE
