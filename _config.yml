@@ -22,7 +22,7 @@ author:
     url: https://orcid.org/0000-0002-0351-8927
   name: 'Zach Quinlan'
 baidu_site_verification: null
-baseurl: '{{ site.baseurl }}'
+baseurl: {{ site.baseurl }}
 bing_site_verification: null
 category_archive:
   path: /categories/
