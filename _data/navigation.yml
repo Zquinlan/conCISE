@@ -1,0 +1,34 @@
+content:
+- children:
+  - title: workflowVerifcation.py
+    url: /_pages/contents/workflowVerifcation.py/
+  - title: ConCISEVerification.py
+    url: /_pages/contents/ConCISEVerification.py/
+  - title: verification.R
+    url: /_pages/contents/verification.R/
+  - title: bicluster.py
+    url: /_pages/contents/bicluster.py/
+  - title: conCISEManualVerification.R
+    url: /_pages/contents/conCISEManualVerification.R/
+  - title: conCISE.py
+    url: /_pages/contents/conCISE.py/
+  - title: conciseCLI.py
+    url: /_pages/contents/conciseCLI.py/
+  - title: workflowMain.py
+    url: /_pages/contents/workflowMain.py/
+  - title: conciseGui.py
+    url: /_pages/contents/conciseGui.py/
+  - title: guiWidgets.py
+    url: /_pages/contents/guiWidgets.py/
+  - title: testJobIDs.py
+    url: /_pages/contents/testJobIDs.py/
+  title: Repository Contents
+- title: Photos
+  url: assets/images/album
+- title: Paper
+  url: https://www.doi.org/
+main:
+- title: Repository Contents
+  url: _pages/contents/
+- title: Paper
+  url: https://www.doi.org/

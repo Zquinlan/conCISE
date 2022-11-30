@@ -1,0 +1,207 @@
+algolia:
+  application_id: null
+  index_name: null
+  powered_by: null
+  search_only_api_key: null
+analytics:
+  google:
+    anonymize_ip: null
+    tracking_id: null
+  provider: false
+atom_feed:
+  hide: null
+  path: null
+author:
+  avatar: assets/images/
+  bio: ''
+  email: zquinlan@gmail.com
+  links:
+  - icon: fas fa-fw fa-link
+    label: Website
+    url: ''
+  - icon: fab fa-fw fa-twitter-square
+    label: Twitter
+    url: https://www.twitter.com/
+  - icon: fab fa-researchgate
+    label: ResearchGate
+    url: https://www.researchgate.net/profile/
+  - icon: fab fa-fw fa-github
+    label: Github
+    url: https://github.com/zquinlan
+  - icon: fab fa-orcid
+    label: OrcID
+    url: https://orcid.org/0000-0002-0351-8927
+  location: ''
+  name: ''
+baidu_site_verification: null
+baseurl: '{{ site.baseurl }}'
+bing_site_verification: null
+category_archive:
+  path: /categories/
+  type: liquid
+comments:
+  discourse:
+    server: null
+  disqus:
+    shortname: null
+  facebook:
+    appid: null
+    colorscheme: null
+    num_posts: null
+  giscus:
+    category_id: null
+    category_name: null
+    discussion_term: null
+    reactions_enabled: null
+    repo_id: null
+    theme: null
+  provider: null
+  staticman:
+    branch: null
+    endpoint: null
+  utterances:
+    issue_term: null
+    theme: null
+compress_html:
+  clippings: all
+  ignore:
+    envs: development
+defaults:
+- scope:
+    path: ''
+    type: posts
+  values:
+    author_profile: true
+    comments: null
+    layout: single
+    read_time: true
+    related: true
+    share: true
+description: ''
+encoding: utf-8
+excerpt_separator: '
+
+
+  '
+exclude:
+- '*.sublime-project'
+- '*.sublime-workspace'
+- vendor
+- .asset-cache
+- .bundle
+- .jekyll-assets-cache
+- .sass-cache
+- assets/js/plugins
+- assets/js/_main.js
+- assets/js/vendor
+- Capfile
+- CHANGELOG
+- config
+- Gemfile
+- Gruntfile.js
+- gulpfile.js
+- LICENSE
+- log
+- node_modules
+- package.json
+- package-lock.json
+- Rakefile
+- README
+- tmp
+- /docs
+- /test
+facebook:
+  app_id: null
+  publisher: null
+  username: null
+footer:
+  links:
+  - icon: fas fa-fw fa-link
+    label: Website
+  - icon: fab fa-fw fa-twitter-square
+    label: Twitter
+  - icon: fab fa-researchgate
+    label: ResearchGate
+  - icon: fab fa-fw fa-github
+    label: Github
+  - icon: fab fa-orcid
+    label: OrcID
+google:
+  instant_search: null
+  search_engine_id: null
+google_site_verification: null
+highlighter: rouge
+include:
+- .htaccess
+- _pages
+incremental: false
+keep_files:
+- .git
+- .svn
+kramdown:
+  auto_ids: true
+  enable_coderay: false
+  entity_output: as_char
+  footnote_nr: 1
+  hard_wrap: false
+  input: GFM
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
+  toc_levels: 1..6
+locale: en-US
+logo: assets/images/
+lsi: false
+lunr:
+  search_within_pages: null
+markdown: kramdown
+markdown_ext: markdown,mkdown,mkdn,mkd,md
+masthead_title: null
+minimal_mistakes_skin: mint
+name: ''
+naver_site_verification: null
+og_image: null
+paginate: 5
+paginate_path: /page:num/
+permalink: /:categories/:title/
+plugins:
+- jekyll-paginate
+- jekyll-sitemap
+- jekyll-gist
+- jekyll-feed
+- jekyll-include-cache
+reCaptcha:
+  secret: null
+  siteKey: null
+repository: /Users/zacharyquinlan/Documents/GitHub/conCISE
+sass:
+  sass_dir: _sass
+  style: compressed
+search: null
+search_full_content: null
+search_provider: null
+social:
+  links: null
+  name: null
+  type: null
+subtitle: null
+tag_archive:
+  path: /tags/
+  type: liquid
+teaser: null
+timezone: null
+title: ConCISE
+title_separator: '-'
+twitter:
+  username: null
+url: null
+whitelist:
+- jekyll-paginate
+- jekyll-sitemap
+- jekyll-gist
+- jekyll-feed
+- jekyll-include-cache
+words_per_minute: 200
+yandex_site_verification: null
+collections:
+  pages:
+    output: true
+    permalink: /:path/
