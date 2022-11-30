@@ -80,6 +80,28 @@ Documentation is currently available [here](https://github.com/Zquinlan/conCISE/
 - For bug reports or feature requests please open an "issue" on [this github repository](https://github.com/Zquinlan/conCISE/issues) 
 - If you would like to contribute to the development of ConCISE for other applications fork this repository and make a pull request with your changes. Or reach out directly to us to see if these changes are already being implemented in beta updates.
 
+# Contributing to the Documentation:
+Feel free to help us maintain the documentation!
+
+### Editing documentation
+All documentation lives in _pages/ and can be editted in ``` .md ``` form.
+
+### Makine new documents
+Create a new ``` .md ``` file in _pages/. To the top of the page add:
+```
+---
+layout: posts
+    # classes: wide
+sidebar:
+    nav: "Documentation"
+---
+```
+Then add this new documnent to the _data/navigation.yml with the title and url
+```
+- title: Gui Widgets
+  url: /_pages/guiWidgets/index.html
+```
+
 # Citations:
 
 *Dührkop, K., Fleischauer, M., Ludwig, M. et al. SIRIUS 4: a rapid tool for turning tandem mass spectra into metabolite structure information. Nat Methods 16, 299–302 (2019). https://doi.org/10.1038/s41592-019-0344-8
