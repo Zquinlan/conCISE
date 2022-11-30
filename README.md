@@ -43,7 +43,7 @@ myBinder offers a free virtual machine to run the jupyter notebook.
 ### [Version History](https://github.com/zquinlan/concise/releases)
 
 # Documentation:
-Documentation is currently available [here](https://github.com/Zquinlan/conCISE/tree/gh-pages/docs). A more permanent github pages website is coming soon.
+Documentation is available [here](https://zquinlan.github.io/conCISE/).
 
 # Issues:
 #### Help us improve ConCISE
