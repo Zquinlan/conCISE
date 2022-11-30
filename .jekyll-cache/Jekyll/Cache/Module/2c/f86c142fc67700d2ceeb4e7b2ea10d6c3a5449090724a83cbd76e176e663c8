@@ -1,4 +1,4 @@
-I"8<div class="page__footer-follow">
+I" <div class="page__footer-follow">
   <ul class="social-icons">
     
       <li><strong>Follow:</strong></li>
@@ -18,7 +18,7 @@
       
 
     
-      <li><a href="/%7B%7B%20site.baseurl%20%7D%7D/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+      <li><a href="/%7B%7D/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
     
   </ul>
 </div>
