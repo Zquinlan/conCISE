@@ -1,54 +1,33 @@
-# ConCISE 
+# ConCISE Documentation
+Welcome to the Documentation branch. To see the full documentation github pages go to zquinlan.github.io/conCISE/
+
 ### Concensus Classification from In Silico Elucidations 
 [![DOI](https://zenodo.org/badge/366236409.svg)](https://zenodo.org/badge/latestdoi/366236409) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/conCISE/HEAD?labpath=src%2FconciseBinder.ipynb) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Zquinlan/conCISE/blob/master/LICENSE.txt) 
 <br>
-#### ConCISE utlizes the ClassyFire structural annotations provided by in silico tools such as [SIRIUS](https://bio.informatik.uni-jena.de/software/)* and CANOPUS** combined with networking tools from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) such as feature based molecular networking***.
-
-
-
-ConCISE is in active development and not yet academically published. If utilized before publishing date please cite this repo. You can run this tool locally using the graphical user interface and command line interface, or on a virtual machine using the above binder link.
-
-ConCISE works by finding consensus annotations of putative annotations using the ClassyFire ontologies which are supplied by GNPS for library spectral matches and in silico putative annotations. 
-
 If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com).
 
+# Contributing to the Documentation:
+Feel free to help us maintain the documentation!
 
-# Download links:
-### Documentation -- Coming soon
+### Editing documentation
+All documentation lives in _pages/ and can be editted in ``` .md ``` form.
 
-### Graphical user interface
-- [Windows](https://github.com/Zquinlan/conCISE/releases/download/v1.1.0/conciseGui.exe)
-- [Mac](https://github.com/Zquinlan/conCISE/releases/download/v1.1.0/conCISEGui)
-
-### Command line interface
-To use the CLI you will need to [download](https://github.com/zquinlan/concise/releases) the source code. The CLI code will run the workflow runner in the main workflow python file.
-
-#### Arguments:
-- GNPS task ID
-- Canopus_summary file
-- Networking info file
-- Superclass percent consensus (optional; default = 50)
-- Class percent consensus (optional; default = 70)
-- Subclass percent consensus (optional; default = 70)
-- export directory for consensus file (optional; default = current working directory)
-
-```Python
-python3 src/conciseCLI.py 16616afa8edd490ea7e50cc316a20222 exampleFiles/canopus_summary.tsv exampleFiles/Node_info.tsv
+### Makine new documents
+Create a new ``` .md ``` file in _pages/. To the top of the page add:
+```
+---
+layout: posts
+    # classes: wide
+sidebar:
+    nav: "Documentation"
+---
+```
+Then add this new documnent to the _data/navigation.yml with the title and url
+```
+- title: Gui Widgets
+  url: /_pages/guiWidgets/index.html
 ```
 
-### Virtual machine run through myBinder
-myBinder offers a free virtual machine to run the jupyter notebook.
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/conCISE/HEAD?labpath=src%2FconciseBinder.ipynb)
-
-
-### [Version History](https://github.com/zquinlan/concise/releases)
-
-# Issues:
-#### Help us improve ConCISE
-
-- For bug reports or feature requests please open an "issue" on [this github repository](https://github.com/Zquinlan/conCISE/issues) 
-- If you would like to contribute to the development of ConCISE for other applications fork this repository and make a pull request with your changes. Or reach out directly to us to see if these changes are already being implemented in beta updates.
 
 # Citations:
 
