@@ -1,15 +1,16 @@
+Documentation:
 - title: Code Overview
   url: /_pages/codeOverview/index.html
+- title: ConCISE Workflow
+  url: /_pages/Workflow/index.html
+- title: ConCISE Functions
+  url: /_pages/conciseFunctions/index.html
 - title: Command Line Interface
   url: /_pages/commandLineInterface/index.html
 - title: Graphical User Interface (GUI)
   url: /_pages/graphicalUserInterface/index.html
-- title: ConCISE Functions
-  url: /_pages/conciseFunctions/index.html
 - title: Gui Widgets
   url: /_pages/guiWidgets/index.html
-- title: ConCISE Workflow
-  url: /_pages/Workflow/index.html
 - title: Paper
   url: https://www.doi.org/
 main:
