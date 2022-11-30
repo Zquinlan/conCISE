@@ -1,34 +1,21 @@
-content:
+Documentation:
 - children:
-  - title: workflowVerifcation.py
-    url: /_pages/contents/workflowVerifcation.py/
-  - title: ConCISEVerification.py
-    url: /_pages/contents/ConCISEVerification.py/
-  - title: verification.R
-    url: /_pages/contents/verification.R/
-  - title: bicluster.py
-    url: /_pages/contents/bicluster.py/
-  - title: conCISEManualVerification.R
-    url: /_pages/contents/conCISEManualVerification.R/
-  - title: conCISE.py
-    url: /_pages/contents/conCISE.py/
-  - title: conciseCLI.py
-    url: /_pages/contents/conciseCLI.py/
-  - title: workflowMain.py
-    url: /_pages/contents/workflowMain.py/
-  - title: conciseGui.py
-    url: /_pages/contents/conciseGui.py/
-  - title: guiWidgets.py
-    url: /_pages/contents/guiWidgets.py/
-  - title: testJobIDs.py
-    url: /_pages/contents/testJobIDs.py/
-  title: Repository Contents
-- title: Photos
-  url: assets/images/album
+  - title: Code Overview
+    url: /_pages/contents/codeOverview.md
+  - title: Command Line Interface
+    url: /_pages/contents/commandLineInterface.md/
+  - title: Graphical User Interface (GUI)
+    url: /_pages/contents/graphicalUserInterface.md/
+  - title: ConCISE Functions
+    url: /_pages/contents/conciseFunctions.md/
+  - title: Gui Widgets
+    url: /_pages/contents/guiWidgets.md/
+  - title: ConCISE Workflow
+    url: /_pages/contents/Workflow.md
 - title: Paper
   url: https://www.doi.org/
 main:
-- title: Repository Contents
-  url: _pages/contents/
+- title: Documentation
+  url: _pages/contents/codeOverview.md/
 - title: Paper
   url: https://www.doi.org/
