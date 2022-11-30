@@ -1,0 +1,285 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Commandlineinterface - ConCISE</title>
+<meta name="description" content="Command Line Interface and myBinder (conciseCLI.py, conciseBinder.ipynb) This is the main workflow runner that all other methods will utilize.">
+
+
+  <meta name="author" content="Zach Quinlan">
+  
+  <meta property="article:author" content="Zach Quinlan">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="ConCISE">
+<meta property="og:title" content="Commandlineinterface">
+<meta property="og:url" content="/commandLineInterface/">
+
+
+  <meta property="og:description" content="Command Line Interface and myBinder (conciseCLI.py, conciseBinder.ipynb) This is the main workflow runner that all other methods will utilize.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-11-30T11:48:03-07:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="/commandLineInterface/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "",
+      "url": "/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="ConCISE Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--posts">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/logo.png" alt="ConCISE"></a>
+        
+        <a class="site-title" href="/">
+          ConCISE
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/_pages/codeOverview/index.html">Documentation</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://www.doi.org/">Paper</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+  
+    
+      
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">Toggle menu</label>
+  <ul class="nav__items">
+    
+      <li>
+        
+          <span class="nav__sub-title"></span>
+        
+
+        
+        <ul>
+          
+            <li><a href="/_pages/codeOverview/index.html">Code Overview</a></li>
+          
+            <li><a href="/_pages/commandLineInterface/index.html">Command Line Interface</a></li>
+          
+            <li><a href="/_pages/graphicalUserInterface/index.html">Graphical User Interface (GUI)</a></li>
+          
+            <li><a href="/_pages/conciseFunctions/index.html">ConCISE Functions</a></li>
+          
+            <li><a href="/_pages/guiWidgets/index.html">Gui Widgets</a></li>
+          
+            <li><a href="/_pages/Workflow/index.html">ConCISE Workflow</a></li>
+          
+            <li><a href="https://www.doi.org/">Paper</a></li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+
+    
+  
+  </div>
+
+
+
+  <div class="archive">
+    
+      <h1 id="page-title" class="page__title">Commandlineinterface</h1>
+    
+    <h1 id="command-line-interface-and-mybinder-conciseclipy-concisebinderipynb">Command Line Interface and myBinder (conciseCLI.py, conciseBinder.ipynb)</h1>
+<p>This is the main workflow runner that all other methods will utilize.</p>
+
+<p>To use the CLI you will need to download the source code. The CLI code will run the workflow runner in the main workflow python file. To run the myBinder click the below icon which will boot the virtual machine. This process might take a bit as it is free. <a href="https://mybinder.org/v2/gh/Zquinlan/conCISE/HEAD?labpath=src%2FconciseBinder.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a></p>
+
+<h2 id="arguments">Arguments:</h2>
+<ul>
+  <li>GNPS task ID</li>
+  <li>Canopus_summary file</li>
+  <li>Networking info file</li>
+  <li>Superclass percent consensus (optional; default = 50)</li>
+  <li>Class percent consensus (optional; default = 70)</li>
+  <li>Subclass percent consensus (optional; default = 70)</li>
+  <li>export directory for consensus file (optional; default = current working directory)</li>
+</ul>
+
+<pre><code class="language-Python">python3 src/conciseCLI.py 16616afa8edd490ea7e50cc316a20222 exampleFiles/canopus_summary.tsv exampleFiles/Node_info.tsv
+</code></pre>
+
+
+<ul class="taxonomy__index">
+  
+  
+</ul>
+
+
+
+
+
+  </div>
+</div>
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    <ul class="author__urls social-icons">
+      
+        
+          
+            <li><a href="https://github.com/zquinlan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">Github</span></a></li>
+          
+        
+          
+            <li><a href="https://orcid.org/0000-0002-0351-8927" rel="nofollow noopener noreferrer"><i class="fab fa-orcid" aria-hidden="true"></i><span class="label">OrcID</span></a></li>
+          
+        
+      
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 ConCISE. Powered by <a href = "https://zquinlan.github.io/acio">AcIo</a> &amp; <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,3 +1,9 @@
+---
+layout: posts
+    # classes: wide
+sidebar:
+    nav: "Documentation"
+---
 # Workflow
 ## Overview
 This takes in the intial arguments and runs everything from concise in the correct order. 

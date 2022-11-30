@@ -1,3 +1,9 @@
+---
+layout: posts
+    # classes: wide
+sidebar:
+    nav: "Documentation"
+---
 # Graphical User Interface
 ## Classes:
 - emittingStream

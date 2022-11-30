@@ -1,3 +1,9 @@
+---
+layout: posts
+    # classes: wide
+sidebar:
+    nav: "Documentation"
+---
 # Command Line Interface and myBinder (conciseCLI.py, conciseBinder.ipynb)
 This is the main workflow runner that all other methods will utilize. 
 

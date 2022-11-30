@@ -1,3 +1,9 @@
+---
+layout: posts
+    # classes: wide
+sidebar:
+    nav: "Documentation"
+---
 # Custom Widgets
 ## fileSearch
 A search widget which allows the user to select specific files in their local computer.

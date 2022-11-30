@@ -1,0 +1,54 @@
+I"2<h1 id="concise-functions-concisepy">conCISE functions (conCISE.py)</h1>
+<h2 id="classes">Classes:</h2>
+<ul>
+  <li>getJob</li>
+  <li>mergeAnnotations</li>
+  <li>weightEdges</li>
+  <li>makeNet</li>
+  <li>selectAnnotation</li>
+</ul>
+
+<h2 id="getjob">getJob</h2>
+<p>This will utilize the GNPS API to pull either the GNPS library matches or GNPS analog matches. When more functionality is added to the GNPS API this will be incorporated into conCISE to pull all needed dataframes and not just library matches.</p>
+
+<h4 id="arguments">Arguments:</h4>
+<ul>
+  <li>jobID: This is the task number of your GNPS job which can be found in the url of your GNPS job</li>
+  <li>jobType: The type of job options are ‘canopus’, ‘library’, ‘analog’, ‘csiFingerID’, ‘edges’ canopus, library and edges are all files which are needed to run the ConCISE pipeline)</li>
+</ul>
+
+<h2 id="mergeannotations">mergeAnnotations</h2>
+<p>Merge annotations combines the library or in silico annotations with network number and creates a new column and prepares the data for weighting or annotation selection.</p>
+
+<h4 id="arguments-1">Arguments:</h4>
+<ul>
+  <li>library: The library match file downloaded from GNPS</li>
+  <li>canopus: The Canopus file which can be downloaded from the SIRIUS workflow</li>
+  <li>network: The Network file which is found in the clusterInfoSummary directory downloaded from GNPS</li>
+  <li>analog: (Optional) The Analog file which can be downloaded from GNPS.</li>
+</ul>
+
+<p>All inputs need to be pd.DataFrames and not modified from how GNPS exports them.
+The dataframes can be directly downloaded using getJob() with the correct jobType specified. 
+This function will return self.library and self.insilico which will have the library and insilico merged files for use in weighting and annotation propogation.</p>
+
+<h2 id="weightedges">weightEdges</h2>
+<p>Currently this function is not in use and is a place holder for edge weighting to be incorporated into ConCISE.</p>
+
+<h2 id="makenet">makeNet</h2>
+<p>This</p>
+
+<h2 id="selectannotation">selectAnnotation</h2>
+<p>his returns a dataframe which has libraryAnnotations and Insilico annotations for every network which meets the thresholds specified. Within this class it will go through each ion feature to find the lowest chemont level. It has functionality already written in selectInsilico to overwrite in silico annotations with analog annotations. This can and will be changed in future versions to utilize analog annotations in a different function. Finally filterClassy will combine library consenus, in silico consensus annotations and edge weighting (once incorporated).</p>
+
+<h4 id="arguments-2">Arguments:</h4>
+<ul>
+  <li>library: The library file merged with network information exported from mergeAnnotations.library</li>
+  <li>insilico: The canopus and analog classyfire information merged with network information exported from mergeAnnotations.insilico.</li>
+  <li>network: Full network and nodes for adding annotations</li>
+  <li>superclassMinimum: Minimum consensus score for superclass consensus (Defaults to &gt;50%)</li>
+  <li>classMinimum: Minimum consensus score for class (Defaults to &gt;= 70%)</li>
+  <li>subclassMinimum: Minimum consensus score for subclass (Defaults to &gt;= 70%)</li>
+  <li>library and insilico inputs need to be the direct output of mergeAnnotations()</li>
+</ul>
+:ET

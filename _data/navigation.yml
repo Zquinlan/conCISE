@@ -1,21 +1,19 @@
-Documentation:
-- children:
-  - title: Code Overview
-    url: /_pages/codeOverview.md
-  - title: Command Line Interface
-    url: /_pages/commandLineInterface.md/
-  - title: Graphical User Interface (GUI)
-    url: /_pages/graphicalUserInterface.md/
-  - title: ConCISE Functions
-    url: /_pages/conciseFunctions.md/
-  - title: Gui Widgets
-    url: /_pages/guiWidgets.md/
-  - title: ConCISE Workflow
-    url: /_pages/Workflow.md
+- title: Code Overview
+  url: /_pages/codeOverview/index.html
+- title: Command Line Interface
+  url: /_pages/commandLineInterface/index.html
+- title: Graphical User Interface (GUI)
+  url: /_pages/graphicalUserInterface/index.html
+- title: ConCISE Functions
+  url: /_pages/conciseFunctions/index.html
+- title: Gui Widgets
+  url: /_pages/guiWidgets/index.html
+- title: ConCISE Workflow
+  url: /_pages/Workflow/index.html
 - title: Paper
   url: https://www.doi.org/
 main:
 - title: Documentation
-  url: _pages/codeOverview.md/
+  url: /_pages/codeOverview/index.html
 - title: Paper
   url: https://www.doi.org/

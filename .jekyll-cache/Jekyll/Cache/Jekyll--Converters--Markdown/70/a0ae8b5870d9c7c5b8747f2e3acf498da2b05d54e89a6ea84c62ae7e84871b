@@ -1,0 +1,10 @@
+I"ç<h1 id="custom-widgets">Custom Widgets</h1>
+<h2 id="filesearch">fileSearch</h2>
+<p>A search widget which allows the user to select specific files in their local computer.</p>
+
+<h2 id="dirsearch">dirSearch</h2>
+<p>A search widget which allows the user to select specific directories in theier local computer</p>
+
+<h2 id="iconlbel">iconLbel</h2>
+<p>A help icon and label for each bar in the GUI</p>
+:ET

@@ -11,7 +11,7 @@ feature_row:
     alt: "docs"
     title: "Documentation"
     excerpt: "Script documentation"
-    url: "_pages/codeOverview.md"
+    url: "_pages/codeOverview/index.html"
     btn_class: "btn--primary"
     btn_label: "Learn more"
   - image_path: /assets/images/paper.jpg

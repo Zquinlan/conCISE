@@ -1,3 +1,9 @@
+---
+layout: posts
+    # classes: wide
+sidebar:
+    nav: "Documentation"
+---
 # conCISE functions (conCISE.py)
 ## Classes:
 - getJob
