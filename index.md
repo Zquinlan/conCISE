@@ -14,11 +14,11 @@ feature_row:
     url: "_pages/contents/"
     btn_class: "btn--primary"
     btn_label: "Learn more"
-  - image_path: /assets/images/photos.jpg
-    alt: "Photos"
-    title: "Research Photos"
-    excerpt: "Photos from the paper!"
-    url: "assets/images/album/"
+  - image_path: /assets/images/repoContents.png
+    alt: "docs"
+    title: "Documentations"
+    excerpt: "Script documentation"
+    url: "docs/"
     btn_class: "btn--primary"
     btn_label: "Learn more"
   - image_path: /assets/images/paper.jpg
@@ -29,7 +29,7 @@ feature_row:
     btn_class: "btn--primary"
     btn_label: "Learn more"    
     
-author_profile: true  
+author_profile: FALSE  
 ---
 
 {% include feature_row %}
