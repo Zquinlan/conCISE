@@ -12,27 +12,15 @@ atom_feed:
   hide: null
   path: null
 author:
-  avatar: assets/images/
-  bio: ''
   email: zquinlan@gmail.com
   links:
-  - icon: fas fa-fw fa-link
-    label: Website
-    url: ''
-  - icon: fab fa-fw fa-twitter-square
-    label: Twitter
-    url: https://www.twitter.com/
-  - icon: fab fa-researchgate
-    label: ResearchGate
-    url: https://www.researchgate.net/profile/
   - icon: fab fa-fw fa-github
     label: Github
     url: https://github.com/zquinlan
   - icon: fab fa-orcid
     label: OrcID
     url: https://orcid.org/0000-0002-0351-8927
-  location: ''
-  name: ''
+  name: 'Zach Quinlan'
 baidu_site_verification: null
 baseurl: '{{ site.baseurl }}'
 bing_site_verification: null
@@ -148,7 +136,7 @@ kramdown:
   smart_quotes: lsquo,rsquo,ldquo,rdquo
   toc_levels: 1..6
 locale: en-US
-logo: assets/images/
+logo: assets/images/logo.png
 lsi: false
 lunr:
   search_within_pages: null

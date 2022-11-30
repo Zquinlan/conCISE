@@ -1,0 +1,1 @@
+Sitemap: /%7B%7B%20site.baseurl%20%7D%7D/sitemap.xml

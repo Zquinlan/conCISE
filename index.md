@@ -3,7 +3,7 @@ layout: home
 
 header:
   overlay_color: "#5e616c"
-  overlay_image: assets/images/
+  overlay_image: assets/images/splash.jpg
 excerpt: >
   <br /><br /><br />
 feature_row:

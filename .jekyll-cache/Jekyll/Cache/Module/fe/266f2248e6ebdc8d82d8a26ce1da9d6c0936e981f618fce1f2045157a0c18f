@@ -1,0 +1,29 @@
+I"ã
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/%7B%7B%20site.baseurl%20%7D%7D/"><img src="/%7B%7B%20site.baseurl%20%7D%7D/assets/images/logo.png" alt="ConCISE"></a>
+        
+        <a class="site-title" href="/%7B%7B%20site.baseurl%20%7D%7D/">
+          ConCISE
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/%7B%7B%20site.baseurl%20%7D%7D/_pages/codeOverview.md/">Documentation</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://www.doi.org/">Paper</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+:ET

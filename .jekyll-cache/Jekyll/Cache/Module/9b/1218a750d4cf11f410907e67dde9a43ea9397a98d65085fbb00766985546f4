@@ -1,0 +1,27 @@
+I"8<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    <ul class="author__urls social-icons">
+      
+        
+          
+            <li><a href="https://github.com/zquinlan" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">Github</span></a></li>
+          
+        
+          
+            <li><a href="https://orcid.org/0000-0002-0351-8927" rel="nofollow noopener noreferrer"><i class="fab fa-orcid" aria-hidden="true"></i><span class="label">OrcID</span></a></li>
+          
+        
+      
+
+    
+      <li><a href="/%7B%7B%20site.baseurl%20%7D%7D/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 ConCISE. Powered by <a href = "https://zquinlan.github.io/acio">AcIo</a> &amp; <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+:ET
