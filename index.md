@@ -8,17 +8,10 @@ excerpt: >
   <br /><br /><br />
 feature_row:
   - image_path: /assets/images/repoContents.png
-    alt: "Contents"
-    title: "Repository Contents"
-    excerpt: "All contents of the github repository"
-    url: "_pages/contents/"
-    btn_class: "btn--primary"
-    btn_label: "Learn more"
-  - image_path: /assets/images/repoContents.png
     alt: "docs"
-    title: "Documentations"
+    title: "Documentation"
     excerpt: "Script documentation"
-    url: "docs/"
+    url: "_pages/codeOverview.md"
     btn_class: "btn--primary"
     btn_label: "Learn more"
   - image_path: /assets/images/paper.jpg
