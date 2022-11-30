@@ -22,7 +22,7 @@ author:
     url: https://orcid.org/0000-0002-0351-8927
   name: 'Zach Quinlan'
 baidu_site_verification: null
-baseurl: {{ site.baseurl }}
+baseurl: /
 bing_site_verification: null
 category_archive:
   path: /categories/
@@ -65,7 +65,7 @@ defaults:
     read_time: true
     related: true
     share: true
-description: ''
+description: 'Concensus Classification from In Silico Elucidations'
 encoding: utf-8
 excerpt_separator: '
 

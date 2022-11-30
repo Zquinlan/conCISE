@@ -1,4 +1,4 @@
-I"o
+I"Z
 <div class="feature__wrapper">
 
   
@@ -6,7 +6,7 @@
       <div class="archive__item">
         
           <div class="archive__item-teaser">
-            <img src="/%7B%7D/assets/images/repoContents.png" alt="docs" />
+            <img src="/assets/images/repoContents.png" alt="docs" />
             
           </div>
         
@@ -24,7 +24,7 @@
           
 
           
-            <p><a href="/%7B%7D/_pages/codeOverview/index.html" class="btn btn--primary">Learn more</a></p>
+            <p><a href="/_pages/codeOverview/index.html" class="btn btn--primary">Learn more</a></p>
           
         </div>
       </div>
@@ -34,7 +34,7 @@
       <div class="archive__item">
         
           <div class="archive__item-teaser">
-            <img src="/%7B%7D/assets/images/paper.jpg" alt="Paper" />
+            <img src="/assets/images/paper.jpg" alt="Paper" />
             
           </div>
         
