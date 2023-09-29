@@ -15,7 +15,6 @@ a = Analysis(['src/conciseGui.py'],
              win_private_assemblies=False,
              cipher=block_cipher,
              noarchive=False)
-a.binaries = TOC([x for x in a.binaries if x[0] not in excluded_binaries])
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,
