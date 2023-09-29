@@ -46,9 +46,9 @@ class mainWindow(QMainWindow):
         self.runner = wfRunner()
         
     # Starting the thread which will capture all exports from the workflow
-    def start_task(self, task, canopus, network, export, superclassConsensus, classConsensus, subclassConsensus):
+    def start_task(self, task, canopus, network, export, superclassConsensus, classConsensus, subclassConsensus, useNP):
         var = self.output.toPlainText()
-        self.thread = threading.Thread(target=self.runner.runWorkFlow, args=(task, canopus, network, export, superclassConsensus, classConsensus, subclassConsensus))
+        self.thread = threading.Thread(target=self.runner.runWorkFlow, args=(task, canopus, network, export, superclassConsensus, classConsensus, subclassConsensus, useNP))
         self.thread.start()
 
     def __del__(self):  # test
@@ -157,6 +157,19 @@ class mainWindow(QMainWindow):
         self.percentageSubclass.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.percentageLayout.addWidget(self.percentageSubclass)
 
+        #Classification ontology
+
+        self.ontologyLayoutWidget = QWidget(self)
+        self.ontologyLayout = QHBoxLayout(self.ontologyLayoutWidget)
+
+        self.ontologyCheck = iconLabel()
+        self.ontologyCheck.label.setText('Use NPClassifier ontology?')
+        self.ontologyCheck.help.setToolTip('If unchecked, ConCISE will automatically use ClassyFire ontologies instead. If using NPClassifier, ConCISE will use the superclass, class and Pathway columns')
+        self.ontologyLayout.addWidget(self.ontologyCheck)
+
+        self.ontologyCheckBox = QCheckBox()
+        self.ontologyLayout.addWidget(self.ontologyCheckBox)
+
         
 
         
@@ -169,6 +182,7 @@ class mainWindow(QMainWindow):
         layout.addWidget(self.export)
         layout.addWidget(self.percentageLabel)
         layout.addWidget(self.percentageLayoutWidget)
+        layout.addWidget(self.ontologyLayoutWidget)
 
         # Make website button
         self.mkConsensus = QPushButton("Build Consensus", self)
@@ -199,6 +213,7 @@ class mainWindow(QMainWindow):
         canopusFile = self.canopus.searchDirectory.text()
         networkFile = self.network.searchDirectory.text()
         exportDir = self.export.searchDirectory.text()
+        useNP = self.ontologyCheckBox.isChecked()
 
         if not self.percentageSuperclass.text():
             superclassConsensus = 70 
@@ -244,7 +259,7 @@ class mainWindow(QMainWindow):
 
 
         if mkErr == 'None!':
-            startThread = self.start_task(task, canopusFile, networkFile, exportDir, superclassConsensus, classConsensus, subclassConsensus)
+            startThread = self.start_task(task, canopusFile, networkFile, exportDir, superclassConsensus, classConsensus, subclassConsensus, useNP)
 
         self.statusBar().clearMessage()
         self.statusBar().showMessage('Ready')

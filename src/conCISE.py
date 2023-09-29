@@ -113,12 +113,10 @@ class selectAnnotation:
         super().__init__()
 
 
-
         def selectClassy(df, returnType, superclassMinimum, classMinimum, subclassMinimum):
             subclassCol = df.index.values[(df.index.str.startswith('subclass') == True) & (df.index.str.endswith('ion') == False)]
             classCol = df.index[(df.index.str.startswith('class') == True) & (df.index.str.endswith('ion') == False)]
             superclassCol = df.index[(df.index.str.startswith('superclass') == True) & (df.index.str.endswith('ion') == False)]
-            
             subclassCol = str(subclassCol).split("['")[1]
             subclassCol = str(subclassCol).split("']")[0]
 
@@ -127,7 +125,6 @@ class selectAnnotation:
             
             superclassCol = str(superclassCol).split("['")[1]
             superclassCol = str(superclassCol).split("']")[0]
-
 
             if (df[subclassCol] >= subclassMinimum) & (df[classCol] >= classMinimum) & (df[superclassCol] > superclassMinimum) & (df['subclass_annotation'] != 'None') & (df['subclass_annotation'] != 'N/A'):
                 if returnType == 'annotation':

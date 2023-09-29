@@ -15,7 +15,7 @@ class wfRunner(QObject):
         super().__init__()
         temp = 0
 
-    def runWorkFlow(self, libraryID, canopusLocation, networkFile, exportDirectory, superclassConsensus, classConsensus, subclassConsensus):
+    def runWorkFlow(self, libraryID, canopusLocation, networkFile, exportDirectory, superclassConsensus, classConsensus, subclassConsensus, useNP):
         ## Command line integration
         # libraryID = libraryID
         if float(superclassConsensus) > 1:
@@ -52,7 +52,11 @@ class wfRunner(QObject):
         edgeInfo = getJob(libraryID, 'edges')
 
         # Subset dataframes. Removed .df after libraryMatch if using verification data. 
-        librarySubset = libraryMatch.df[['#Scan#', 'superclass', 'class', 'subclass']]
+        if useNP == True:
+            librarySubset = libraryMatch.df[['#Scan#', 'npclassifier_superclass', 'npclassifier_class', 'npclassifier_pathway']].rename(columns={'npclassifier_superclass': 'superclass', 'npclassifier_class': 'class', 'npclassifier_pathway' : 'subclass'})
+        if useNP == False:
+            librarySubset = libraryMatch[['#Scan#', 'superclass', 'class', 'subclass']]
+
         librarySubset = librarySubset.replace('N/A', np.nan).add_suffix('_library').rename(columns={'#Scan#_library': 'scan'})
 
         if analogMatch != None:
@@ -64,10 +68,14 @@ class wfRunner(QObject):
             weightAnalogs = False
             analogSubset = False
 
-        try:
-            canopusSubset = canopusMatch[['scan', 'superclass', 'class', 'subclass']].add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
-        except:
-            canopusSubset = canopusMatch[['scan', 'ClassyFire#superclass', 'ClassyFire#class', 'ClassyFire#subclass']].rename(columns = {'ClassyFire#superclass': 'superclass', 'ClassyFire#class': 'class', 'ClassyFire#subclass': 'subclass'}).add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
+        if useNP == False:
+            try:
+                canopusSubset = canopusMatch[['scan', 'superclass', 'class', 'subclass']].add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
+            except:
+                canopusSubset = canopusMatch[['scan', 'ClassyFire#superclass', 'ClassyFire#class', 'ClassyFire#subclass']].rename(columns = {'ClassyFire#superclass': 'superclass', 'ClassyFire#class': 'class', 'ClassyFire#subclass': 'subclass'}).add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
+        
+        if useNP == True:
+            canopusSubset = canopusMatch[['scan', 'NPC#superclass', 'NPC#class', 'NPC#pathway']].rename(columns = {'NPC#superclass': 'superclass', 'NPC#class': 'class', 'NPC#pathway': 'subclass'}).add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
 
         networkSubset = network[['scan', 'network']]
 
