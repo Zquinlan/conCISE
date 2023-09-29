@@ -29,6 +29,7 @@ To use the CLI you will need to [download](https://github.com/zquinlan/concise/r
 - Class percent consensus (optional; default = 70)
 - Subclass percent consensus (optional; default = 70)
 - export directory for consensus file (optional; default = current working directory)
+- Use NPClassifier in place of ClassyFire Ontologies (True or False; e.g., 'True' will utilize NPClassifier ontologies for both library matches and in silico matches)
 
 ```Python
 python3 src/conciseCLI.py 16616afa8edd490ea7e50cc316a20222 exampleFiles/canopus_summary.tsv exampleFiles/Node_info.tsv
