@@ -23,4 +23,4 @@ if not args.exportDir == 'None':
     export = args.exportDir
 
 wf = wfRunner()
-wf.runWorkFlow(args.libraryID, args.canopusLocation, args.networkFile, export, args.superclassConsensus, args.classConsensus, args.subclassConsensus)
+wf.runWorkFlow(args.libraryID, args.canopusLocation, args.networkFile, export, args.superclassConsensus, args.classConsensus, args.subclassConsensus, args.useNPClassifier)
