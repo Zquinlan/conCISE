@@ -44,8 +44,8 @@ If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com).
 
 # Download links:
 ### Graphical user interface
-- [Windows](https://github.com/Zquinlan/conCISE/releases/download/v1.1.0/conciseGui.exe)
-- [Mac](https://github.com/Zquinlan/conCISE/releases/download/v1.1.0/conCISEGui)
+- [Windows](https://github.com/Zquinlan/conCISE/releases/download/v1.20/conciseGui.exe)
+- [Mac](https://github.com/Zquinlan/conCISE/releases/download/v1.20/conCISEGui)
 
 ### Command line interface
 To use the CLI you will need to [download](https://github.com/zquinlan/concise/releases) the source code. The CLI code will run the workflow runner in the main workflow python file.
@@ -58,6 +58,7 @@ To use the CLI you will need to [download](https://github.com/zquinlan/concise/r
 - Class percent consensus (optional; default = 70)
 - Subclass percent consensus (optional; default = 70)
 - export directory for consensus file (optional; default = current working directory)
+- Use NPClassifier in place of ClassyFire Ontologies (True or False; e.g., 'True' will utilize NPClassifier ontologies for both library matches and in silico matches)
 
 ```Python
 python3 src/conciseCLI.py 16616afa8edd490ea7e50cc316a20222 exampleFiles/canopus_summary.tsv exampleFiles/Node_info.tsv
@@ -70,9 +71,6 @@ myBinder offers a free virtual machine to run the jupyter notebook.
 
 
 ### [Version History](https://github.com/zquinlan/concise/releases)
-
-# Documentation:
-Documentation is currently available [here](https://github.com/Zquinlan/conCISE/tree/gh-pages/docs). A more permanent github pages website is coming soon.
 
 # Issues:
 #### Help us improve ConCISE
