@@ -25,7 +25,7 @@ feature_row:
     alt: "Paper"
     title: "Read the Paper!"
     excerpt: "Read our paper in its entirety!"
-    url: "https://www.frontiersin.org/articles/10.3389/fmicb.2019.02397/"
+    url: "https://www.mdpi.com/2218-1989/12/12/1275"
     btn_class: "btn--primary"
     btn_label: "Learn more"    
     
