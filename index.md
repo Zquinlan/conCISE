@@ -8,6 +8,13 @@ excerpt: >
   <br /><br /><br />
 feature_row:
   - image_path: /assets/images/repoContents.png
+    alt: 'Tutorial'
+    title: "Tutorial"
+    url: "_pages/Tutorial/index.html"
+    btn_class: "btn--primary"
+    btn_label: "Learn more"
+
+  - image_path: /assets/images/repoContents.png
     alt: "docs"
     title: "Documentation"
     excerpt: "Script documentation"
