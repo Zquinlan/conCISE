@@ -11,7 +11,7 @@ sidebar:
 Download the graphical user interface from the most recent [release](https://github.com/Zquinlan/conCISE/releases)
 
 ### Insert all information
-![GUI_image](/assets/images/GuiImage.jpg)
+![GUI_image](/assets/GuiImage.jpg)
 
 1. Copy and paste your GNPS job ID into the top field. This can be found in the web address of your GNPS job. (e.g., For this job the task ID is https://gnps.ucsd.edu/ProteoSAFe/status.jsp?task=50cd02513cc0452589479d99ccc9333f   "50cd02513cc0452589479d99ccc9333f")
 
