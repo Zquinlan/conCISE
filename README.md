@@ -16,7 +16,7 @@ If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com).
 # Download links:
 ### Graphical user interface
 - [Windows](https://github.com/Zquinlan/conCISE/releases/download/v1.20/conciseGui.exe)
-- [Mac](https://github.com/Zquinlan/conCISE/releases/download/v1.20/conCISEGui)
+- [Mac] -- Currently the GUI for Mac is deprecated. To currently use ConCISE onMac, please use the command line or MyBinder interfaces. Once I get a Apple Developer Xcode number, I will recreate the GUI for mac.
 
 ### Command line interface
 To use the CLI you will need to [download](https://github.com/zquinlan/concise/releases) the source code. The CLI code will run the workflow runner in the main workflow python file.
