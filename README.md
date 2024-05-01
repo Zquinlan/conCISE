@@ -12,6 +12,8 @@ ConCISE works by finding consensus annotations of putative annotations using the
 
 If you have any questions contact [Zach Quinlan](mailto:zquinlan@gmail.com).
 
+If you have problems runnning conCISE please open an issue with your error and input files and I will help ASAP. :)
+
 
 # Download links:
 ### Graphical user interface
