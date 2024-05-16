@@ -55,7 +55,7 @@ class wfRunner(QObject):
         if useNP == True:
             librarySubset = libraryMatch.df[['#Scan#', 'npclassifier_superclass', 'npclassifier_class', 'npclassifier_pathway']].rename(columns={'npclassifier_superclass': 'superclass', 'npclassifier_class': 'class', 'npclassifier_pathway' : 'subclass'})
         if useNP == False:
-            librarySubset = libraryMatch[['#Scan#', 'superclass', 'class', 'subclass']]
+            librarySubset = libraryMatch.df[['#Scan#', 'superclass', 'class', 'subclass']]
 
         librarySubset = librarySubset.replace('N/A', np.nan).add_suffix('_library').rename(columns={'#Scan#_library': 'scan'})
 
