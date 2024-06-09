@@ -117,6 +117,7 @@ class selectAnnotation:
             subclassCol = df.index.values[(df.index.str.startswith('subclass') == True) & (df.index.str.endswith('ion') == False)]
             classCol = df.index[(df.index.str.startswith('class') == True) & (df.index.str.endswith('ion') == False)]
             superclassCol = df.index[(df.index.str.startswith('superclass') == True) & (df.index.str.endswith('ion') == False)]
+
             subclassCol = str(subclassCol).split("['")[1]
             subclassCol = str(subclassCol).split("']")[0]
 
@@ -186,6 +187,7 @@ class selectAnnotation:
                 classStr = 'class_insilico'
                 subclassStr = 'subclass_insilico'
                 mergeOn = 'network'
+                data = data[data['network'] != -1]
 
             # Counting the number of Nodes with annotations per network
             groupedData = data.groupby(mergeOn)
@@ -258,6 +260,7 @@ class selectAnnotation:
 
             return mergedFiltered
 
+
         # Determine if nodes are weighted by edges
         edgesUsed = isinstance(edgeWeights, pd.DataFrame)
 
@@ -280,7 +283,6 @@ class selectAnnotation:
         librarySingleNodes = singleNodes.merge(libraryFiltered, on = 'featNets', how = 'left')[['scan', 'network', 'conciseConsensus', 'conciseConsensusScore']]
 
         # Selecting annotation from either analog or canopus for insilico usage
-        # Need an if statement for finding whether it is just canopus or whether analog is included
         insilicoNulled = insilico.replace(r'^\s*$', 'null', regex=True).replace('N/A', 'None')
 
         for col in ['superclass', 'class', 'subclass']:
@@ -298,7 +300,7 @@ class selectAnnotation:
             
     
         insilicoFiltered = filterClassy(insilicoCombined, 'insilico', edgesUsed, superclassMinimum, classMinimum, subclassMinimum) #absoluteMinimum and classMinimum are defined in the main function
-
+ 
         # Combine the library and insilico classyfiltered datafrmes and merge with network        
         libraryNoSingle['matchSource'] = 'Library'
         insilicoFiltered['matchSource'] = 'In silico'
@@ -307,6 +309,7 @@ class selectAnnotation:
         finalConsensus = [libraryNoSingle, insilicoFiltered]
         combinedNetworks = pd.concat(finalConsensus, sort = False)
         networksMerged = network.merge(combinedNetworks, on = 'network', how = 'left')[['scan', 'network', 'conciseConsensus', 'conciseConsensusScore', 'conciseConsensusLevel', 'numberOfNodes', 'matchSource']]
+
 
         finalConcat = [networksMerged, librarySingleNodes]
         self.export =  pd.concat(finalConcat, sort = False)
