@@ -54,7 +54,7 @@ class wfRunner(QObject):
         # Subset dataframes. Removed .df after libraryMatch if using verification data. 
         if useNP == True:
             librarySubset = libraryMatch.df[['#Scan#', 'npclassifier_superclass', 'npclassifier_class', 'npclassifier_pathway']].rename(columns={'npclassifier_superclass': 'superclass', 'npclassifier_class': 'class', 'npclassifier_pathway' : 'subclass'})
-        if useNP == False:
+        else:
             librarySubset = libraryMatch.df[['#Scan#', 'superclass', 'class', 'subclass']]
 
         librarySubset = librarySubset.replace('N/A', np.nan).add_suffix('_library').rename(columns={'#Scan#_library': 'scan'})
@@ -73,8 +73,7 @@ class wfRunner(QObject):
                 canopusSubset = canopusMatch[['scan', 'superclass', 'class', 'subclass']].add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
             except:
                 canopusSubset = canopusMatch[['scan', 'ClassyFire#superclass', 'ClassyFire#class', 'ClassyFire#subclass']].rename(columns = {'ClassyFire#superclass': 'superclass', 'ClassyFire#class': 'class', 'ClassyFire#subclass': 'subclass'}).add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
-        
-        if useNP == True:
+        else:
             canopusSubset = canopusMatch[['scan', 'NPC#superclass', 'NPC#class', 'NPC#pathway']].rename(columns = {'NPC#superclass': 'superclass', 'NPC#class': 'class', 'NPC#pathway': 'subclass'}).add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
 
         networkSubset = network[['scan', 'network']]
