@@ -52,29 +52,32 @@ class wfRunner(QObject):
         edgeInfo = getJob(libraryID, 'edges')
 
         # Subset dataframes. Removed .df after libraryMatch if using verification data. 
-        if useNP == True:
-            librarySubset = libraryMatch.df[['#Scan#', 'npclassifier_superclass', 'npclassifier_class', 'npclassifier_pathway']].rename(columns={'npclassifier_superclass': 'superclass', 'npclassifier_class': 'class', 'npclassifier_pathway' : 'subclass'})
-        else:
+        # Check if using NPC for library matches
+        if useNP == False:
             librarySubset = libraryMatch.df[['#Scan#', 'superclass', 'class', 'subclass']]
+        else:
+            librarySubset = libraryMatch.df[['#Scan#', 'npclassifier_pathway', 'npclassifier_superclass', 'npclassifier_class']].rename(columns={'npclassifier_pathway' : 'superclass', 'npclassifier_superclass': 'class', 'npclassifier_class': 'subclass'})
+            
 
         librarySubset = librarySubset.replace('N/A', np.nan).add_suffix('_library').rename(columns={'#Scan#_library': 'scan'})
 
+        # Check if using analog matches
         if analogMatch != None:
             weightAnalogs = True
             analogSubset = analogMatch.df[['#Scan#', 'superclass', 'class', 'subclass']]
             analogSubset = analogSubset.replace('N/A', np.nan).add_suffix('_analog').rename(columns={'#Scan#_analog': 'scan'})
-
-        if analogMatch == None:
+        else:
             weightAnalogs = False
             analogSubset = False
 
+        #Check if using NPC for in silico matches
         if useNP == False:
             try:
                 canopusSubset = canopusMatch[['scan', 'superclass', 'class', 'subclass']].add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
             except:
                 canopusSubset = canopusMatch[['scan', 'ClassyFire#superclass', 'ClassyFire#class', 'ClassyFire#subclass']].rename(columns = {'ClassyFire#superclass': 'superclass', 'ClassyFire#class': 'class', 'ClassyFire#subclass': 'subclass'}).add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
         else:
-            canopusSubset = canopusMatch[['scan', 'NPC#superclass', 'NPC#class', 'NPC#pathway']].rename(columns = {'NPC#superclass': 'superclass', 'NPC#class': 'class', 'NPC#pathway': 'subclass'}).add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
+            canopusSubset = canopusMatch[['scan', 'NPC#pathway', 'NPC#superclass', 'NPC#class']].rename(columns = {'NPC#pathway': 'superclass', 'NPC#superclass': 'class', 'NPC#class': 'subclass'}).add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
 
         networkSubset = network[['scan', 'network']]
 
@@ -96,8 +99,7 @@ class wfRunner(QObject):
         # Propogate annotations
         if not weights == None:
             annotations = selectAnnotation(merged.library, merged.insilico, networkSubset, weights.edgeWeightings, analogWeight = weightAnalogs, superclassMinimum = float(superclassConsensus), classMinimum = float(classConsensus), subclassMinimum = float(subclassConsensus))
-
-        if weights == None:
+        else:
             annotations = selectAnnotation(merged.library, merged.insilico, networkSubset, analogWeight = weightAnalogs, edgeWeights = None, superclassMinimum = float(superclassConsensus), classMinimum = float(classConsensus), subclassMinimum = float(subclassConsensus))
 
         exportDir = str(exportDirectory + '/conciseConsensus.csv')
