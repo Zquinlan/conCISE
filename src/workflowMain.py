@@ -38,7 +38,10 @@ class wfRunner(QObject):
         except:
             canopusMatch['scan'] = canopusMatch['id'].str.split('_').str[-1].astype(int)
 
-        network = pd.read_csv(networkFile, sep = '\t').rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})
+        try:
+            network = pd.read_csv(networkFile, sep = '\t').rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})
+        except:
+            network = pd.read_csv(networkFile).rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})
 
 
         # Get jobs
@@ -46,6 +49,7 @@ class wfRunner(QObject):
         print('Getting GNPS jobs...')
 
         libraryMatch = getJob(libraryID, 'library')
+        # libraryMatch = pd.read_csv('~/Downloads/andrea/libraryMatchesFixed.csv') # If this line is uncommented it allows me to upload a version of the library match file manually
         analogMatch = None
         # analogMatch = getJob(analogID, 'analog')  #change to if analog supplied
         # canopusMatch = getJob(canopusID, 'canopus')
