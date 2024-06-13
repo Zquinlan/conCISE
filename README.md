@@ -2,10 +2,12 @@
 ### Concensus Classification from In Silico Elucidations 
 [![DOI](https://zenodo.org/badge/366236409.svg)](https://zenodo.org/badge/latestdoi/366236409) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Zquinlan/conCISE/HEAD?labpath=src%2FconciseBinder.ipynb) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Zquinlan/conCISE/blob/master/LICENSE.txt) 
 <br>
-<br>
+
 <br>
 ### New feature requests? 
 I am actively working on a larger update to ConCISE and am definitely interested in hearing what updates the community would like added. Raise an issue requesting it or send me an email and I will add it to my list.
+<br>
+<br>
 <br>
 #### ConCISE utlizes the ClassyFire structural annotations provided by in silico tools such as [SIRIUS](https://bio.informatik.uni-jena.de/software/)* and CANOPUS** combined with networking tools from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) such as feature based molecular networking***.
 
