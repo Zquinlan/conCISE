@@ -33,11 +33,14 @@ class wfRunner(QObject):
 
         # try:
         #     canopusMatch.rename(columns={'scan': 'featureNumber'})
-        try:
-            canopusMatch['scan'] = canopusMatch['name'].str.split('_').str[-1].astype(int)
+       try: 
+            try:
+                canopusMatch['scan'] = canopusMatch['mappingFeatureId']
+            except:
+                canopusMatch['scan'] = canopusMatch['name'].str.split('_').str[-1].astype(int)
         except:
             canopusMatch['scan'] = canopusMatch['id'].str.split('_').str[-1].astype(int)
-
+            
         try:
             network = pd.read_csv(networkFile, sep = '\t').rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})
         except:
