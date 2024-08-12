@@ -51,19 +51,30 @@ class wfRunner(QObject):
         # N/A was added to the superclass. Filter for that
         print('Getting GNPS jobs...')
 
-        libraryMatch = getJob(libraryID, 'library')
-        # libraryMatch = pd.read_csv('~/Downloads/andrea/libraryMatchesFixed.csv') # If this line is uncommented it allows me to upload a version of the library match file manually
+        # Read in the library file. This will either read in a csv/tsv or get the library job from GNPS
+        if ".csv" in libraryID or ".tsv" in libraryID:
+            try:
+                libraryMatch = pd.read_csv(libraryID)
+            except:
+                libraryMatch = pd.read_csv(libraryID, sep = '\t')
+
+            libraryDataFrame = libraryMatch
+
+        else:
+            libraryMatch = getJob(libraryID, 'library')
+            libraryDataFrame = libraryMatch.df
+            
+        # libraryMatch = pd.read_csv('~/Downloads/rrCoral/libraryMatchesFixed.csv') # If this line is uncommented it allows me to upload a version of the library match file manually
         analogMatch = None
-        # analogMatch = getJob(analogID, 'analog')  #change to if analog supplied
-        # canopusMatch = getJob(canopusID, 'canopus')
-        edgeInfo = getJob(libraryID, 'edges')
+
+        # edgeInfo = getJob(libraryID, 'edges')
 
         # Subset dataframes. Removed .df after libraryMatch if using verification data. 
         # Check if using NPC for library matches
         if useNP == False:
-            librarySubset = libraryMatch.df[['#Scan#', 'superclass', 'class', 'subclass']]
+            librarySubset = libraryDataFrame[['#Scan#', 'superclass', 'class', 'subclass']]
         else:
-            librarySubset = libraryMatch.df[['#Scan#', 'npclassifier_pathway', 'npclassifier_superclass', 'npclassifier_class']].rename(columns={'npclassifier_pathway' : 'superclass', 'npclassifier_superclass': 'class', 'npclassifier_class': 'subclass'})
+            librarySubset = libraryDataFrame[['#Scan#', 'npclassifier_pathway', 'npclassifier_superclass', 'npclassifier_class']].rename(columns={'npclassifier_pathway' : 'superclass', 'npclassifier_superclass': 'class', 'npclassifier_class': 'subclass'})
             
 
         librarySubset = librarySubset.replace('N/A', np.nan).add_suffix('_library').rename(columns={'#Scan#_library': 'scan'})

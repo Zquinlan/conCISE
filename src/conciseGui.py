@@ -91,16 +91,16 @@ class mainWindow(QMainWindow):
         
         # Task ID Title:
         labelWidget = iconLabel()
-        labelWidget.label.setText("GNPS Task ID")
-        labelWidget.help.setToolTip('GNPS Task ID which can be found in the url for your job following "task="')
-        layout.addWidget(labelWidget)
+        labelWidget.label.setText("GNPS Task ID or use the file search button to identify the library spectra match file")
+        labelWidget.help.setToolTip('GNPS Task ID which can be found in the url for your job following "task=" or you can manually supply the library spectral match file')
 
         #Task ID line Edit
-        self.taskId = QLineEdit(self)
-        self.taskId.setPlaceholderText("Enter your GNPS task ID")
+        self.taskId = fileSearch()
+        # self.taskId = QLineEdit(self)
+        # self.taskId.setPlaceholderText("Enter your GNPS task ID")
         self.taskId.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.taskId.setContentsMargins(0,0,0,10)
-        layout.addWidget(self.taskId)
+        
 
         #Adding file selectors
         #Label for canopus
@@ -174,6 +174,8 @@ class mainWindow(QMainWindow):
 
         
         #Adding all the widgets
+        layout.addWidget(labelWidget)
+        layout.addWidget(self.taskId)
         layout.addWidget(self.canopusLabel)
         layout.addWidget(self.canopus)
         layout.addWidget(self.networkLabel)
@@ -209,7 +211,7 @@ class mainWindow(QMainWindow):
         sys.exit()
 
     def makeClick(self):
-        task = self.taskId.text()
+        task = self.taskId.searchDirectory.text()
         canopusFile = self.canopus.searchDirectory.text()
         networkFile = self.network.searchDirectory.text()
         exportDir = self.export.searchDirectory.text()
