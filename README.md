@@ -24,7 +24,7 @@ If you have problems runnning conCISE please open an issue with your error and i
 
 # Download links:
 ### Graphical user interface
-- [Windows](https://github.com/Zquinlan/conCISE/releases/download/v1.21/conciseGui.exe)
+- [Windows](https://github.com/Zquinlan/conCISE/releases/download/v1.30/conCISEGui.exe)
 - [Mac] -- Currently the GUI for Mac is deprecated. To currently use ConCISE onMac, please use the command line or MyBinder interfaces. Once I get a Apple Developer Xcode number, I will recreate the GUI for mac.
 
 ### Command line interface
