@@ -6,7 +6,8 @@
 ### New feature requests? 
 I am actively working on a larger update to ConCISE and am definitely interested in hearing what updates the community would like added. Raise an issue requesting it or send me an email and I will add it to my list.
 <br>
-### ***Known issue and workaround*** Currently GNPS has stopped supplying classyfire ontology information for spectral library matches. There are two workarounds: 1) use NPClassifier instead of ClassyFire by checking the box in the GUI or changing the NPC argument from False to True. 2) Manually pull classyfire data for your library match data. You can copy the InChiKey's from the GNPS DBResult file into the Fiehn Labs' [classyfire Batch](https://cfb.fiehnlab.ucdavis.edu/) identifier. Once these results are merged back into the original GNPS DBResult file with the correct column names (i.e. superclass, class, subclass), you can use this file in place of the libraryID.
+### ***Known issue and workaround*** 
+Currently GNPS has stopped supplying classyfire ontology information for spectral library matches. There are two workarounds: 1) use NPClassifier instead of ClassyFire by checking the box in the GUI or changing the NPC argument from False to True. 2) Manually pull classyfire data for your library match data. You can copy the InChiKey's from the GNPS DBResult file into the Fiehn Labs' [classyfire Batch](https://cfb.fiehnlab.ucdavis.edu/) identifier. Once these results are merged back into the original GNPS DBResult file with the correct column names (i.e. superclass, class, subclass), you can use this file in place of the libraryID.
 <br>
 <br>
 <br>
