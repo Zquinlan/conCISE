@@ -5,7 +5,7 @@ from workflowMain import *
 
 # Arg parser setup
 parser = argparse.ArgumentParser()
-parser.add_argument('libraryID', help='GNPS library ID eg. 16616afa8edd490ea7e50cc316a20222')
+parser.add_argument('libraryID', help='GNPS library ID eg. 16616afa8edd490ea7e50cc316a20222 or local library match file')
 parser.add_argument('canopusLocation', help='Unmidified canopus_summary.tsv file exported from SIRIUS4')
 parser.add_argument('networkFile', help='network tsv file downloaded from GNPS')
 parser.add_argument('superclassConsensus', nargs = '?', default = '50', help = 'Percent consensus for superclass (defaults to 50 percent and must be greater ≥ 50 percent)')

@@ -6,9 +6,11 @@
 ### New feature requests? 
 I am actively working on a larger update to ConCISE and am definitely interested in hearing what updates the community would like added. Raise an issue requesting it or send me an email and I will add it to my list.
 <br>
+### ***Known issue and workaround*** Currently GNPS has stopped supplying classyfire ontology information for spectral library matches. There are two workarounds: 1) use NPClassifier instead of ClassyFire by checking the box in the GUI or changing the NPC argument from False to True. 2) Manually pull classyfire data for your library match data. You can copy the InChiKey's from the GNPS DBResult file into the Fiehn Labs' [classyfire Batch](https://cfb.fiehnlab.ucdavis.edu/) identifier. Once these results are merged back into the original GNPS DBResult file with the correct column names (i.e. superclass, class, subclass), you can use this file in place of the libraryID.
 <br>
 <br>
-#### ConCISE utlizes the ClassyFire structural annotations provided by in silico tools such as [SIRIUS](https://bio.informatik.uni-jena.de/software/)* and CANOPUS** combined with networking tools from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) such as feature based molecular networking***.
+<br>
+#### ConCISE utlizes the structural annotations provided by in silico tools such as [SIRIUS](https://bio.informatik.uni-jena.de/software/)* and CANOPUS** combined with networking tools from [GNPS](https://gnps.ucsd.edu/ProteoSAFe/static/gnps-splash.jsp) such as feature based molecular networking***.
 
 You can run this tool locally using the graphical user interface and command line interface, or on a virtual machine using the above binder link.
 
@@ -28,7 +30,7 @@ If you have problems runnning conCISE please open an issue with your error and i
 To use the CLI you will need to [download](https://github.com/zquinlan/concise/releases) the source code. The CLI code will run the workflow runner in the main workflow python file.
 
 #### Arguments:
-- GNPS task ID
+- GNPS task ID or spectral library match file
 - Canopus_summary file
 - Networking info file
 - export directory for consensus file (optional; default = current working directory)
