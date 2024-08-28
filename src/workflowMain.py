@@ -42,9 +42,14 @@ class wfRunner(QObject):
             canopusMatch['scan'] = canopusMatch['id'].str.split('_').str[-1].astype(int)
             
         try:
-            network = pd.read_csv(networkFile, sep = '\t').rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})
+            networkRaw = pd.read_csv(networkFile, sep = '\t')
         except:
-            network = pd.read_csv(networkFile).rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})
+            networkRaw = pd.read_csv(networkFile)
+
+        try:
+            network = networkRaw.rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})
+        except:
+            network = networkRaw.rename(columns = {'cluster index': 'scan', 'component': 'network'})
 
 
         # Get jobs
