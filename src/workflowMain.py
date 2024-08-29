@@ -49,7 +49,7 @@ class wfRunner(QObject):
         try:
             network = networkRaw.rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})
         except:
-            network = networkRaw.rename(columns = {'cluster index': 'scan', 'component': 'network'})
+            network = networkRaw.rename(columns = {'cluster index': 'scan', 'componentindex': 'component'})
 
 
         # Get jobs
