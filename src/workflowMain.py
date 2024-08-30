@@ -48,8 +48,10 @@ class wfRunner(QObject):
 
         try:
             network = networkRaw.rename(columns = {'cluster index': 'scan', 'componentindex': 'network'})
+            networkSubset = network[['scan', 'network']]
         except:
-            network = networkRaw.rename(columns = {'cluster index': 'scan', 'componentindex': 'component'})
+            network = networkRaw.rename(columns = {'cluster index': 'scan', 'component': 'network'})
+            networkSubset = network[['scan', 'network']]
 
 
         # Get jobs
@@ -102,7 +104,7 @@ class wfRunner(QObject):
         else:
             canopusSubset = canopusMatch[['scan', 'NPC#pathway', 'NPC#superclass', 'NPC#class']].rename(columns = {'NPC#pathway': 'superclass', 'NPC#superclass': 'class', 'NPC#class': 'subclass'}).add_suffix('_canopus').rename(columns={'scan_canopus': 'scan'})
 
-        networkSubset = network[['scan', 'network']]
+        
 
         # Merge library, analogs and 
         print(' ')
@@ -142,7 +144,7 @@ class wfRunner(QObject):
         print(' ')
         print(str(str(numLibrary) + " out of " + str(totalLibrary) + " (" + str(libraryConsensus*100) + "%)" + " networks with Library ID's found a consensus annotation"))
         print(str(str(numInsilico) + " out of "  + str(totalInsicilo) + " (" + str(insilicoConsensus*100) + "%)" +  " networks with Insilico annotations found a consensus annotation"))
-        print(str(str(totalConsensus*100) + "%" + " of all networks with an annotation recieved a consensus annotation"))
+        print(str(str(totalConsensus*100) + "%" + " of all networks with an annotation received a consensus annotation"))
         print(' ')
         print(str('conciseConsensus csv summary exported to: ' + exportDirectory))
 
