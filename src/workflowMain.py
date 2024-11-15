@@ -33,12 +33,11 @@ class wfRunner(QObject):
 
         # try:
         #     canopusMatch.rename(columns={'scan': 'featureNumber'})
-        try: 
-            try:
-                canopusMatch['scan'] = canopusMatch['mappingFeatureId']
-            except:
-                canopusMatch['scan'] = canopusMatch['name'].str.split('_').str[-1].astype(int)
-        except:
+        if 'mappingFeatureId' in canopusMatch.columns:
+            canopusMatch['scan'] = canopusMatch['mappingFeatureId']
+        elif 'name' in canopusMatch.columns:
+            canopusMatch['scan'] = canopusMatch['name'].str.split('_').str[-1].astype(int)
+        elif 'id' in canopusMatch.columns:
             canopusMatch['scan'] = canopusMatch['id'].str.split('_').str[-1].astype(int)
             
         try:
